@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.3.0",
+    "@zxing/library": "^0.17.1",
     "core-js": "^3.6.5",
     "postcss-loader": "^4.0.1",
+    "qrcode": "^1.4.4",
     "register-service-worker": "^1.7.1",
     "tailwindcss": "^1.8.6",
     "vue": "^3.0.0-0",
