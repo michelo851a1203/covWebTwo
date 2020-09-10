@@ -92,7 +92,6 @@ export default {
         }
 
         try {
-            I
             const url = `${config.baseURL}/api/v1/verification/qrcode`
             const response = await fetch(url, {
                 method: "POST",
