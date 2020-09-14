@@ -1,4 +1,4 @@
-import config from "./request/config.js"
+import config from "./config.js"
 export default {
     // TODO: 檢驗中心: 取得醫生列表，如果是用管理員會全部回傳，檢測中心則會取得底下資訊。
     getDoctorList: async () => {

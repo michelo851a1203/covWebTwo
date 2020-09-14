@@ -1,4 +1,4 @@
-import config from "./request/config.js"
+import config from "./config.js"
 export default {
     getDocTypeList: async () => {
         const cluster = localStorage.getItem("covWebItem")

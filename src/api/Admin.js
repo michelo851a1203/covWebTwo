@@ -3,6 +3,13 @@ import AdminState from "./global/admin.js"
 
 import { toRefs } from "vue"
 export default function Admin() {
+    // ============================================================================
+    // ** navbar **
+    const changeAdminComponent = (componentName) => {
+        AdminState.navbarActive = componentName
+    }
+    // ============================================================================
+
     const getMainList = async () => {
         const response = await AdminModule.getUserListByAdmin()
         if (!response || !response.success) {
@@ -36,6 +43,6 @@ export default function Admin() {
             success: true,
         }
     }
-    return { ...toRefs(AdminState), getMainList }
+    return { ...toRefs(AdminState), changeAdminComponent, getMainList }
 
 }

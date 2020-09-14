@@ -1,47 +1,51 @@
 <template>
   <div class="dashboardContent mt-10 mx-auto px-8 py-12 sm:rounded sm:shadow-2xl sm:bg-white">
-<suspense>
-  <template #default>
-    <component :is="tmp"></component>
-  </template>
-  <template #fallback>
-    <div class="flex items-center px-6 py-4">
-      <div>
-        <svg
-          class="boardloading stroke-current text-green-600"
-          width="100"
-          viewBox="0 0 100 100"
-        >
-          <circle
-            cx="50"
-            cy="50"
-            r="25"
-            stroke-dasharray="157"
-            stroke-dashoffset="0"
-            stroke-linecap="round"
-            stroke-width="10"
-            fill="transparent"
-          />
-        </svg>
-      </div>
-      <div class="ml-10">loading...</div>
-    </div>
-  </template>
-</suspense>
+    <suspense>
+      <template #default>
+        <component :is="navbarActive"></component>
+      </template>
+      <template #fallback>
+        <div class="flex items-center px-6 py-4">
+          <div>
+            <svg
+              class="boardloading stroke-current text-green-600"
+              width="100"
+              viewBox="0 0 100 100"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="25"
+                stroke-dasharray="157"
+                stroke-dashoffset="0"
+                stroke-linecap="round"
+                stroke-width="10"
+                fill="transparent"
+              />
+            </svg>
+          </div>
+          <div class="ml-10">loading...</div>
+        </div>
+      </template>
+    </suspense>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import usertable from "@/components/userTable.vue";
+import Admin from "@/api/Admin.js";
+import usertable from "@/components/UserTable.vue";
+import doctortable from "@/components/DoctorTable.vue";
+import detecttype from "@/components/DetectType.vue";
 export default {
   name: "admindashboard",
   components: {
     usertable,
+    doctortable,
+    detecttype,
   },
   setup() {
-    const tmp = ref("usertable");
-    return { tmp };
+    const adminModule = Admin();
+    return { ...adminModule };
   },
 };
 </script>

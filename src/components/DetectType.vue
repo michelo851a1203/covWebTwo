@@ -6,7 +6,7 @@
 
 <script>
 import dashboardtable from "@/components/DashboardTable.vue";
-import Admin from "@/api/Admin.js"
+import Admin from "@/api/Admin.js";
 
 export default {
   name: "usertable",

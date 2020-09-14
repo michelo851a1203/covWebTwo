@@ -3,6 +3,40 @@
     <div class="flex items-center h-full">
       <div class="ml-10">COV-19 TEST</div>
       <div
+        v-if="getnavRole === 999  && !isMobileRef"
+        @click="changeAdminComponent('usertable')"
+        :class="{'bg-blue-300':navbarActive === 'usertable'}"
+        class="hidden sm:flex ml-auto mr-4 hover:bg-gray-500 h-full items-center"
+      >
+        <button
+          class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
+        >UserList</button>
+      </div>
+
+      <div
+        v-if="getnavRole === 999  && !isMobileRef"
+        @click="changeAdminComponent('doctortable')"
+        :class="{'bg-blue-300':navbarActive === 'doctortable'}"
+        class="hidden sm:flex mr-4 hover:bg-gray-500 h-full items-center"
+      >
+        <button
+          class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
+        >DoctorList</button>
+      </div>
+
+      <div
+        v-if="getnavRole === 999  && !isMobileRef"
+        @click="changeAdminComponent('detecttype')"
+        :class="{'bg-blue-300':navbarActive === 'detecttype'}"
+        class="hidden sm:flex mr-4 hover:bg-gray-500 h-full items-center"
+      >
+        <button
+          class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
+        >DetectType</button>
+      </div>
+
+      <!--  -->
+      <div
         @click="changeTag('scanQrcode')"
         v-if="getnavRole !== 3 && getnavRole !== 999  && !isMobileRef"
         :class="{'bg-blue-300':navTag === 'scanQrcode'}"
@@ -64,7 +98,7 @@
       </div>
       <div
         :class="{
-        'ml-auto' : getnavRole === 3 || getnavRole === 999,
+        'ml-auto' : getnavRole === 3,
         'ml-auto sm:ml-0':getnavRole === 2
         }"
         class="mr-10"
@@ -86,6 +120,7 @@ import { ref } from "vue";
 import router from "@/router";
 import Login from "@/api/Login.js";
 import Navbar from "@/api/Navbar.js";
+import Admin from "@/api/Admin.js";
 import config from "@/api/request/config.js";
 export default {
   name: "Navbar",
@@ -100,12 +135,13 @@ export default {
         name: "signIn",
       });
     };
+    const AdminModule = Admin();
     const initial = getnavRole.value === 2 ? "scanqrcode" : "reportlist";
     const NavbarModule = Navbar({
       initial,
       role: getnavRole.value,
     });
-    return { ...NavbarModule, logout, getnavRole, isMobileRef };
+    return { ...AdminModule, ...NavbarModule, logout, getnavRole, isMobileRef };
   },
 };
 </script>
