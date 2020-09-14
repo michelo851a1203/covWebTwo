@@ -4,7 +4,7 @@
       <div class="ml-10">COV-19 TEST</div>
       <div
         @click="changeTag('scanQrcode')"
-        v-if="getnavRole !== 3 && !isMobileRef"
+        v-if="getnavRole !== 3 && getnavRole !== 999  && !isMobileRef"
         :class="{'bg-blue-300':navTag === 'scanQrcode'}"
         class="hidden sm:flex ml-auto mr-4 hover:bg-gray-500 h-full items-center"
       >
@@ -13,7 +13,7 @@
         >Scan Qrcode</button>
       </div>
       <div
-        v-if="getnavRole !== 3 && !isMobileRef"
+        v-if="getnavRole !== 3 && getnavRole !== 999 && !isMobileRef"
         @click="changeTag('genQrcode')"
         :class="{'bg-blue-300':navTag === 'genQrcode'}"
         class="hidden sm:flex mr-4 hover:bg-gray-500 h-full items-center"
@@ -62,7 +62,13 @@
           </g>
         </svg>
       </div>
-      <div :class="{'ml-auto' : getnavRole === 3,'ml-auto sm:ml-0':getnavRole === 2}" class="mr-10">
+      <div
+        :class="{
+        'ml-auto' : getnavRole === 3 || getnavRole === 999,
+        'ml-auto sm:ml-0':getnavRole === 2
+        }"
+        class="mr-10"
+      >
         <button @click="logout" class="text-black hover:underline text-lg font-medium py-1 px-2">
           <label class="hidden sm:inline">LogOut</label>
           <svg class="block sm:hidden" width="20" height="20" viewBox="0 0 20 20">
