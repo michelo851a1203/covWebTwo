@@ -1,6 +1,6 @@
 <template>
   <div>
-    <dashboardtable :func="['update','delete','create']" :iData="userMainList"></dashboardtable>
+    <dashboardtable :func="['update','delete','create']" :iData="doctorMainList"></dashboardtable>
   </div>
 </template>
 

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <dashboardtable :func="['update','delete','create']" :iData="userMainList"></dashboardtable>
+    <dashboardtable :func="['update','delete','create']" :iData="detectTypeMainList"></dashboardtable>
   </div>
 </template>
 
 <script>
 import dashboardtable from "@/components/DashboardTable.vue";
-import Admin from "@/api/Admin.js";
+import DoctorType from "@/api/DoctorType.js";
 
 export default {
   name: "usertable",
@@ -14,13 +14,13 @@ export default {
     dashboardtable,
   },
   async setup() {
-    const adminModules = Admin();
-    const { success } = await adminModules.getMainList();
+    const doctorTypeModules = DoctorType();
+    const { success } = await doctorTypeModules.getMainList();
     if (!success) {
       console.error("getMainList : get data");
       return;
     }
-    return { ...adminModules };
+    return { ...doctorTypeModules };
   },
 };
 </script>

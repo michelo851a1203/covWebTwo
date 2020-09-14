@@ -17,26 +17,26 @@ export default function DoctorType() {
         console.groupEnd();
         // ============================================================================
 
-        // const oData = response.data.map(item => {
-        //     const mainDate = new Date(item.createdAt)
-        //     const tmpMonth = String(mainDate.getMonth() + 1)
-        //     const tmpDate = String(mainDate.getDate())
-        //     const yyyy = mainDate.getFullYear()
-        //     const mm = tmpMonth.length === 1 ? `0${tmpMonth}` : tmpMonth
-        //     const dd = tmpDate.length === 1 ? `0${tmpDate}` : tmpDate
-        //     const createTime = `${yyyy}-${mm}-${dd}`
-        //     return {
-        //         id: item._id,
-        //         displayName: item.displayName,
-        //         username: item.username,
-        //         role: item.role,
-        //         createTime
-        //     }
-        // })
+        const oData = response.data.map(item => {
+            const mainDate = new Date(item.createdAt)
+            const tmpMonth = String(mainDate.getMonth() + 1)
+            const tmpDate = String(mainDate.getDate())
+            const yyyy = mainDate.getFullYear()
+            const mm = tmpMonth.length === 1 ? `0${tmpMonth}` : tmpMonth
+            const dd = tmpDate.length === 1 ? `0${tmpDate}` : tmpDate
+            const createTime = `${yyyy}-${mm}-${dd}`
+            return {
+                id: item._id,
+                displayName: item.displayName,
+                Detect_Typename: item.Detect_Typename,
+                role: item.role,
+                createTime
+            }
+        })
 
         // ============================================================================
 
-        AdminState.detectTypeMainList = response.data
+        AdminState.detectTypeMainList = oData
         return {
             success: true,
         }
