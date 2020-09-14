@@ -138,6 +138,10 @@ export default {
         case 3:
           router.push("/");
           break;
+        case 999:
+          // admin
+          router.push("/adminDashboard");
+          break;
         default:
           break;
       }

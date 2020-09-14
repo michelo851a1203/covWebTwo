@@ -29,6 +29,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "VerifyReport" */ '../views/home/VerifyReport.vue'),
         meta: { authRequired: true, noDirect: true, allowRole: [2] }
       },
+      {
+        path: '/adminDashboard',
+        component: () => import(/* webpackChunkName: "AdminDashboard" */ "../views/home/AdminDashboard.vue"),
+        meta: { authRequired: true, noDirect: true, allowRole: [999] }
+      }
     ]
   },
   {
@@ -82,6 +87,9 @@ router.beforeEach((to, from, next) => {
       break;
     case 3:
       next("/")
+      break;
+    case 999:
+      next("/adminDashboard")
       break;
     default:
       next({
