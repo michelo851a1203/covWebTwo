@@ -44,8 +44,8 @@ export default {
                     "Content-Type": "application/json"
                 })
             })
-            const deleteData = await response.json()
-            return deleteData
+            const oData = await response.json()
+            return oData
         } catch (error) {
             console.error(`error : error`);
             return { success: false }
@@ -74,8 +74,8 @@ export default {
                     "Content-Type": "application/json"
                 })
             })
-            const deleteData = await response.json()
-            return deleteData
+            const oData = await response.json()
+            return oData
         } catch (error) {
             console.error(`error : error`);
             return { success: false }
@@ -103,14 +103,14 @@ export default {
                     "Content-Type": "application/json"
                 })
             })
-            const deleteData = await response.json()
-            return deleteData
+            const oData = await response.json()
+            return oData
         } catch (error) {
             console.error(`error : error`);
             return { success: false }
         }
     },
-    updateDocTypeList: async (detectTypeId) => {
+    getDocTypeListOne: async (detectTypeId) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
         if (!cluster || !token || cluster === "" || token === "") {
@@ -127,8 +127,8 @@ export default {
                     "Content-Type": "application/json"
                 })
             })
-            const deleteData = await response.json()
-            return deleteData
+            const oData = await response.json()
+            return oData
         } catch (error) {
             console.error(`error : error`);
             return { success: false }
