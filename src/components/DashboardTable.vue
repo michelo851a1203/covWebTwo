@@ -176,8 +176,29 @@
         </tr>
       </tbody>
     </table>
-    <div class="shadow-2xl bg-gray-200 text-center px-6 py-4" v-else>
+    <div
+      class="shadow-2xl flex justify-center items-center bg-gray-200 text-center px-6 py-4"
+      v-else
+    >
       <div class="select-none animate-bounce">no Data</div>
+      <button
+        @click="funcClick('create',-1)"
+        v-if="!funcReadOnly && func.includes('create')"
+        class="flex items-center ml-4 bg-blue-300 focus:outline-none hover:bg-blue-500 px-3 font-medium rounded"
+      >
+        <div>
+          <svg class="w-10" viewBox="0 0 96 96" style="enable-background:new 0 0 96 96;">
+            <g>
+              <path
+                fill="black"
+                d="M53.5,39.8h-33v5.5h33V39.8z M53.5,28.8h-33v5.5h33V28.8z M64.5,50.8v-11H59v11H48v5.5h11v11
+        h5.5v-11h11v-5.5H64.5z M20.5,56.3h22v-5.5h-22V56.3z"
+              />
+            </g>
+          </svg>
+        </div>
+        <div class="ml-1">{{ addBtnName }}</div>
+      </button>
     </div>
   </div>
 </template>
@@ -187,6 +208,7 @@
 // funcReadOnly // only see no function
 // iData:[], // append content with table
 // func : [update,delete,create] // append to solve all
+// addBtnName : ""
 // ============================================================================
 import { ref, computed } from "vue";
 export default {
@@ -203,6 +225,10 @@ export default {
     iData: {
       type: Array,
       default: () => [],
+    },
+    addBtnName: {
+      type: String,
+      required: true,
     },
   },
   setup(props, { emit }) {
