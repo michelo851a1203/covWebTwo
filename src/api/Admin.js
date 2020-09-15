@@ -43,6 +43,49 @@ export default function Admin() {
             success: true,
         }
     }
-    return { ...toRefs(AdminState), changeAdminComponent, getMainList }
+
+    const adminAddUser = async ({ username, password, email, displayName, role }) => {
+        const response = await AdminModule.createUserListByAdmin({ username, password, email, displayName, role })
+        if (!response || !response.success) {
+            console.error("adminAddUser error");
+            return {
+                success: false
+            }
+        }
+        const { success } = await getMainList()
+        return {
+            success,
+        }
+    }
+
+    const adminUpdateUser = async ({ userId, displayName }) => {
+        const response = await AdminModule.updateUserListByAdmin({ userId, displayName })
+        if (!response || !response.success) {
+            console.error("adminUpdateUser error");
+            return {
+                success: false
+            }
+        }
+        const { success } = await getMainList()
+        return {
+            success,
+        }
+    }
+
+    const adminDeleteUser = async (ids) => {
+        const response = await AdminModule.deleteUserListByAdmin(ids)
+        if (!response || !response.success) {
+            console.error("adminDeleteUser error");
+            return {
+                success: false
+            }
+        }
+        const { success } = await getMainList()
+        return {
+            success,
+        }
+    }
+
+    return { ...toRefs(AdminState), changeAdminComponent, getMainList, adminAddUser, adminUpdateUser, adminDeleteUser }
 
 }

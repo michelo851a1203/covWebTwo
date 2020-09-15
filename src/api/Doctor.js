@@ -43,6 +43,48 @@ export default function Doctor() {
         }
     }
 
-    return { ...toRefs(AdminState), getMainList }
+    const doctorAddUser = async ({ clinic, name, email, address, city, zip }) => {
+        const response = await DoctorModule.createDoctorList({ clinic, name, email, address, city, zip })
+        if (!response || !response.success) {
+            console.error("doctorAddUser error");
+            return {
+                success: false
+            }
+        }
+        const { success } = await getMainList()
+        return {
+            success,
+        }
+    }
+
+    const doctorUpdateUser = async ({ doctorId, clinic, email, address, city, zip }) => {
+        const response = await DoctorModule.updateDoctorList({ doctorId, clinic, email, address, city, zip })
+        if (!response || !response.success) {
+            console.error("doctorUpdateUser error");
+            return {
+                success: false
+            }
+        }
+        const { success } = await getMainList()
+        return {
+            success,
+        }
+    }
+
+    const doctorDeleteUser = async (ids) => {
+        const response = await DoctorModule.deleteDoctorList(ids)
+        if (!response || !response.success) {
+            console.error("doctorDeleteUser error");
+            return {
+                success: false
+            }
+        }
+        const { success } = await getMainList()
+        return {
+            success,
+        }
+    }
+
+    return { ...toRefs(AdminState), getMainList, doctorAddUser, doctorUpdateUser, doctorDeleteUser }
 
 }

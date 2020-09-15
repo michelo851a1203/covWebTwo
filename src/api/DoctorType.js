@@ -41,6 +41,48 @@ export default function DoctorType() {
             success: true,
         }
     }
-    return { ...toRefs(AdminState), getMainList }
+
+    const AddDetectType = async ({ name, normalRange, cctNo }) => {
+        const response = await DoctorTypeModule.createDocTypeList({ name, normalRange, cctNo })
+        if (!response || !response.success) {
+            console.error("AddDetectType error");
+            return {
+                success: false
+            }
+        }
+        const { success } = await getMainList()
+        return {
+            success,
+        }
+    }
+
+    const UpdateDetectType = async ({ detectTypeId, name, cctNo }) => {
+        const response = await DoctorTypeModule.updateDocTypeList(detectTypeId, { name, cctNo })
+        if (!response || !response.success) {
+            console.error("UpdateDetectType error");
+            return {
+                success: false
+            }
+        }
+        const { success } = await getMainList()
+        return {
+            success,
+        }
+    }
+
+    const DeleteDetectType = async (ids) => {
+        const response = await DoctorTypeModule.deleteDocTypeList(ids)
+        if (!response || !response.success) {
+            console.error("DeleteDetectType error");
+            return {
+                success: false
+            }
+        }
+        const { success } = await getMainList()
+        return {
+            success,
+        }
+    }
+    return { ...toRefs(AdminState), getMainList, AddDetectType, UpdateDetectType, DeleteDetectType }
 
 }

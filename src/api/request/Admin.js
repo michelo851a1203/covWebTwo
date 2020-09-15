@@ -1,6 +1,6 @@
 import config from "./config.js"
 export default {
-    // TODO: 系統管理員: 取得使用者列表
+    // 系統管理員: 取得使用者列表
     getUserListByAdmin: async () => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
@@ -25,7 +25,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO: 系統管理員: 建立使用者
+    // 系統管理員: 建立使用者
     createUserListByAdmin: async ({ username, password, email, displayName, role }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
@@ -58,7 +58,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO: 系統管理員: 刪除使用者用
+    // 系統管理員: 刪除使用者用
     deleteUserListByAdmin: async (ids) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
@@ -87,7 +87,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO: 系統管理員: 更新使用者資訊
+    // 系統管理員: 更新使用者資訊
     updateUserListByAdmin: async (userId, displayName) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
