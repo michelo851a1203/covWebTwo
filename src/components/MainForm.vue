@@ -14,6 +14,8 @@
         'self-start' : item.type === 'ddl' || item.type === 'checkbox' || item.type === 'radio' 
       }"
     >
+      <!-- label -->
+      <label>{{ outputFortitle ? item.title : item.id }} : {{ item.label }}</label>
       <!-- textbox -->
       <input
         v-model.trim="formDataRef[outputFortitle ? item.title : item.id]"
@@ -101,6 +103,7 @@
 //     type: "label,text,password,ddl,datetimepicker,checkbox,radio,",
 //     margin: "small,medium,large",
 //     ep: "bold,none",
+//     label: "to set a label text",
 //     ddl: [{ value, title }], // if type is ddl need this one
 //     cb: { trueValue: "", falseValue: "" }, // if is checkbox apply this
 //   },
@@ -144,6 +147,10 @@ export default {
     props.iData.forEach((item) => {
       if (item.type === "ddl") {
         formDataRef.value[props.outputFortitle ? item.title : item.id] = "";
+      }
+      if (item.type === "label") {
+        formDataRef.value[props.outputFortitle ? item.title : item.id] =
+          item.label;
       }
     });
 

@@ -4,6 +4,8 @@
       v-if="boardTitle === '' && boardiData.length === 0"
       addBtnName="add user"
       @create="addUserfunc"
+      @update="updateUserFunc"
+      @delete="adminDeleteUser"
       :func="['update','delete','create']"
       :iData="userMainList"
     ></dashboardtable>
@@ -14,6 +16,7 @@
       :funcbtn="boardFunc"
       @clear="clearFrom"
       @AddUser="adminAddUser"
+      @UpdateUser="adminUpdateUser"
     ></mainform>
   </div>
 </template>
@@ -43,6 +46,7 @@ export default {
       boardiData: [],
       boardFunc: [],
     });
+
     const clearFrom = () => {
       funcBoardRef.boardTitle = "";
       funcBoardRef.boardiData = [];
@@ -110,7 +114,47 @@ export default {
       ];
     };
 
-    return { ...adminModules, ...toRefs(funcBoardRef), clearFrom, addUserfunc };
+    const updateUserFunc = (userId) => {
+      funcBoardRef.boardTitle = "update user";
+      funcBoardRef.boardiData = [
+        {
+          id: 1,
+          title: "userId",
+          type: "label",
+          label: userId,
+          margin: "small",
+        },
+        {
+          id: 2,
+          title: "displayName",
+          type: "text",
+          margin: "small",
+        },
+      ];
+      funcBoardRef.boardFunc = [
+        {
+          id: 1,
+          title: "cancel",
+          style: "normal",
+          emitname: "clear",
+          needSendData: false,
+        },
+        {
+          id: 2,
+          title: "update user",
+          style: "info",
+          emitname: "UpdateUser",
+        },
+      ];
+    };
+
+    return {
+      ...adminModules,
+      ...toRefs(funcBoardRef),
+      clearFrom,
+      addUserfunc,
+      updateUserFunc,
+    };
   },
 };
 </script>
