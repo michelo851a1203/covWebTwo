@@ -15,8 +15,8 @@
       :iData="boardiData"
       :funcbtn="boardFunc"
       @clear="clearFrom"
-      @AddUser="adminAddUser"
-      @UpdateUser="adminUpdateUser"
+      @AddUser="addDataAction"
+      @UpdateUser="updateDataAction"
     ></mainform>
   </div>
 </template>
@@ -148,12 +148,32 @@ export default {
       ];
     };
 
+    const addDataAction = async (iData) => {
+      const { success } = await adminModules.adminAddUser(iData);
+      if (!success) {
+        console.log("add user fail");
+        return;
+      }
+      clearFrom();
+    };
+
+    const updateDataAction = async (iData) => {
+      const { success } = await adminModules.adminUpdateUser(iData);
+      if (!success) {
+        console.log("update user fail");
+        return;
+      }
+      clearFrom();
+    };
+
     return {
       ...adminModules,
       ...toRefs(funcBoardRef),
       clearFrom,
       addUserfunc,
       updateUserFunc,
+      addDataAction,
+      updateDataAction,
     };
   },
 };

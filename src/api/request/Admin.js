@@ -88,7 +88,7 @@ export default {
         }
     },
     // 系統管理員: 更新使用者資訊
-    updateUserListByAdmin: async (userId, displayName) => {
+    updateUserListByAdmin: async ({ userId, displayName }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
         if (!cluster || !token || cluster === "" || token === "") {

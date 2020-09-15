@@ -15,7 +15,7 @@
       }"
     >
       <!-- label -->
-      <label>{{ outputFortitle ? item.title : item.id }} : {{ item.label }}</label>
+      <label v-if="item.type === 'label'">{{ outputFortitle ? item.title : item.id }} : {{ item.label }}</label>
       <!-- textbox -->
       <input
         v-model.trim="formDataRef[outputFortitle ? item.title : item.id]"
