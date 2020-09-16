@@ -14,6 +14,7 @@
       :outputFortitle="true"
       :iData="boardiData"
       :funcbtn="boardFunc"
+      :defaultValue="updateDefault"
       @clear="clearFrom"
       @AddUser="addDataAction"
       @UpdateUser="updateDataAction"
@@ -45,12 +46,14 @@ export default {
       boardTitle: "",
       boardiData: [],
       boardFunc: [],
+      updateDefault: [],
     });
 
     const clearFrom = () => {
       funcBoardRef.boardTitle = "";
       funcBoardRef.boardiData = [];
       funcBoardRef.boardFunc = [];
+      funcBoardRef.updateDefault = [];
     };
 
     const addDoctorfunc = () => {
@@ -164,6 +167,33 @@ export default {
           title: "update Info",
           style: "info",
           emitname: "UpdateUser",
+        },
+      ];
+
+      const initialData = doctorModules.doctorMainList.value.find(
+        (item) => item.id === doctorId
+      );
+
+      funcBoardRef.updateDefault = [
+        {
+          key: "clinic",
+          value: initialData.clinic,
+        },
+        {
+          key: "email",
+          value: initialData.email,
+        },
+        {
+          key: "address",
+          value: initialData.address,
+        },
+        {
+          key: "city",
+          value: initialData.city,
+        },
+        {
+          key: "zip",
+          value: initialData.zip,
         },
       ];
     };

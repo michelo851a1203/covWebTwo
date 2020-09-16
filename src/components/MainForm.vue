@@ -9,13 +9,15 @@
       class="w-full ml-10"
       :class="{ 
         'mb-4':item.margin === 'small',
-        'mb-10':item.amrgin === 'medium',
-        'mb-12':item.amrgin === 'large',
+        'mb-10':item.margin === 'medium',
+        'mb-12':item.margin === 'large',
         'self-start' : item.type === 'ddl' || item.type === 'checkbox' || item.type === 'radio' 
       }"
     >
       <!-- label -->
-      <label v-if="item.type === 'label'">{{ outputFortitle ? item.title : item.id }} : {{ item.label }}</label>
+      <label
+        v-if="item.type === 'label'"
+      >{{ outputFortitle ? item.title : item.id }} : {{ item.label }}</label>
       <!-- textbox -->
       <input
         v-model.trim="formDataRef[outputFortitle ? item.title : item.id]"
@@ -32,12 +34,13 @@
         :placeholder="item.title"
         type="password"
       />
+      <!-- need append email validator -->
       <!-- dropdownlist -->
       <div v-if="item.type === 'ddl'">
         <label for>{{ item.title }}</label>
         <select
           v-model="formDataRef[outputFortitle ? item.title : item.id]"
-          class="ml-4 border rounded border-gray-500 px-2 py-1"
+          class="ml-4 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
         >
           <option class="bg-white" value>please Select</option>
           <option
@@ -96,6 +99,12 @@
 
 // title:"maintitle"
 // outputFortitle: true
+// defaultValue:[
+//   {
+//     key:"titile or id",
+//     value:"initialData"
+//   }
+// ]
 // iData: [
 //   {
 //     id:"id",
@@ -132,9 +141,31 @@ export default {
       type: Boolean,
       default: false,
     },
+    defaultValue: {
+      type: Array,
+      required: false,
+    },
     iData: {
       default: () => [],
       type: Array,
+      validator: (propValue) => {
+        let isValid = true;
+        propValue.forEach((item) => {
+          if (!item.id) {
+            isValid = false;
+            return;
+          }
+          if (!item.title || item.title === "") {
+            isValid = false;
+            return;
+          }
+          if (!item.type || item.type === "") {
+            isValid = false;
+            return;
+          }
+        });
+        return isValid;
+      },
     },
     funcbtn: {
       default: () => [],
@@ -143,6 +174,17 @@ export default {
   },
   setup(props, { emit }) {
     const formDataRef = ref({});
+
+    if (props.defaultValue && props.defaultValue.length > 0) {
+      props.defaultValue.forEach((item) => {
+        const propsData = props.iData.map((item) => {
+          return props.outputFortitle ? item.title : item.id;
+        });
+        if (propsData.includes(item.key)) {
+          formDataRef.value[item.key] = item.value;
+        }
+      });
+    }
 
     props.iData.forEach((item) => {
       if (item.type === "ddl") {

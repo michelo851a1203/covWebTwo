@@ -14,6 +14,7 @@
       :outputFortitle="true"
       :iData="boardiData"
       :funcbtn="boardFunc"
+      :defaultValue="updateDefault"
       @clear="clearFrom"
       @AddUser="addDataAction"
       @UpdateUser="updateDataAction"
@@ -45,12 +46,14 @@ export default {
       boardTitle: "",
       boardiData: [],
       boardFunc: [],
+      updateDefault: [],
     });
 
     const clearFrom = () => {
       funcBoardRef.boardTitle = "";
       funcBoardRef.boardiData = [];
       funcBoardRef.boardFunc = [];
+      funcBoardRef.updateDefault = [];
     };
 
     const addDetectfunc = () => {
@@ -128,6 +131,21 @@ export default {
           title: "update detect type",
           style: "info",
           emitname: "UpdateUser",
+        },
+      ];
+
+      const initialData = doctorTypeModules.detectTypeMainList.value.find(
+        (item) => item.id === detectTypeId
+      );
+
+      funcBoardRef.updateDefault = [
+        {
+          key: "normalRange",
+          value: initialData.normalRange,
+        },
+        {
+          key: "cctNo",
+          value: initialData.cctNo,
         },
       ];
     };

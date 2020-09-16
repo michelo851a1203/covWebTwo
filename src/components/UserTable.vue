@@ -14,6 +14,7 @@
       :outputFortitle="true"
       :iData="boardiData"
       :funcbtn="boardFunc"
+      :defaultValue="updateDefault"
       @clear="clearFrom"
       @AddUser="addDataAction"
       @UpdateUser="updateDataAction"
@@ -45,12 +46,14 @@ export default {
       boardTitle: "",
       boardiData: [],
       boardFunc: [],
+      updateDefault: [],
     });
 
     const clearFrom = () => {
       funcBoardRef.boardTitle = "";
       funcBoardRef.boardiData = [];
       funcBoardRef.boardFunc = [];
+      funcBoardRef.updateDefault = [];
     };
 
     const addUserfunc = () => {
@@ -144,6 +147,17 @@ export default {
           title: "update user",
           style: "info",
           emitname: "UpdateUser",
+        },
+      ];
+
+      const initialData = adminModules.userMainList.value.find(
+        (item) => item.id === userId
+      );
+
+      funcBoardRef.updateDefault = [
+        {
+          key: "displayName",
+          value: initialData.displayName,
         },
       ];
     };

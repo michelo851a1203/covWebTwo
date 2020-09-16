@@ -12,9 +12,6 @@ export default function DoctorType() {
             }
         }
 
-        console.group(`%c DoctorTypeModule`, 'color:yellow');
-        console.log(response.data);
-        console.groupEnd();
         // ============================================================================
 
         const oData = response.data.map(item => {
