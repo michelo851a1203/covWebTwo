@@ -12,9 +12,6 @@ export default function Doctor() {
             }
         }
 
-        console.group(`%c DoctorModule`, 'color:yellow');
-        console.log(response.data);
-        console.groupEnd();
         // ============================================================================
 
         const oData = response.data.map(item => {

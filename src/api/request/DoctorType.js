@@ -82,7 +82,7 @@ export default {
             return { success: false }
         }
     },
-    updateDocTypeList: async (detectTypeId, { name, cctNo }) => {
+    updateDocTypeList: async (detectTypeId, { normalRange, cctNo }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
         if (!cluster || !token || cluster === "" || token === "") {
@@ -93,7 +93,7 @@ export default {
         try {
             const url = `${config.baseURL}/api/v1/detect/type/${detectTypeId}`
             const iData = {
-                name,
+                normalRange,
                 cctNo
             }
             const response = await fetch(url, {

@@ -28,7 +28,7 @@ import DoctorType from "@/api/DoctorType.js";
 import { reactive, toRefs } from "vue";
 
 export default {
-  name: "usertable",
+  name: "detecttypetable",
   components: {
     dashboardtable,
     mainform,

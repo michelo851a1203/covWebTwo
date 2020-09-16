@@ -27,9 +27,9 @@ export default function DoctorType() {
             const createTime = `${yyyy}-${mm}-${dd}`
             return {
                 id: item._id,
-                displayName: item.displayName,
-                Detect_Typename: item.Detect_Typename,
-                role: item.role,
+                name: item.name,
+                normalRange: item.normalRange,
+                cctNo: item.cctNo,
                 createTime
             }
         })
@@ -56,8 +56,8 @@ export default function DoctorType() {
         }
     }
 
-    const UpdateDetectType = async ({ detectTypeId, name, cctNo }) => {
-        const response = await DoctorTypeModule.updateDocTypeList(detectTypeId, { name, cctNo })
+    const UpdateDetectType = async ({ detectTypeId, normalRange, cctNo }) => {
+        const response = await DoctorTypeModule.updateDocTypeList(detectTypeId, { normalRange, cctNo })
         if (!response || !response.success) {
             console.error("UpdateDetectType error");
             return {

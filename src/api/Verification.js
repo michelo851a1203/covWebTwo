@@ -124,9 +124,6 @@ export default function Verification() {
         }
         currentVerifyStatus.value.title = "Loading..."
         currentVerifyStatus.value.status = "loading"
-        console.group(`%c verifyCredentialId.value`, 'color:yellow');
-        console.log(verifyCredentialId.value);
-        console.groupEnd();
         const response = await VerificationModules.UserVerification(verifyCredentialId.value)
         if (!response || !response.success) {
             console.error("userScanQrcode error");

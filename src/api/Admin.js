@@ -59,13 +59,7 @@ export default function Admin() {
     }
 
     const adminUpdateUser = async ({ userId, displayName }) => {
-        console.group(`%c { userId, displayName }`, 'color:yellow');
-        console.log({ userId, displayName });
-        console.groupEnd();
         const response = await AdminModule.updateUserListByAdmin({ userId, displayName })
-        console.group(`%c response`,'color:yellow');
-        console.log(response);
-        console.groupEnd();
         if (!response || !response.success) {
             console.error("adminUpdateUser error");
             return {
