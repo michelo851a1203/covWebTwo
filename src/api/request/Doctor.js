@@ -64,7 +64,7 @@ export default {
                 ids
             }
             const response = await fetch(url, {
-                method: "GET",
+                method: "DELETE",
                 body: JSON.stringify(idData),
                 headers: new Headers({
                     "Authorization": token,
@@ -132,7 +132,7 @@ export default {
                 zip
             }
             const response = await fetch(url, {
-                method: "POST",
+                method: "PUT",
                 body: JSON.stringify(idData),
                 headers: new Headers({
                     "Authorization": token,

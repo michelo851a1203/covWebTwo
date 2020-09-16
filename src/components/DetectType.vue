@@ -1,6 +1,7 @@
 <template>
   <div>
     <dashboardtable
+      v-if="boardTitle === '' && boardiData.length === 0"
       addBtnName="add detect type"
       @create="addDetectfunc"
       @update="updateDetectFunc"

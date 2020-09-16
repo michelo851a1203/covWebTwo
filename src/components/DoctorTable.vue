@@ -1,6 +1,7 @@
 <template>
   <div>
     <dashboardtable
+      v-if="boardTitle === '' && boardiData.length === 0"
       addBtnName="add doctor"
       :func="['update','delete','create']"
       @create="addDoctorfunc"
@@ -27,7 +28,7 @@ import Doctor from "@/api/Doctor.js";
 import { reactive, toRefs } from "vue";
 
 export default {
-  name: "usertable",
+  name: "doctortable",
   components: {
     dashboardtable,
     mainform,
@@ -102,9 +103,9 @@ export default {
         },
         {
           id: 2,
-          title: "add user",
+          title: "add doctor",
           style: "info",
-          emitname: "AddDoctor",
+          emitname: "AddUser",
         },
       ];
     };
