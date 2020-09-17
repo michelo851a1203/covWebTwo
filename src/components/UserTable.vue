@@ -3,9 +3,7 @@
     <dashboardtable
       v-if="boardTitle === '' && boardiData.length === 0"
       addBtnName="add user"
-      @create="addUserfunc"
-      @update="updateUserFunc"
-      @delete="adminDeleteUser"
+      v-on="dashboardEvent"
       :func="['update','delete','create']"
       :iData="userMainList"
     ></dashboardtable>
@@ -178,6 +176,12 @@ export default {
       clearFrom();
     };
 
+    const dashboardEvent = ref({
+      create: addUserfunc,
+      update: updateUserFunc,
+      delete: adminModules.adminDeleteUser,
+    });
+
     const mainFromEvent = ref({
       clear: clearFrom,
       AddUser: addDataAction,
@@ -192,6 +196,7 @@ export default {
       updateUserFunc,
       addDataAction,
       updateDataAction,
+      dashboardEvent,
       mainFromEvent,
     };
   },

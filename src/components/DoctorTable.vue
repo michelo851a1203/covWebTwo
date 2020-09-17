@@ -4,9 +4,7 @@
       v-if="boardTitle === '' && boardiData.length === 0"
       addBtnName="add doctor"
       :func="['update','delete','create']"
-      @create="addDoctorfunc"
-      @update="updateDoctorFunc"
-      @delete="doctorDeleteUser"
+      v-on="dashboardEvent"
       :iData="doctorMainList"
     ></dashboardtable>
     <mainform
@@ -214,6 +212,12 @@ export default {
       clearFrom();
     };
 
+    const dashboardEvent = ref({
+      create: addDoctorfunc,
+      update: updateDoctorFunc,
+      delete: doctorModules.doctorDeleteUser,
+    });
+
     const mainFromEvent = ref({
       clear: clearFrom,
       AddUser: addDataAction,
@@ -228,6 +232,7 @@ export default {
       updateDoctorFunc,
       addDataAction,
       updateDataAction,
+      dashboardEvent,
       mainFromEvent,
     };
   },

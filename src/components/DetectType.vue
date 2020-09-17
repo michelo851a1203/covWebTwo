@@ -3,9 +3,7 @@
     <dashboardtable
       v-if="boardTitle === '' && boardiData.length === 0"
       addBtnName="add detect type"
-      @create="addDetectfunc"
-      @update="updateDetectFunc"
-      @delete="DeleteDetectType"
+      v-on="dashboardEvent"
       :func="['update','delete','create']"
       :iData="detectTypeMainList"
     ></dashboardtable>
@@ -166,6 +164,12 @@ export default {
       clearFrom();
     };
 
+    const dashboardEvent = ref({
+      create: addDetectfunc,
+      update: updateDetectFunc,
+      delete: doctorTypeModules.DeleteDetectType,
+    });
+
     const mainFromEvent = ref({
       clear: clearFrom,
       AddUser: addDataAction,
@@ -180,6 +184,7 @@ export default {
       updateDetectFunc,
       addDataAction,
       updateDataAction,
+      dashboardEvent,
       mainFromEvent,
     };
   },
