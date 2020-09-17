@@ -15,9 +15,7 @@
       :iData="boardiData"
       :funcbtn="boardFunc"
       :defaultValue="updateDefault"
-      @clear="clearFrom"
-      @AddUser="addDataAction"
-      @UpdateUser="updateDataAction"
+      v-on="mainFromEvent"
     ></mainform>
   </div>
 </template>
@@ -26,7 +24,7 @@
 import dashboardtable from "@/components/DashboardTable.vue";
 import mainform from "@/components/MainForm.vue";
 import DoctorType from "@/api/DoctorType.js";
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, ref } from "vue";
 
 export default {
   name: "detecttypetable",
@@ -167,6 +165,13 @@ export default {
       }
       clearFrom();
     };
+
+    const mainFromEvent = ref({
+      clear: clearFrom,
+      AddUser: addDataAction,
+      UpdateUser: updateDataAction,
+    });
+
     return {
       ...doctorTypeModules,
       ...toRefs(funcBoardRef),
@@ -175,6 +180,7 @@ export default {
       updateDetectFunc,
       addDataAction,
       updateDataAction,
+      mainFromEvent,
     };
   },
 };

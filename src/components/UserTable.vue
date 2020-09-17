@@ -15,9 +15,7 @@
       :iData="boardiData"
       :funcbtn="boardFunc"
       :defaultValue="updateDefault"
-      @clear="clearFrom"
-      @AddUser="addDataAction"
-      @UpdateUser="updateDataAction"
+      v-on="mainFromEvent"
     ></mainform>
   </div>
 </template>
@@ -26,7 +24,7 @@
 import dashboardtable from "@/components/DashboardTable.vue";
 import mainform from "@/components/MainForm.vue";
 import Admin from "@/api/Admin.js";
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, ref } from "vue";
 
 export default {
   name: "usertable",
@@ -180,6 +178,12 @@ export default {
       clearFrom();
     };
 
+    const mainFromEvent = ref({
+      clear: clearFrom,
+      AddUser: addDataAction,
+      UpdateUser: updateDataAction,
+    });
+
     return {
       ...adminModules,
       ...toRefs(funcBoardRef),
@@ -188,6 +192,7 @@ export default {
       updateUserFunc,
       addDataAction,
       updateDataAction,
+      mainFromEvent,
     };
   },
 };

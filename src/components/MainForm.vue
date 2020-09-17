@@ -91,8 +91,10 @@
 //       :outputFortitle="true"
 //       :iData="boardiData"
 //       :funcbtn="boardFunc"
+//       :defaultValue="updateDefault"
 //       @clear="clearFrom"
-//       @AddUser="adminAddUser"
+//       @AddUser="addDataAction"
+//       @UpdateUser="updateDataAction"
 //     ></mainform>
 
 // ** props **
