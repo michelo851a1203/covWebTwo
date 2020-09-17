@@ -3,17 +3,7 @@
     <div class="self-start ml-10 mb-4">
       <label>{{ title }}</label>
     </div>
-    <div
-      v-for="item in iData"
-      :key="item.id"
-      class="w-full ml-10"
-      :class="{ 
-        'mb-4':item.margin === 'small',
-        'mb-10':item.margin === 'medium',
-        'mb-12':item.margin === 'large',
-        'self-start' : item.type === 'ddl' || item.type === 'checkbox' || item.type === 'radio' 
-      }"
-    >
+    <div v-for="item in iData" :key="item.id" class="w-full ml-10" :class="marginMainStyle(item)">
       <!-- label -->
       <label
         v-if="item.type === 'label'"
@@ -34,6 +24,21 @@
         :placeholder="item.title"
         type="password"
       />
+      <!-- email -->
+      <input
+        v-model.trim="formDataRef[outputFortitle ? item.title : item.id]"
+        v-if="item.type === 'email'"
+        class="w-4/5 border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
+        :placeholder="item.title"
+        type="email"
+      />
+      <!-- datetimepicker -->
+      <datetimepicker
+        v-if="item.type === 'datetimepicker'"
+        @isinner="dateTimePickerCloseClick"
+        v-model:isShowCalender="isShowCalenderRef[outputFortitle ? item.title : item.id]"
+        v-model:maintext="formDataRef[outputFortitle ? item.title : item.id]"
+      ></datetimepicker>
       <!-- need append email validator -->
       <!-- dropdownlist -->
       <div v-if="item.type === 'ddl'">
@@ -70,13 +75,7 @@
         @click="btnClick(item.emitname,item.needSendData)"
         v-for="item in funcbtn"
         :key="item.id"
-        :class="{ 
-          'bg-gray-700 hover:bg-gray-900': item.style === 'normal',
-          'bg-green-700 hover:bg-green-900': item.style === 'info',
-          'bg-blue-700 hover:bg-blue-900': item.style === 'primary',
-          'bg-red-700 hover:bg-red-900': item.style === 'danger',
-          'bg-orange-700 hover:bg-orange-900': item.style === 'warn',
-        }"
+        :class="btnMainStyle(item.style)"
         class="focus:outline-none text-white font-medium py-2 px-4 rounded"
       >{{ item.title }}</button>
     </div>
@@ -130,10 +129,18 @@
 //   },
 // ];
 
+// ** emit **
+// failresponse : emit error response
+
 // ============================================================================
 import { ref } from "vue";
+import config from "@/api/request/config.js";
+import datetimepicker from "@/components/Datetimepicker.vue";
 export default {
   name: "mainform",
+  components: {
+    datetimepicker,
+  },
   props: {
     title: {
       type: String,
@@ -200,20 +207,109 @@ export default {
 
     const btnClick = (emitName, needSendData = true) => {
       if (needSendData) {
+        const isEmailType = [];
         props.iData.forEach((item) => {
           const key = props.outputFortitle ? item.title : item.id;
+          if (item.type === "email") {
+            isEmailType.push(key);
+          }
           if (Object.keys(formDataRef.value).includes(key)) {
             return;
           }
           formDataRef.value[key] = "";
         });
 
+        // email permission
+        // ============================================================================
+        // validateEmail: (email) => {
+        //   // change \ \ to \\
+        //   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //   return re.test(email);
+        // };
+        // ============================================================================
+        if (isEmailType.length > 0) {
+          let emailFail = false;
+          isEmailType.forEach((emailKey) => {
+            if (config.validateEmail(formDataRef.value[emailKey])) {
+              return;
+            }
+            emailFail = true;
+          });
+          if (emailFail) {
+            emit("failresponse", "email format fail");
+            return;
+          }
+        }
+
         emit(emitName, formDataRef.value);
         return;
       }
       emit(emitName);
     };
-    return { formDataRef, btnClick };
+
+    const isShowCalenderRef = ref({});
+    const dateTimePickerCloseClick = (isFromInner) => {
+      console.log(isFromInner);
+    };
+
+    const marginMainStyle = (itemStyle) => {
+      let initialStyle = "mb-4 ";
+      switch (itemStyle.margin) {
+        case "small":
+          initialStyle = "mb-4 ";
+          break;
+        case "medium":
+          initialStyle = "mb-10 ";
+          break;
+        case "large":
+          initialStyle = "mb-12 ";
+          break;
+        default:
+          break;
+      }
+
+      if (
+        itemStyle.type === "ddl" ||
+        itemStyle.type === "checkbox" ||
+        itemStyle.type === "radio"
+      ) {
+        initialStyle += "self-start";
+      }
+      return initialStyle;
+    };
+
+    const btnMainStyle = (styleName) => {
+      let btnStyle = "bg-gray-700 hover:bg-gray-900";
+      switch (styleName) {
+        case "info":
+          btnStyle = "bg-green-700 hover:bg-green-900";
+          break;
+        case "primary":
+          btnStyle = "bg-blue-700 hover:bg-blue-900";
+          break;
+        case "danger":
+          btnStyle = "bg-red-700 hover:bg-red-900";
+          break;
+        case "warn":
+          btnStyle = "bg-orange-700 hover:bg-orange-900";
+          break;
+        case "normal":
+          btnStyle = "bg-gray-700 hover:bg-green-900";
+          break;
+        default:
+          break;
+      }
+      return btnStyle;
+    };
+
+    return {
+      formDataRef,
+      btnClick,
+      isShowCalenderRef,
+      dateTimePickerCloseClick,
+      marginMainStyle,
+      btnMainStyle,
+    };
   },
 };
 </script>
