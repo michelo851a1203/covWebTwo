@@ -6,11 +6,17 @@
       :currentstatus="currentCredStatus"
       :is="alertComponent"
     ></component>
-    <div class="self-start ml-10 mb-4">
+    <mainform
+      v-if="testCenterAttr.length > 0"
+      :iData="testCenterAttr"
+      :funcbtn="recordbtn"
+      v-on="recordEvent"
+    ></mainform>
+    <!-- <div class="self-start ml-10 mb-4">
       <label>Fill record</label>
     </div>
     <div
-      v-for="item in attr"
+      v-for="item in testCenterAttr"
       :key="item.id"
       class="mb-4 w-full"
       :class="{ 'self-start' : item.title == 'Test Result' }"
@@ -55,7 +61,7 @@
         @click="sendIssueFunc"
         class="bg-green-700 focus:outline-none hover:bg-green-900 text-white font-medium py-2 px-4 rounded"
       >Issue</button>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -65,12 +71,14 @@ import router from "@/router";
 import alert from "@/components/Alert.vue";
 import alertmobile from "@/components/Alertmobile.vue";
 import config from "@/api/request/config.js";
+import mainform from "@/components/MainForm.vue";
 import { ref } from "vue";
 export default {
   name: "RecordList",
   components: {
     alert,
     alertmobile,
+    mainform,
   },
   async setup() {
     const alertComponent = ref("alert");
@@ -100,7 +108,36 @@ export default {
       }
       router.push("/report");
     };
-    return { ...credentialModule, sendIssueFunc, alertComponent };
+
+    const recordbtn = ref([
+      {
+        id: 1,
+        title: "Reset",
+        style: "normal",
+        emitname: "refill",
+        needSendData: false,
+      },
+      {
+        id: 2,
+        title: "Issue",
+        style: "info",
+        emitname: "sendissue",
+        needSendData: false,
+      },
+    ]);
+
+    const recordEvent = ref({
+      refill: credentialModule.refillRecord,
+      sendissue: sendIssueFunc,
+    });
+
+    return {
+      ...credentialModule,
+      sendIssueFunc,
+      alertComponent,
+      recordbtn,
+      recordEvent,
+    };
   },
 };
 </script>

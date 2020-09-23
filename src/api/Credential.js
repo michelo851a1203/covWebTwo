@@ -12,16 +12,102 @@ export default function Credential() {
         status: "",
     });
 
-    const attr = computed(() => {
+    const testCenterAttr = computed(() => {
         if (credentialData.attributes.length === 0) {
             return [];
         }
-        const oData = credentialData.attributes.map((item) => {
-            return {
+        let oData = credentialData.attributes.map((item) => {
+            const ddlArray = [
+                {
+                    title: "Test Type",
+                    option: [
+                        {
+                            value: "",
+                            title: ""
+                        }
+                    ]
+                },
+                {
+                    title: "Test Result",
+                    option: [
+                        {
+                            value: "DETECTED",
+                            title: "Detected"
+                        },
+                        {
+                            value: "NONDETECTED",
+                            title: "Nondetected"
+                        },
+                    ]
+                },
+                {
+                    title: "Referred Doctor",
+                    option: [
+                        {
+                            value: "",
+                            title: ""
+                        }
+                    ]
+                },
+                {
+                    title: "Medical Director",
+                    option: [
+                        {
+                            value: "",
+                            title: ""
+                        }
+                    ]
+                },
+                {
+                    title: "Gender",
+                    option: [
+                        {
+                            value: "male",
+                            title: "male"
+                        },
+                        {
+                            value: "female",
+                            title: "female"
+                        },
+                    ]
+                },
+            ]
+            const ddlTitle = ddlArray.map(item => item.title)
+
+            const oArray = {
                 id: config.uuid(),
                 title: item,
+                type: "text",
+                margin: "small"
             };
+
+            if (ddlTitle.includes(item)) {
+                oArray.type = "ddl"
+                const obj = ddlArray.find(ddlItem => ddlItem.title === item)
+                oArray.ddl = obj.option
+            }
+            
+            return oArray
         });
+
+        const belowData = [
+            {
+                id: config.uuid(),
+                title: "Doctor Email",
+                type: "email",
+                margin: "small"
+            },
+            {
+                id: config.uuid(),
+                title: "Above information is correct",
+                type: "checkbox",
+                margin: "medium"
+            },
+        ]
+        oData = [...oData, ...belowData]
+        console.group(`%c oData`, 'color:yellow');
+        console.log(oData);
+        console.groupEnd();
         return oData;
     })
 
@@ -186,5 +272,5 @@ export default function Credential() {
             values: {}
         }
     }
-    return { navTag, currentCredStatus, report, credentialData, attr, issueData, sendToUserEmail, lock, getCredDefinition, sendIssue, refillRecord, sendMailApi, getUserDetail, closeCredentialAlert, normalCredentialAlert, clearCredentialReport }
+    return { navTag, currentCredStatus, report, credentialData, testCenterAttr, issueData, sendToUserEmail, lock, getCredDefinition, sendIssue, refillRecord, sendMailApi, getUserDetail, closeCredentialAlert, normalCredentialAlert, clearCredentialReport }
 }

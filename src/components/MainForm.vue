@@ -110,7 +110,7 @@
 //   {
 //     id:"id",
 //     title: "placeHolder",
-//     type: "label,text,password,ddl,datetimepicker,checkbox,radio,",
+//     type: "label,text,password,ddl,datetimepicker,checkbox,radio,email",
 //     margin: "small,medium,large",
 //     ep: "bold,none",
 //     label: "to set a label text",
