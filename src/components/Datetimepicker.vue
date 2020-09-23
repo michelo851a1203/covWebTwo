@@ -214,13 +214,13 @@ export default {
       }
 
       const mainMonth =
-        `chooseMonth`.length === 1 ? `0chooseMonth` : `chooseMonth`;
+        `${chooseMonth}`.length === 1 ? `0${chooseMonth}` : `${chooseMonth}`;
 
       const mainDate =
         `${iData.mainDate}`.length === 1
           ? `0${iData.mainDate}`
           : `${iData.mainDate}`;
-      const dateFmt = `${selectYearRef.value}-mainMonth-mainDate`;
+      const dateFmt = `${selectYearRef.value}-${mainMonth}-${mainDate}`;
       emit("update:maintext", dateFmt);
       isHoverCalender(false);
     };
