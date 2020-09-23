@@ -1,15 +1,21 @@
 <template>
   <div>
-    <div class="qrcodepos"
+    <div
+      class="qrcodepos"
       v-if="verifyReturnData.verificationId === '' && verifyReturnData.policy.attributes.length === 0"
     >
-      <genqrcode class="qrcodeContent"
+      <genqrcode
+        class="qrcodeContent"
         v-if="verifyQrcodeForUser !== ''"
         :qrStr="verifyQrcodeForUser"
         width="200"
         height="200"
       ></genqrcode>
       <div v-else class="failinfo">Qrcode generated fail</div>
+      <div>
+        Scan this QR code
+        <br />to verify certificate
+      </div>
     </div>
     <div v-else>
       <table class="text-sm">
@@ -102,7 +108,7 @@ export default {
             verifyReturnData.updatedAt = returnVerData.updatedAt;
             verifyReturnData.policy = returnVerData.policy;
             verifyReturnData.proof = returnVerData.proof;
-            
+
             clearInterval(tmpInterval.value);
             tmpInterval.value = null;
           }
@@ -130,10 +136,10 @@ export default {
 </script>
 
 <style scoped lang="postcss">
-.qrcodepos{
+.qrcodepos {
   padding-left: 50%;
 }
-.qrcodepos div{
+.qrcodepos div {
   transform: translateX(-50%);
 }
 .failinfo {
@@ -141,5 +147,4 @@ export default {
   width: 200px;
   height: 200px;
 }
-
 </style>

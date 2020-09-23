@@ -10,7 +10,7 @@
       <button
         @click="cameraClick"
         class="w-full bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
-      >scanQrcode(or file)</button>
+      >Scan QR Code</button>
     </div>
     <video class="w-full h-full" ref="video"></video>
     <input

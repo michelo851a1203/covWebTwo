@@ -1,7 +1,7 @@
 <template>
   <div class="fixed top-0 bg-gray-300 shadow-2xl w-full h-16">
     <div class="flex items-center h-full">
-      <div class="ml-10">COV-19 TEST</div>
+      <div class="ml-10">COVID-19 Certificate Verification System</div>
       <div
         v-if="getnavRole === 999  && !isMobileRef"
         @click="changeAdminComponent('usertable')"
@@ -10,7 +10,7 @@
       >
         <button
           class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
-        >UserList</button>
+        >User list</button>
       </div>
 
       <div
@@ -21,7 +21,7 @@
       >
         <button
           class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
-        >DoctorList</button>
+        >Doctor list</button>
       </div>
 
       <div
@@ -32,7 +32,7 @@
       >
         <button
           class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
-        >DetectType</button>
+        >Detect type</button>
       </div>
 
       <!--  -->
@@ -104,7 +104,7 @@
         class="mr-10"
       >
         <button @click="logout" class="text-black hover:underline text-lg font-medium py-1 px-2">
-          <label class="hidden sm:inline">LogOut</label>
+          <label class="hidden sm:inline">Log out</label>
           <svg class="block sm:hidden" width="20" height="20" viewBox="0 0 20 20">
             <path d="M3 3h8V1H3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8v-2H3z" />
             <path d="M19 10l-6-5v4H5v2h8v4l6-5z" />
