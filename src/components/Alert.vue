@@ -2,11 +2,7 @@
   <div class="alert">
     <div
       class="alertContent border border-black flex items-center px-6 py-4 rounded shadow-xl bg-gray-300"
-      :class="{ 
-        'bg-red-300 border-red-600':currentstatus.status === 'fail',
-        'bg-green-300 border-green-600':currentstatus.status === 'ok',
-        'bg-gray-300 border-gray-600':currentstatus.status === 'loading',
-      }"
+      :class="alertStatus(currentstatus.status)"
     >
       <div class="break-all">{{ currentstatus.title }}</div>
       <div v-if="!blockcancel" class="ml-auto">
@@ -27,7 +23,25 @@ export default {
       }
       emit("close");
     };
-    return { cancelaction };
+
+    const alertStatus = (status) => {
+      let oResult = "bg-gray-300 border-gray-600";
+      switch (status) {
+        case "loading":
+          oResult = "bg-gray-300 border-gray-600";
+          break;
+        case "ok":
+          oResult = "bg-green-300 border-green-600";
+          break;
+        case "fail":
+          oResult = "bg-red-300 border-red-600";
+          break;
+        default:
+          break;
+      }
+      return oResult;
+    };
+    return { cancelaction, alertStatus };
   },
 };
 // ============================================================================
