@@ -30,10 +30,10 @@ export default function Admin() {
             const createTime = `${yyyy}-${mm}-${dd}`
             return {
                 id: item._id,
-                displayName: item.displayName,
-                username: item.username,
-                role: item.role,
-                createTime
+                "Name": item.displayName,
+                "ID": item.username,
+                "Role": item.role,
+                "Create Time": createTime
             }
         })
         // ============================================================================

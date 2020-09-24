@@ -1,0 +1,8 @@
+{
+    "en": {
+        "displayName": "Name",
+        "username": "ID",
+        "role": "Role",
+        "createTime": "Create Time"
+    }
+}

@@ -32,7 +32,7 @@
       >
         <button
           class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
-        >Detect type</button>
+        >Test type</button>
       </div>
 
       <!--  -->

@@ -24,13 +24,13 @@ export default function Doctor() {
             const createTime = `${yyyy}-${mm}-${dd}`
             return {
                 id: item._id,
-                clinic: item.clinic,
-                name: item.name,
-                email: item.email,
-                zip: item.zip,
-                city: item.city,
-                address: item.address,
-                createTime
+                "Clinic Name": item.clinic,
+                "Doctor Name": item.name,
+                "Doctor Email": item.email,
+                "Zip": item.zip,
+                "City": item.city,
+                "Address": item.address,
+                "Create Time": createTime
             }
         })
 

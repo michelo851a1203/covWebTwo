@@ -24,10 +24,10 @@ export default function DoctorType() {
             const createTime = `${yyyy}-${mm}-${dd}`
             return {
                 id: item._id,
-                name: item.name,
-                normalRange: item.normalRange,
-                cctNo: item.cctNo,
-                createTime
+                "Test Type": item.name,
+                "Normal Range": item.normalRange,
+                "CCT No.": item.cctNo,
+                "Create Time": createTime
             }
         })
 

@@ -1,0 +1,11 @@
+{
+    "en": {
+        "clinic": "Clinic Name",
+        "name": "Doctor Name",
+        "email": "Doctor Email",
+        "zip": "Zip",
+        "city": "City",
+        "address": "Address",
+        "createTime": "Create Time"
+    }
+}
