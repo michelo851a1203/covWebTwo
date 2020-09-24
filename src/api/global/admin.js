@@ -4,4 +4,5 @@ export default reactive({
     userMainList: [],
     doctorMainList: [],
     detectTypeMainList: [],
+    directorMainList: [],
 })
