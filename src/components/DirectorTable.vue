@@ -2,10 +2,10 @@
   <div>
     <dashboardtable
       v-if="boardTitle === '' && boardiData.length === 0"
-      addBtnName="add user"
+      addBtnName="add director"
       v-on="dashboardEvent"
-      :func="['update','delete','create']"
-      :iData="userMainList"
+      :func="['update', 'delete', 'create']"
+      :iData="directorMainList"
     ></dashboardtable>
     <mainform
       v-if="boardTitle !== '' && boardiData.length > 0"
@@ -25,7 +25,7 @@ import Admin from "@/api/Admin.js";
 import { reactive, toRefs, ref } from "vue";
 
 export default {
-  name: "usertable",
+  name: "directortable",
   components: {
     dashboardtable,
     mainform,
@@ -53,47 +53,19 @@ export default {
     };
 
     const addUserfunc = () => {
-      funcBoardRef.boardTitle = "add user";
+      funcBoardRef.boardTitle = "add director";
       funcBoardRef.boardiData = [
         {
           id: 1,
-          title: "username",
+          title: "name",
           type: "text",
           margin: "small",
         },
         {
           id: 2,
-          title: "password",
-          type: "password",
-          margin: "small",
-        },
-        {
-          id: 3,
           title: "email",
           type: "email",
           margin: "small",
-        },
-        {
-          id: 4,
-          title: "displayName",
-          type: "text",
-          margin: "small",
-        },
-        {
-          id: 5,
-          title: "role",
-          type: "ddl",
-          margin: "small",
-          ddl: [
-            {
-              value: 2,
-              title: "validator",
-            },
-            {
-              value: 3,
-              title: "Test Center",
-            },
-          ],
         },
       ];
       funcBoardRef.boardFunc = [
@@ -106,27 +78,27 @@ export default {
         },
         {
           id: 2,
-          title: "add user",
+          title: "add director",
           style: "info",
-          emitname: "AddUser",
+          emitname: "Adddirector",
         },
       ];
     };
 
-    const updateUserFunc = (userId) => {
-      funcBoardRef.boardTitle = "update user";
+    const updateUserFunc = (directorId) => {
+      funcBoardRef.boardTitle = "update director";
       funcBoardRef.boardiData = [
         {
           id: 1,
-          title: "userId",
+          title: "directorId",
           type: "label",
-          label: userId,
+          label: directorId,
           margin: "small",
         },
         {
           id: 2,
-          title: "displayName",
-          type: "text",
+          title: "email",
+          type: "email",
           margin: "small",
         },
       ];
@@ -147,13 +119,13 @@ export default {
       ];
 
       const initialData = adminModules.userMainList.value.find(
-        (item) => item.id === userId
+        (item) => item.id === directorId
       );
 
       funcBoardRef.updateDefault = [
         {
-          key: "displayName",
-          value: initialData.displayName,
+          key: "email",
+          value: initialData.email,
         },
       ];
     };
