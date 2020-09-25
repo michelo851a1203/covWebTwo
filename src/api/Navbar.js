@@ -86,5 +86,5 @@ export default function navbar({ initial, role }) {
         testCenterTriggerFill: computed(() => centerList.testCenterTrigger ? "#2b6cb0" : "black")
     })
 
-    return { list, showTypeRef, navTag, credStatusName, ...toRef(centerList), ...toRefs(TestCenterListRef), changeTag, clickBelow, triggerEnableCredential }
+    return { list, showTypeRef, navTag, credStatusName, ...toRefs(centerList), ...toRefs(TestCenterListRef), changeTag, clickBelow, triggerEnableCredential }
 }
