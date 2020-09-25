@@ -1,6 +1,6 @@
 import navTag from "@/api/global/navTag.js"
 import CredentialRequest from "@/api/request/Credential.js"
-import { ref, watch } from "vue"
+import { ref, watch, reactive, toRefs, computed } from "vue"
 export default function navbar({ initial, role }) {
     const showTypeRef = ref(initial);
     const credStatusName = ref("Disable Credential")
@@ -72,5 +72,19 @@ export default function navbar({ initial, role }) {
         credStatusName.value = credStatusName.value === statusA ? statusB : statusA
     }
 
-    return { list, showTypeRef, navTag, credStatusName, changeTag, clickBelow, triggerEnableCredential }
+    const TestCenterListRef = reactive({
+        testCenterTrigger: false,
+        testCenterTitle: "setting",
+        testCenterList: [
+            "Doctor List",
+            "Director List",
+            "Test Type",
+        ],
+        testCenterTriggerSwitch: () => {
+            TestCenterListRef.testCenterTrigger = !TestCenterListRef.testCenterTrigger
+        },
+        testCenterTriggerFill: computed(() => TestCenterListRef.testCenterTrigger ? "#2b6cb0" : "black")
+    })
+
+    return { list, showTypeRef, navTag, credStatusName, ...toRefs(TestCenterListRef), changeTag, clickBelow, triggerEnableCredential }
 }

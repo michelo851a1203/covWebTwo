@@ -33,12 +33,17 @@
         <button
           class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
         >Test type</button>
-      </div> -->
-      <div class="cursor-pointer" v-if="getnavRole === 3" :class="{ 'ml-auto': getnavRole === 3 }">
+      </div> -
+      <div
+        @click="testCenterTriggerSwitch"
+        class="cursor-pointer"
+        v-if="getnavRole === 3"
+        :class="{ 'ml-auto': getnavRole === 3 }"
+      >
         <svg class="w-6" viewBox="0 0 512.000000 512.000000">
           <g
             transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-            fill="#000000"
+            :fill="testCenterTriggerFill"
             stroke="none"
           >
             <path
@@ -143,7 +148,7 @@
           'ml-auto': getnavRole === 999,
           'ml-auto sm:ml-0': getnavRole === 2,
         }"
-        class="mr-10"
+        class="mr-10 select-none"
       >
         <button
           @click="logout"
