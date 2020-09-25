@@ -77,7 +77,7 @@
           </g>
         </svg>
       </div>
-      <!--  -->
+      -->
       <div
         @click="changeTag('scanQrcode')"
         v-if="getnavRole !== 3 && getnavRole !== 999 && !isMobileRef"
