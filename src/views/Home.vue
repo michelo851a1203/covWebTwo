@@ -1,6 +1,13 @@
 <template>
   <div class="home sm:bg-green-600">
     <navbar></navbar>
+    <navbarcontent
+      v-if="testCenterTrigger"
+      :locx="listLocX"
+      :locy="listLocY"
+      @notthisplace="testCenterListClose"
+      :iData="testCenterList"
+    ></navbarcontent>
     <router-view></router-view>
     <belowlist v-if="isMobileRef && getmainRole !== 3"></belowlist>
   </div>
@@ -11,21 +18,25 @@
 import { ref } from "vue";
 import navbar from "@/components/Navbar.vue";
 import belowlist from "@/components/BelowList.vue";
+import navbarcontent from "@/components/NavbarContent.vue";
 import config from "@/api/request/config.js";
 import Login from "@/api/Login.js";
+import NavbarAction from "@/api/Navbar.js";
 export default {
   name: "Home",
   components: {
     navbar,
     belowlist,
+    navbarcontent,
   },
   setup() {
     const isMobileRef = ref(config.mobileCheck());
     const loginModule = Login();
+    const NavbarModule = NavbarAction();
     loginModule.regainLoginUser();
     const getmainRole = ref(-1);
     getmainRole.value = loginModule.userData.role;
-    return { isMobileRef, getmainRole };
+    return { isMobileRef, getmainRole, ...NavbarModule };
   },
 };
 </script>
