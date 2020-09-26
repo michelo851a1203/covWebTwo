@@ -99,7 +99,7 @@ export default {
         emit("notthisplace", false);
       },
       mainStyle: computed(() => {
-        return `left:${props.locx - 120}px;top:${props.locy + 8}px;`;
+        return `left:${props.locx - 150}px;top:${props.locy + 8}px;`;
       }),
     });
     return { ...toRefs(mainTool) };
@@ -109,7 +109,7 @@ export default {
 
 <style lang="postcss">
 .placeshow {
-  @apply w-32 mt-4 fixed;
+  @apply w-40 mt-4 fixed;
 }
 .sppechBox {
   @apply relative rounded w-full bg-gray-400 p-5 text-center shadow-lg font-bold select-none;

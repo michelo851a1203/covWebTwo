@@ -3,18 +3,24 @@
     <div class="flex items-center h-full">
       <div class="ml-10">COVID-19 Certificate Verification System</div>
       <div
+        ref="settingBtnRef"
         @click="testCenterTriggerSwitch"
         class="cursor-pointer"
         v-if="getnavRole === 3"
         :class="{ 'ml-auto': getnavRole === 3 }"
       >
-        <svg class="w-6" viewBox="0 0 512.000000 512.000000">
+        <svg
+          ref="settingSvgRef"
+          class="w-6"
+          viewBox="0 0 512.000000 512.000000"
+        >
           <g
             transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
             :fill="testCenterTriggerFill"
             stroke="none"
           >
             <path
+              ref="settingSvgpathRef"
               d="M2160 5098 c-66 -46 -70 -56 -101 -314 -16 -131 -33 -241 -37 -245
         -4 -4 -52 -21 -107 -39 -104 -34 -244 -93 -317 -135 -24 -14 -49 -25 -56 -25
         -8 0 -84 55 -170 123 -208 164 -213 167 -256 177 -77 17 -93 6 -354 -254 -134
@@ -138,7 +144,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import router from "@/router";
 import Login from "@/api/Login.js";
 import Navbar from "@/api/Navbar.js";
@@ -151,6 +157,9 @@ export default {
   setup() {
     const isMobileRef = ref(config.mobileCheck());
     const loginModule = Login();
+    const settingBtnRef = ref(null);
+    const settingSvgRef = ref(null);
+    const settingSvgpathRef = ref(null);
     loginModule.regainLoginUser();
     const getnavRole = ref(-1);
     getnavRole.value = loginModule.userData.role;
@@ -166,10 +175,28 @@ export default {
       role: getnavRole.value,
     });
     const TestCenterNavbarModule = TestCenterNavbar();
+
+    onMounted(() => {
+      document.addEventListener("click", function (event) {
+        const inbtnArray = [
+          settingSvgRef.value,
+          settingBtnRef.value,
+          settingSvgpathRef.value,
+        ];
+        if (inbtnArray.includes(event.target)) {
+          return;
+        }
+        const closeFunc = TestCenterNavbarModule.testCenterListClose.value;
+        closeFunc(true);
+      });
+    });
     return {
       ...AdminModule,
       ...NavbarModule,
       ...TestCenterNavbarModule,
+      settingBtnRef,
+      settingSvgRef,
+      settingSvgpathRef,
       logout,
       getnavRole,
       isMobileRef,

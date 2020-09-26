@@ -1,6 +1,6 @@
 import navTag from "@/api/global/navTag.js"
 import CredentialRequest from "@/api/request/Credential.js"
-import { ref, watch, reactive, toRefs, computed } from "vue"
+import { ref, watch } from "vue"
 export default function navbar({ initial, role }) {
     const showTypeRef = ref(initial);
     const credStatusName = ref("Disable Credential")
