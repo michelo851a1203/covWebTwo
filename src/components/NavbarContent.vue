@@ -112,16 +112,16 @@ export default {
   @apply w-32 mt-4 fixed;
 }
 .sppechBox {
-  @apply relative rounded w-full bg-blue-300 p-5 text-center shadow-lg font-bold select-none;
+  @apply relative rounded w-full bg-gray-400 p-5 text-center shadow-lg font-bold select-none;
 }
 
 .rightUpBox:before {
   content: "";
   @apply absolute w-0 h-0;
   border-left: 8px solid theme(colors.transparent);
-  border-right: 8px solid theme(colors.blue.300);
+  border-right: 8px solid theme(colors.gray.400);
   border-top: 8px solid theme(colors.transparent);
-  border-bottom: 8px solid theme(colors.blue.300);
+  border-bottom: 8px solid theme(colors.gray.400);
   right: 0px;
   top: -12px;
 }

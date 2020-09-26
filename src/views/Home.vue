@@ -6,7 +6,7 @@
       :locx="listLocX"
       :locy="listLocY"
       @notthisplace="testCenterListClose"
-      :iData="testCenterList"
+      :idata="testCenterList"
     ></navbarcontent>
     <router-view></router-view>
     <belowlist v-if="isMobileRef && getmainRole !== 3"></belowlist>

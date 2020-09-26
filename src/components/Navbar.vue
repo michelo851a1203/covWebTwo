@@ -2,38 +2,6 @@
   <div class="fixed top-0 bg-gray-300 shadow-2xl w-full h-16">
     <div class="flex items-center h-full">
       <div class="ml-10">COVID-19 Certificate Verification System</div>
-      <!-- <div
-        v-if="getnavRole === 999  && !isMobileRef"
-        @click="changeAdminComponent('usertable')"
-        :class="{'bg-blue-300':navbarActive === 'usertable'}"
-        class="hidden sm:flex ml-auto mr-4 hover:bg-gray-500 h-full items-center"
-      >
-        <button
-          class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
-        >User list</button>
-      </div>
-
-      <div
-        v-if="getnavRole === 999  && !isMobileRef"
-        @click="changeAdminComponent('doctortable')"
-        :class="{'bg-blue-300':navbarActive === 'doctortable'}"
-        class="hidden sm:flex mr-4 hover:bg-gray-500 h-full items-center"
-      >
-        <button
-          class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
-        >Doctor list</button>
-      </div>
-
-      <div
-        v-if="getnavRole === 999  && !isMobileRef"
-        @click="changeAdminComponent('detecttype')"
-        :class="{'bg-blue-300':navbarActive === 'detecttype'}"
-        class="hidden sm:flex mr-4 hover:bg-gray-500 h-full items-center"
-      >
-        <button
-          class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
-        >Test type</button>
-      </div> -->
       <div
         @click="testCenterTriggerSwitch"
         class="cursor-pointer"
