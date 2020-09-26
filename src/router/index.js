@@ -33,7 +33,22 @@ const routes = [
         path: '/adminDashboard',
         component: () => import(/* webpackChunkName: "AdminDashboard" */ "../views/home/AdminDashboard.vue"),
         meta: { authRequired: true, noDirect: true, allowRole: [999] }
-      }
+      },
+      {
+        path: '/doctorDashboard',
+        component: () => import(/* webpackChunkName: "DoctorDashboard" */ "../views/home/DoctorDashboard.vue"),
+        meta: { authRequired: true, noDirect: true, allowRole: [1] }
+      },
+      {
+        path: '/directorDashboard',
+        component: () => import(/* webpackChunkName: "DirectorDashBoard" */ "../views/home/DirectorDashBoard.vue"),
+        meta: { authRequired: true, noDirect: true, allowRole: [1] }
+      },
+      {
+        path: '/testTypeDashboard',
+        component: () => import(/* webpackChunkName: "TestTypeDashBoard" */ "../views/home/TestTypeDashBoard.vue"),
+        meta: { authRequired: true, noDirect: true, allowRole: [1] }
+      },
     ]
   },
   {

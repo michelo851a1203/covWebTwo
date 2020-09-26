@@ -4,8 +4,7 @@
   >
     <suspense>
       <template #default>
-        <!-- <component :is="navbarActive"></component> -->
-        <usertable></usertable>
+        <directortable></directortable>
       </template>
       <template #fallback>
         <div class="flex items-center px-6 py-4">
@@ -35,21 +34,12 @@
 </template>
 
 <script>
-// import Admin from "@/api/Admin.js";
-import usertable from "@/components/UserTable.vue";
-// import doctortable from "@/components/DoctorTable.vue";
-// import detecttype from "@/components/DetectType.vue";
+import directortable from "@/components/DirectorTable.vue";
 export default {
   name: "admindashboard",
   components: {
-    usertable,
-    // doctortable,
-    // detecttype,
+    directortable,
   },
-  // setup() {
-  //   const adminModule = Admin();
-  //   return { ...adminModule };
-  // },
 };
 </script>
 

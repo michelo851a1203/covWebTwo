@@ -132,9 +132,6 @@ export default {
             })
             const lockData = await response.json()
 
-            console.group(`%c lockData`, 'color:yellow');
-            console.log(lockData);
-            console.groupEnd();
             return lockData
         } catch (error) {
             console.error(`error : ${error}`);

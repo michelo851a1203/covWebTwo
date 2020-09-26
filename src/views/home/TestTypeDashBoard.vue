@@ -1,11 +1,8 @@
 <template>
-  <div
-    class="dashboardContent mt-10 mx-auto px-8 py-12 sm:rounded sm:shadow-2xl sm:bg-white"
-  >
+  <div class="dashboardContent mt-10 mx-auto px-8 py-12 sm:rounded sm:shadow-2xl sm:bg-white">
     <suspense>
       <template #default>
-        <!-- <component :is="navbarActive"></component> -->
-        <usertable></usertable>
+        <detecttype></detecttype>
       </template>
       <template #fallback>
         <div class="flex items-center px-6 py-4">
@@ -35,21 +32,12 @@
 </template>
 
 <script>
-// import Admin from "@/api/Admin.js";
-import usertable from "@/components/UserTable.vue";
-// import doctortable from "@/components/DoctorTable.vue";
-// import detecttype from "@/components/DetectType.vue";
+import detecttype from "@/components/DetectType.vue";
 export default {
   name: "admindashboard",
   components: {
-    usertable,
-    // doctortable,
-    // detecttype,
+    detecttype,
   },
-  // setup() {
-  //   const adminModule = Admin();
-  //   return { ...adminModule };
-  // },
 };
 </script>
 

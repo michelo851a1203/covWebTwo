@@ -1,5 +1,4 @@
 import navTag from "@/api/global/navTag.js"
-import centerList from "@/api/global/testCenterList.js"
 import CredentialRequest from "@/api/request/Credential.js"
 import { ref, watch, reactive, toRefs, computed } from "vue"
 export default function navbar({ initial, role }) {
@@ -73,18 +72,5 @@ export default function navbar({ initial, role }) {
         credStatusName.value = credStatusName.value === statusA ? statusB : statusA
     }
 
-    const TestCenterListRef = reactive({
-        testCenterTriggerSwitch: (event) => {
-            centerList.testCenterTrigger = true
-            centerList.listLocX = event.pageX
-            centerList.listLocY = event.pageY
-        },
-        testCenterListClose: (action) => {
-            if (!action) return;
-            centerList.testCenterTrigger = false
-        },
-        testCenterTriggerFill: computed(() => centerList.testCenterTrigger ? "#2b6cb0" : "black")
-    })
-
-    return { list, showTypeRef, navTag, credStatusName, ...toRefs(centerList), ...toRefs(TestCenterListRef), changeTag, clickBelow, triggerEnableCredential }
+    return { list, showTypeRef, navTag, credStatusName, changeTag, clickBelow, triggerEnableCredential }
 }

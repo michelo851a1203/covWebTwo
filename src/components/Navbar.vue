@@ -33,7 +33,7 @@
         <button
           class="text-black focus:outline-none hover:underline text-lg font-medium py-1 px-2"
         >Test type</button>
-      </div> -
+      </div> -->
       <div
         @click="testCenterTriggerSwitch"
         class="cursor-pointer"
@@ -77,7 +77,6 @@
           </g>
         </svg>
       </div>
-      -->
       <div
         @click="changeTag('scanQrcode')"
         v-if="getnavRole !== 3 && getnavRole !== 999 && !isMobileRef"
@@ -175,6 +174,8 @@ import { ref } from "vue";
 import router from "@/router";
 import Login from "@/api/Login.js";
 import Navbar from "@/api/Navbar.js";
+import TestCenterNavbar from "@/api/TestCenterNavbar.js";
+
 import Admin from "@/api/Admin.js";
 import config from "@/api/request/config.js";
 export default {
@@ -196,7 +197,15 @@ export default {
       initial,
       role: getnavRole.value,
     });
-    return { ...AdminModule, ...NavbarModule, logout, getnavRole, isMobileRef };
+    const TestCenterNavbarModule = TestCenterNavbar();
+    return {
+      ...AdminModule,
+      ...NavbarModule,
+      ...TestCenterNavbarModule,
+      logout,
+      getnavRole,
+      isMobileRef,
+    };
   },
 };
 </script>

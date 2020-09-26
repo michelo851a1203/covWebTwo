@@ -17,11 +17,11 @@
 // @ is an alias to /src
 import { ref } from "vue";
 import navbar from "@/components/Navbar.vue";
+import TestCenterNavbar from "@/api/TestCenterNavbar.js";
 import belowlist from "@/components/BelowList.vue";
 import navbarcontent from "@/components/NavbarContent.vue";
 import config from "@/api/request/config.js";
 import Login from "@/api/Login.js";
-import NavbarAction from "@/api/Navbar.js";
 export default {
   name: "Home",
   components: {
@@ -32,11 +32,11 @@ export default {
   setup() {
     const isMobileRef = ref(config.mobileCheck());
     const loginModule = Login();
-    const NavbarModule = NavbarAction();
+    const TestCenterNavbarModule = TestCenterNavbar();
     loginModule.regainLoginUser();
     const getmainRole = ref(-1);
     getmainRole.value = loginModule.userData.role;
-    return { isMobileRef, getmainRole, ...NavbarModule };
+    return { isMobileRef, getmainRole, ...TestCenterNavbarModule };
   },
 };
 </script>

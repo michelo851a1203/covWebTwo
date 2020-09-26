@@ -105,9 +105,6 @@ export default function Credential() {
             },
         ]
         oData = [...oData, ...belowData]
-        console.group(`%c oData`, 'color:yellow');
-        console.log(oData);
-        console.groupEnd();
         return oData;
     })
 
