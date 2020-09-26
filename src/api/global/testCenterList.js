@@ -7,17 +7,17 @@ export default reactive({
         {
             id: 1,
             title: "Doctor List",
-            routeName: "/doctorlist"
+            routeName: "/doctorDashboard"
         },
         {
             id: 2,
             title: "Director List",
-            routeName: "/directorlist"
+            routeName: "/directorDashboard"
         },
         {
             id: 3,
             title: "Test Type",
-            routeName: "/testtypelist"
+            routeName: "/testTypeDashboard"
         },
     ],
 })
