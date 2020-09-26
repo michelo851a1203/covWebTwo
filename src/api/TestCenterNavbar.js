@@ -10,7 +10,6 @@ export default function TestCenterNavbar() {
             centerList.listLocY = event.pageY
         },
         testCenterListClose: (action) => {
-            console.log(action);
             if (!action) return;
             centerList.testCenterTrigger = false
         },
