@@ -70,7 +70,7 @@
       <!-- radiobox (when spare time) -->
     </div>
 
-    <div class="w-4/5 mb-2 flex justify-around">
+    <div class="mx-auto w-4/5 mb-2 flex justify-around">
       <button
         @click="btnClick(item.emitname,item.needSendData)"
         v-for="item in funcbtn"
