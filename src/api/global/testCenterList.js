@@ -6,16 +6,21 @@ export default reactive({
     testCenterList: [
         {
             id: 1,
+            title: "Test Center",
+            routeName: "/"
+        },
+        {
+            id: 2,
             title: "Doctor List",
             routeName: "/doctorDashboard"
         },
         {
-            id: 2,
+            id: 3,
             title: "Director List",
             routeName: "/directorDashboard"
         },
         {
-            id: 3,
+            id: 4,
             title: "Test Type",
             routeName: "/testTypeDashboard"
         },
