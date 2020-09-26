@@ -156,6 +156,6 @@ export default function DoctorType() {
             data: oData
         }
     }
-    return { ...toRefs(AdminState), getMainList, AddDetectType, UpdateDetectType, DeleteDetectType }
+    return { ...toRefs(AdminState), getMainList, AddDetectType, UpdateDetectType, DeleteDetectType, getMainOne }
 
 }
