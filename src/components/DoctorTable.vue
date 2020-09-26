@@ -3,7 +3,7 @@
     <dashboardtable
       v-if="boardTitle === '' && boardiData.length === 0"
       addBtnName="add doctor"
-      :func="['update','delete','create']"
+      :func="['update', 'delete', 'create']"
       v-on="dashboardEvent"
       :iData="doctorMainList"
     ></dashboardtable>
@@ -121,31 +121,31 @@ export default {
         },
         {
           id: 2,
-          title: "clinic",
+          title: "Clinic Name",
           type: "text",
           margin: "small",
         },
         {
           id: 3,
-          title: "email",
+          title: "Doctor Email",
           type: "text",
           margin: "small",
         },
         {
           id: 4,
-          title: "address",
+          title: "Address",
           type: "text",
           margin: "small",
         },
         {
           id: 5,
-          title: "city",
+          title: "City",
           type: "text",
           margin: "small",
         },
         {
           id: 6,
-          title: "zip",
+          title: "Zip",
           type: "text",
           margin: "small",
         },
@@ -172,24 +172,24 @@ export default {
 
       funcBoardRef.updateDefault = [
         {
-          key: "clinic",
-          value: initialData.clinic,
+          key: "Clinic Name",
+          value: initialData["Clinic Name"],
         },
         {
-          key: "email",
-          value: initialData.email,
+          key: "Doctor Email",
+          value: initialData["Doctor Email"],
         },
         {
-          key: "address",
-          value: initialData.address,
+          key: "Address",
+          value: initialData["Address"],
         },
         {
-          key: "city",
-          value: initialData.city,
+          key: "City",
+          value: initialData["City"],
         },
         {
-          key: "zip",
-          value: initialData.zip,
+          key: "Zip",
+          value: initialData["Zip"],
         },
       ];
     };
@@ -204,7 +204,14 @@ export default {
     };
 
     const updateDataAction = async (iData) => {
-      const { success } = await doctorModules.doctorUpdateUser(iData);
+      const { success } = await doctorModules.doctorUpdateUser({
+        doctorId: iData["doctorId"],
+        clinic: iData["Clinic Name"],
+        email: iData["Doctor Email"],
+        address: iData["Address"],
+        city: iData["City"],
+        zip: iData["Zip"],
+      });
       if (!success) {
         console.log("update user fail");
         return;

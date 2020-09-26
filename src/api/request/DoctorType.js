@@ -52,7 +52,7 @@ export default {
             return { success: false }
         }
     },
-    createDocTypeList: async ({ name, normalRange, cctNo }) => {
+    createDocTypeList: async ({ name, normalRange, cctNo, testResult }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
         if (!cluster || !token || cluster === "" || token === "") {
@@ -65,7 +65,8 @@ export default {
             const iData = {
                 name,
                 normalRange,
-                cctNo
+                cctNo,
+                data: testResult
             }
             const response = await fetch(url, {
                 method: "POST",
@@ -82,7 +83,7 @@ export default {
             return { success: false }
         }
     },
-    updateDocTypeList: async (detectTypeId, { normalRange, cctNo }) => {
+    updateDocTypeList: async (detectTypeId, { normalRange, cctNo, testResult }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
         if (!cluster || !token || cluster === "" || token === "") {
@@ -94,7 +95,8 @@ export default {
             const url = `${config.baseURL}/api/v1/detect/type/${detectTypeId}`
             const iData = {
                 normalRange,
-                cctNo
+                cctNo,
+                data: testResult
             }
             const response = await fetch(url, {
                 method: "PUT",

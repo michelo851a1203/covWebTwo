@@ -112,7 +112,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO: 檢驗中心: 更新醫生資訊
+    // 檢驗中心: 更新醫生資訊
     updateDoctorList: async ({ doctorId, clinic, email, address, city, zip }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)

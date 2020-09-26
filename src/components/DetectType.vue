@@ -4,7 +4,7 @@
       v-if="boardTitle === '' && boardiData.length === 0"
       addBtnName="add detect type"
       v-on="dashboardEvent"
-      :func="['update','delete','create']"
+      :func="['update', 'delete', 'create']"
       :iData="detectTypeMainList"
     ></dashboardtable>
     <mainform
@@ -103,13 +103,13 @@ export default {
         },
         {
           id: 2,
-          title: "normalRange",
+          title: "Normal Range",
           type: "text",
           margin: "small",
         },
         {
           id: 3,
-          title: "cctNo",
+          title: "CCT No.",
           type: "text",
           margin: "small",
         },
@@ -136,12 +136,12 @@ export default {
 
       funcBoardRef.updateDefault = [
         {
-          key: "normalRange",
-          value: initialData.normalRange,
+          key: "Normal Range",
+          value: initialData["Normal Range"],
         },
         {
-          key: "cctNo",
-          value: initialData.cctNo,
+          key: "CCT No.",
+          value: initialData["CCT No."],
         },
       ];
     };
@@ -156,7 +156,11 @@ export default {
     };
 
     const updateDataAction = async (iData) => {
-      const { success } = await doctorTypeModules.UpdateDetectType(iData);
+      const { success } = await doctorTypeModules.UpdateDetectType({
+        detectTypeId: iData["detectTypeId"],
+        normalRange: iData["Normal Range"],
+        cctNo: iData["CCT No."],
+      });
       if (!success) {
         console.log("update user fail");
         return;

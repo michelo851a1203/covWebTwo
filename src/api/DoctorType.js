@@ -30,17 +30,40 @@ export default function DoctorType() {
                 "Create Time": createTime
             }
         })
-
+        const ddlData = response.data.map(item => {
+            if (typeof (item.data) !== "object" || !item.data) {
+                return {
+                    id: item.id,
+                    ddlData: null
+                }
+            }
+            return {
+                id: item.id,
+                ddlData: item.data
+            }
+        })
         // ============================================================================
 
+        AdminState.testResultDdl = ddlData
         AdminState.detectTypeMainList = oData
         return {
             success: true,
         }
     }
 
-    const AddDetectType = async ({ name, normalRange, cctNo }) => {
-        const response = await DoctorTypeModule.createDocTypeList({ name, normalRange, cctNo })
+    const AddDetectType = async ({ name, normalRange, cctNo, testResult }) => {
+        if (typeof testResult !== "object") {
+            return {
+                success: false
+            }
+        }
+        const illegalArr = testResult.filter(item => typeof item.name !== "string" || !item.name || typeof item.type !== "string" || !item.type || typeof item.status !== "boolean")
+        if (illegalArr.length > 0) {
+            return {
+                success: false,
+            }
+        }
+        const response = await DoctorTypeModule.createDocTypeList({ name, normalRange, cctNo, testResult })
         if (!response || !response.success) {
             console.error("AddDetectType error");
             return {
@@ -53,8 +76,19 @@ export default function DoctorType() {
         }
     }
 
-    const UpdateDetectType = async ({ detectTypeId, normalRange, cctNo }) => {
-        const response = await DoctorTypeModule.updateDocTypeList(detectTypeId, { normalRange, cctNo })
+    const UpdateDetectType = async ({ detectTypeId, normalRange, cctNo, testResult }) => {
+        if (typeof testResult !== "object") {
+            return {
+                success: false
+            }
+        }
+        const illegalArr = testResult.filter(item => typeof item.name !== "string" || !item.name || typeof item.type !== "string" || !item.type || typeof item.status !== "boolean")
+        if (illegalArr.length > 0) {
+            return {
+                success: false,
+            }
+        }
+        const response = await DoctorTypeModule.updateDocTypeList(detectTypeId, { normalRange, cctNo, testResult })
         if (!response || !response.success) {
             console.error("UpdateDetectType error");
             return {
@@ -78,6 +112,48 @@ export default function DoctorType() {
         const { success } = await getMainList()
         return {
             success,
+        }
+    }
+
+    const getMainOne = async (detectTypeId) => {
+        const response = await DoctorTypeModule.getDocTypeListOne(detectTypeId)
+        if (!response || !response.success) {
+            console.error("getDocTypeListOne error");
+            return {
+                success: false
+            }
+        }
+
+        // ============================================================================
+
+        const getData = response.data
+
+        const mainDate = new Date(getData.createdAt)
+        const tmpMonth = String(mainDate.getMonth() + 1)
+        const tmpDate = String(mainDate.getDate())
+        const yyyy = mainDate.getFullYear()
+        const mm = tmpMonth.length === 1 ? `0${tmpMonth}` : tmpMonth
+        const dd = tmpDate.length === 1 ? `0${tmpDate}` : tmpDate
+        const createTime = `${yyyy}-${mm}-${dd}`
+
+        const oData = {
+            id: getData._id,
+            "Test Type": getData.name,
+            "Normal Range": getData.normalRange,
+            "CCT No.": getData.cctNo,
+            "Create Time": createTime
+        }
+
+        if (typeof (getData.data) !== "object" || !getData.data) {
+            return {
+                success: true,
+                data: oData
+            }
+        }
+        oData.ddlTestResult = getData.data
+        return {
+            success: true,
+            data: oData
         }
     }
     return { ...toRefs(AdminState), getMainList, AddDetectType, UpdateDetectType, DeleteDetectType }
