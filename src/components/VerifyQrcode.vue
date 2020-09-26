@@ -12,7 +12,7 @@
         height="200"
       ></genqrcode>
       <div v-else class="failinfo">Qrcode generated fail</div>
-      <div>
+      <div class="text-center mt-10">
         Scan this QR code
         <br />to verify certificate
       </div>
