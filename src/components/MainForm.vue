@@ -3,11 +3,18 @@
     <div class="self-start ml-10 mb-4">
       <label>{{ title }}</label>
     </div>
-    <div v-for="item in iData" :key="item.id" class="w-full ml-10" :class="marginMainStyle(item)">
+    <div
+      v-for="item in iData"
+      :key="item.id"
+      class="w-full ml-10"
+      :class="marginMainStyle(item)"
+    >
+      <!-- title -->
+      <h2 class="font-bold" v-if="item.type === 'title'">{{ item.title }}</h2>
       <!-- label -->
-      <label
-        v-if="item.type === 'label'"
-      >{{ outputFortitle ? item.title : item.id }} : {{ item.label }}</label>
+      <label v-if="item.type === 'label'"
+        >{{ outputFortitle ? item.title : item.id }} : {{ item.label }}</label
+      >
       <!-- textbox -->
       <input
         v-model.trim="formDataRef[outputFortitle ? item.title : item.id]"
@@ -36,7 +43,9 @@
       <datetimepicker
         v-if="item.type === 'datetimepicker'"
         @isinner="dateTimePickerCloseClick"
-        v-model:isShowCalender="isShowCalenderRef[outputFortitle ? item.title : item.id]"
+        v-model:isShowCalender="
+          isShowCalenderRef[outputFortitle ? item.title : item.id]
+        "
         v-model:maintext="formDataRef[outputFortitle ? item.title : item.id]"
       ></datetimepicker>
       <!-- need append email validator -->
@@ -53,31 +62,41 @@
             :key="ddlItem.value"
             class="bg-white"
             :value="ddlItem.value"
-          >{{ ddlItem.title }}</option>
+          >
+            {{ ddlItem.title }}
+          </option>
         </select>
       </div>
       <!-- checkbox -->
       <div v-if="item.type === 'checkbox'" class="flex items-center">
         <input
           v-model.trim="formDataRef[outputFortitle ? item.title : item.id]"
-          :true-value="(item.cb && item.cb.trueValue) ? item.cb.trueValue : true"
-          :false-value="(item.cb && item.cb.falseValue) ? item.cb.falseValue : false"
+          :true-value="item.cb && item.cb.trueValue ? item.cb.trueValue : true"
+          :false-value="
+            item.cb && item.cb.falseValue ? item.cb.falseValue : false
+          "
           :id="item.id + item.title"
           type="checkbox"
         />
-        <label class="cursor-pointer text-xs ml-2" :for="item.id + item.title">{{ item.title }}</label>
+        <label
+          class="cursor-pointer text-xs ml-2"
+          :for="item.id + item.title"
+          >{{ item.title }}</label
+        >
       </div>
       <!-- radiobox (when spare time) -->
     </div>
 
     <div class="mx-auto w-4/5 mb-2 flex justify-around">
       <button
-        @click="btnClick(item.emitname,item.needSendData)"
+        @click="btnClick(item.emitname, item.needSendData)"
         v-for="item in funcbtn"
         :key="item.id"
         :class="btnMainStyle(item.style)"
         class="focus:outline-none text-white font-medium py-2 px-4 rounded"
-      >{{ item.title }}</button>
+      >
+        {{ item.title }}
+      </button>
     </div>
   </div>
 </template>
@@ -110,7 +129,7 @@
 //   {
 //     id:"id",
 //     title: "placeHolder",
-//     type: "label,text,password,ddl,datetimepicker,checkbox,radio,email",
+//     type: "title,label,text,password,ddl,datetimepicker,checkbox,radio,email",
 //     margin: "small,medium,large",
 //     ep: "bold,none",
 //     label: "to set a label text",
@@ -263,6 +282,9 @@ export default {
           break;
         case "large":
           initialStyle = "mb-12 ";
+          break;
+        case "subtitle":
+          initialStyle = "mt-10 mb-6";
           break;
         default:
           break;

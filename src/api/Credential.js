@@ -86,7 +86,7 @@ export default function Credential() {
                 const obj = ddlArray.find(ddlItem => ddlItem.title === item)
                 oArray.ddl = obj.option
             }
-            
+
             return oArray
         });
 
@@ -105,7 +105,44 @@ export default function Credential() {
             },
         ]
         oData = [...oData, ...belowData]
-        return oData;
+        // okay sort data with specific order
+        // best solution :
+        const titleArray = [
+            "Test Lab",
+            "Medical Director",
+            "Referred Doctor",
+            "Doctor Email",
+            "Test Data",
+            "Sample ID",
+            "Test Type",
+            "Test Result",
+            "Collection Date",
+            "Report Date",
+            "Patient Data",
+            "Name",
+            "Birthday",
+            "Gender",
+            "Review Person Name",
+            "Review Person",
+            "Above information is correct"
+        ]
+
+        const orderData = titleArray.map(item => {
+            const oObj = oData.find(objItem => objItem.title === item)
+            if (oObj) {
+                return oObj
+            } else {
+                return {
+                    id: config.uuid(),
+                    title: item,
+                    type: "title",
+                    label: item,
+                    margin: "subtitle"
+                }
+            }
+        })
+
+        return orderData;
     })
 
     const issueData = ref({
