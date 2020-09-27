@@ -13,7 +13,7 @@ export default function DoctorType() {
         }
 
         // ============================================================================
-
+        const ddlData = {}
         const oData = response.data.map(item => {
             const mainDate = new Date(item.createdAt)
             const tmpMonth = String(mainDate.getMonth() + 1)
@@ -22,24 +22,17 @@ export default function DoctorType() {
             const mm = tmpMonth.length === 1 ? `0${tmpMonth}` : tmpMonth
             const dd = tmpDate.length === 1 ? `0${tmpDate}` : tmpDate
             const createTime = `${yyyy}-${mm}-${dd}`
+
+            if (item.data instanceof Array) {
+                ddlData[item._id] = item.data
+            }
+
             return {
                 id: item._id,
                 "Test Type": item.name,
                 "Normal Range": item.normalRange,
                 "CCT No.": item.cctNo,
                 "Create Time": createTime
-            }
-        })
-        const ddlData = response.data.map(item => {
-            if (typeof (item.data) !== "object" || !item.data) {
-                return {
-                    id: item.id,
-                    ddlData: null
-                }
-            }
-            return {
-                id: item.id,
-                ddlData: item.data
             }
         })
         // ============================================================================
@@ -52,18 +45,27 @@ export default function DoctorType() {
     }
 
     const AddDetectType = async ({ name, normalRange, cctNo, testResult }) => {
-        if (typeof testResult !== "object") {
+        if (!(testResult instanceof Array)) {
             return {
                 success: false
             }
         }
-        const illegalArr = testResult.filter(item => typeof item.name !== "string" || !item.name || typeof item.type !== "string" || !item.type || typeof item.status !== "boolean")
+
+        const combineData = testResult.map(mainObj => {
+            const aData = {}
+            mainObj.forEach(item => {
+                aData[item.title] = item.content
+            })
+            return aData
+        })
+
+        const illegalArr = combineData.filter(item => typeof item.name !== "string" || !item.name || typeof item.type !== "string" || !item.type || typeof item.status !== "boolean")
         if (illegalArr.length > 0) {
             return {
                 success: false,
             }
         }
-        const response = await DoctorTypeModule.createDocTypeList({ name, normalRange, cctNo, testResult })
+        const response = await DoctorTypeModule.createDocTypeList({ name, normalRange, cctNo, testResult: combineData })
         if (!response || !response.success) {
             console.error("AddDetectType error");
             return {

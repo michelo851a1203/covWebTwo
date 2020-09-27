@@ -5,5 +5,5 @@ export default reactive({
     doctorMainList: [],
     detectTypeMainList: [],
     directorMainList: [],
-    testResultDdl: [],
+    testResultDdl: {},
 })

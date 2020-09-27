@@ -57,19 +57,19 @@ export default {
       funcBoardRef.boardiData = [
         {
           id: 1,
-          title: "name",
+          title: "Test Type",
           type: "text",
           margin: "small",
         },
         {
           id: 2,
-          title: "normalRange",
+          title: "Normal Range",
           type: "text",
           margin: "small",
         },
         {
           id: 3,
-          title: "cctNo",
+          title: "CCT No.",
           type: "text",
           margin: "small",
         },
@@ -163,54 +163,56 @@ export default {
           type: "text",
           margin: "small",
         },
-        // {
-        //   id: 4,
-        //   title: "Test Result",
-        //   type: "title",
-        //   margin: "title",
-        // },
-        // {
-        //   id: 5,
-        //   title: "test Result Name",
-        //   type: "text",
-        //   margin: "small",
-        // },
-        // {
-        //   id: 6,
-        //   title: "test Result type",
-        //   type: "ddl",
-        //   margin: "small",
-        //   ddl: [
-        //     {
-        //       value: 0,
-        //       title: "normal",
-        //     },
-        //     {
-        //       value: 1,
-        //       title: "abnormal",
-        //     },
-        //     {
-        //       value: 2,
-        //       title: "N/A",
-        //     },
-        //   ],
-        // },
-        // {
-        //   id: 7,
-        //   title: "test Result Status",
-        //   type: "ddl",
-        //   margin: "small",
-        //   ddl: [
-        //     {
-        //       value: 0,
-        //       title: "enable",
-        //     },
-        //     {
-        //       value: 1,
-        //       title: "disable",
-        //     },
-        //   ],
-        // },
+        {
+          id: 4,
+          title: "Test Result",
+          type: "group",
+          margin: "small",
+          groupPattern: [
+            {
+              gid: 1,
+              title: "name",
+              type: "text",
+              margin: "small",
+            },
+            {
+              gid: 2,
+              title: "type",
+              type: "ddl",
+              margin: "small",
+              ddl: [
+                {
+                  value: 0,
+                  title: "normal",
+                },
+                {
+                  value: 1,
+                  title: "abnormal",
+                },
+                {
+                  value: 2,
+                  title: "N/A",
+                },
+              ],
+            },
+            {
+              gid: 3,
+              title: "status",
+              type: "ddl",
+              margin: "small",
+              ddl: [
+                {
+                  value: 0,
+                  title: "enable",
+                },
+                {
+                  value: 1,
+                  title: "disable",
+                },
+              ],
+            },
+          ],
+        },
       ];
       funcBoardRef.boardFunc = [
         {
@@ -232,9 +234,7 @@ export default {
         (item) => item.id === detectTypeId
       );
 
-      if (initialData.data instanceof Array) {
-        console.log("OK");
-      }
+      const ddlArray = doctorTypeModules.testResultDdlvalue[detectTypeId];
 
       funcBoardRef.updateDefault = [
         {
@@ -246,10 +246,33 @@ export default {
           value: initialData["CCT No."],
         },
       ];
+
+      if (ddlArray && ddlArray.length > 0) {
+        // here to combination all solution here.
+        // recombine solution.
+        const ddloData = ddlArray.map((item) =>
+          Object.keys(item).map((iItem) => {
+            return {
+              title: iItem,
+              content: item[iItem],
+            };
+          })
+        );
+
+        funcBoardRef.updateDefault.push({
+          key: "Test Result",
+          value: ddloData,
+        });
+      }
     };
 
     const addDataAction = async (iData) => {
-      const { success } = await doctorTypeModules.AddDetectType(iData);
+      const { success } = await doctorTypeModules.AddDetectType({
+        name: iData["Test Type"],
+        normalRange: iData["Normal Range"],
+        cctNo: iData["CCT No."],
+        testResult: iData["Test Result"],
+      });
       if (!success) {
         console.log("add user fail");
         return;
