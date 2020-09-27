@@ -2,7 +2,7 @@
 
 ## 1. 先檢查 vue.config.js
 
-1.  > publicPath: process.env.NODE_ENV === "production"  
+> publicPath: process.env.NODE_ENV === "production"  
         ? "/covWebTwo/ `『這裡要改，這會指定 js 的跟路徑，改到自己網頁的，如果不指定就把這個改為 "/"，就可以』`"  
         : "/",
 
