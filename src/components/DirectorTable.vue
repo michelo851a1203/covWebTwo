@@ -21,7 +21,7 @@
 <script>
 import dashboardtable from "@/components/DashboardTable.vue";
 import mainform from "@/components/MainForm.vue";
-import Admin from "@/api/Admin.js";
+import Director from "@/api/Director.js"
 import { reactive, toRefs, ref } from "vue";
 
 export default {
@@ -31,10 +31,10 @@ export default {
     mainform,
   },
   async setup() {
-    const adminModules = Admin();
-    const { success } = await adminModules.getMainList();
+    const directorModules = Director();
+    const { success } = await directorModules.getMainList();
     if (!success) {
-      console.error("adminModules.getMainList : get data");
+      console.error("directorModules.getMainList : get data");
       return;
     }
 
@@ -80,7 +80,7 @@ export default {
           id: 2,
           title: "add director",
           style: "info",
-          emitname: "Adddirector",
+          emitname: "AddUser",
         },
       ];
     };
@@ -118,7 +118,7 @@ export default {
         },
       ];
 
-      const initialData = adminModules.userMainList.value.find(
+      const initialData = directorModules.directorMainList.value.find(
         (item) => item.id === directorId
       );
 
@@ -131,7 +131,8 @@ export default {
     };
 
     const addDataAction = async (iData) => {
-      const { success } = await adminModules.adminAddUser(iData);
+
+      const { success } = await directorModules.cDirector(iData);
       if (!success) {
         console.log("add user fail");
         return;
@@ -140,7 +141,7 @@ export default {
     };
 
     const updateDataAction = async (iData) => {
-      const { success } = await adminModules.adminUpdateUser(iData);
+      const { success } = await directorModules.uDirector(iData);
       if (!success) {
         console.log("update user fail");
         return;
@@ -151,7 +152,7 @@ export default {
     const dashboardEvent = ref({
       create: addUserfunc,
       update: updateUserFunc,
-      delete: adminModules.adminDeleteUser,
+      delete: directorModules.dDirector,
     });
 
     const mainFromEvent = ref({
@@ -161,7 +162,7 @@ export default {
     });
 
     return {
-      ...adminModules,
+      ...directorModules,
       ...toRefs(funcBoardRef),
       clearFrom,
       addUserfunc,

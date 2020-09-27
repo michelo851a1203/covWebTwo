@@ -1,5 +1,6 @@
+import config from "./config.js"
 export default {
-    // TODO 檢驗中心: 取得檢測中心負責人列表，如果是用管理員會全部回傳，檢測中心則會取得底下資訊。
+    // 檢驗中心: 取得檢測中心負責人列表，如果是用管理員會全部回傳，檢測中心則會取得底下資訊。
     getDirectorList: async () => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
@@ -24,7 +25,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO 檢驗中心: 刪除檢測中心負責人資料
+    // 檢驗中心: 刪除檢測中心負責人資料
     deleteDirector: async (ids) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
@@ -52,7 +53,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO: 檢驗中心: 建立檢測中心負責人
+    // 檢驗中心: 建立檢測中心負責人
     createDirector: async ({ name, email }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
@@ -82,7 +83,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO: 檢驗中心: 更新檢測中心負責人資訊
+    // 檢驗中心: 更新檢測中心負責人資訊
     updateDirector: async ({ directorId, email }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
@@ -111,7 +112,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO: 檢驗中心: 更新檢測中心負責人資訊
+    // 檢驗中心: 更新檢測中心負責人資訊
     DirectorOne: async ({ directorId }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)

@@ -1,7 +1,7 @@
 
 import DirectorModule from "./request/Director.js"
 import AdminState from "./global/admin.js"
-
+import { toRefs } from "vue"
 export default function Director() {
     const getMainList = async () => {
         const response = await DirectorModule.getDirectorList()
@@ -39,7 +39,7 @@ export default function Director() {
     }
 
     const cDirector = async ({ name, email }) => {
-        const response = await DirectorModule.createDirector({ clinic, name, email, address, city, zip })
+        const response = await DirectorModule.createDirector({ name, email })
         if (!response || !response.success) {
             console.error("cDirector error");
             return {
