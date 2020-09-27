@@ -234,7 +234,7 @@ export default {
         (item) => item.id === detectTypeId
       );
 
-      const ddlArray = doctorTypeModules.testResultDdl[detectTypeId];
+      const ddlArray = doctorTypeModules.testResultDdl.value[detectTypeId];
 
       funcBoardRef.updateDefault = [
         {
@@ -246,19 +246,18 @@ export default {
           value: initialData["CCT No."],
         },
       ];
-      console.log(ddlArray);
-      debugger;
       if (ddlArray && ddlArray.length > 0) {
-        // here to combination all solution here.
-        // recombine solution.
-        const ddloData = ddlArray.map((item) =>
-          Object.keys(item).map((iItem) => {
-            return {
-              title: iItem,
-              content: item[iItem],
-            };
-          })
-        );
+        const ddloData = ddlArray.map((item) => {
+          return Object.keys(item)
+            .filter((item) => item !== "_id")
+            .sort()
+            .map((iItem) => {
+              return {
+                title: iItem,
+                content: item[iItem],
+              };
+            });
+        });
 
         funcBoardRef.updateDefault.push({
           key: "Test Result",
