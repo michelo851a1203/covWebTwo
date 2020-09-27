@@ -351,7 +351,7 @@ export default {
       if (item.type === "group") {
         const newFit = item.groupPattern.map((pitem) => {
           return {
-            title: outputFortitle ? pitem.title : pitem.id,
+            title: props.outputFortitle ? pitem.title : pitem.id,
             content: "",
           };
         });
