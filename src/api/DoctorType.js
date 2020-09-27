@@ -183,9 +183,7 @@ export default function DoctorType() {
                         title: item.name,
                     };
                 });
-            console.group(`%c testResultData`, 'color:yellow');
-            console.log(testResultData);
-            console.groupEnd();
+            // console.log(testResultData);
             AdminState.currentTestTypeDdl = testResultData
         }
     };

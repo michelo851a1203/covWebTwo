@@ -14,6 +14,7 @@ export default function Credential() {
     });
 
     const testCenterAttr = computed(() => {
+        // TODO: this mainDdlChange to set ddl will influence here
         if (credentialData.attributes.length === 0) {
             return [];
         }
