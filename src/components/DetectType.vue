@@ -112,11 +112,11 @@ export default {
               margin: "small",
               ddl: [
                 {
-                  value: 0,
+                  value: true,
                   title: "enable",
                 },
                 {
-                  value: 1,
+                  value: false,
                   title: "disable",
                 },
               ],
@@ -202,11 +202,11 @@ export default {
               margin: "small",
               ddl: [
                 {
-                  value: 0,
+                  value: true,
                   title: "enable",
                 },
                 {
-                  value: 1,
+                  value: false,
                   title: "disable",
                 },
               ],
@@ -234,7 +234,7 @@ export default {
         (item) => item.id === detectTypeId
       );
 
-      const ddlArray = doctorTypeModules.testResultDdlvalue[detectTypeId];
+      const ddlArray = doctorTypeModules.testResultDdl[detectTypeId];
 
       funcBoardRef.updateDefault = [
         {
@@ -246,7 +246,8 @@ export default {
           value: initialData["CCT No."],
         },
       ];
-
+      console.log(ddlArray);
+      debugger;
       if (ddlArray && ddlArray.length > 0) {
         // here to combination all solution here.
         // recombine solution.
@@ -274,7 +275,7 @@ export default {
         testResult: iData["Test Result"],
       });
       if (!success) {
-        console.log("add user fail");
+        console.log("add detecttype fail");
         return;
       }
       clearFrom();

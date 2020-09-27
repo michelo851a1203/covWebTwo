@@ -60,6 +60,10 @@ export default {
             return
         }
 
+        console.group(`%c name, normalRange, cctNo, testResult`,'color:yellow');
+        console.log(name, normalRange, cctNo, testResult);
+        console.groupEnd();
+
         try {
             const url = `${config.baseURL}/api/v1/detect/type`
             const iData = {
@@ -77,6 +81,10 @@ export default {
                 })
             })
             const oData = await response.json()
+
+            console.group(`%c oData`,'color:yellow');
+            console.log(oData);
+            console.groupEnd();
             return oData
         } catch (error) {
             console.error(`error : error`);

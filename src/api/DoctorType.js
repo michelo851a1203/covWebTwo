@@ -58,8 +58,7 @@ export default function DoctorType() {
             })
             return aData
         })
-
-        const illegalArr = combineData.filter(item => typeof item.name !== "string" || !item.name || typeof item.type !== "string" || !item.type || typeof item.status !== "boolean")
+        const illegalArr = combineData.filter(item => typeof item.name !== "string" || !item.name || typeof item.type !== "number" || typeof item.status !== "boolean")
         if (illegalArr.length > 0) {
             return {
                 success: false,
