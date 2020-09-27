@@ -56,8 +56,8 @@ export default {
       return;
     }
 
-    const sendIssueFunc = async () => {
-      const oResult = await credentialModule.sendIssue();
+    const sendIssueFunc = async (iData) => {
+      const oResult = await credentialModule.sendIssue(iData);
       if (!oResult.success) {
         credentialModule.normalCredentialAlert({
           title: oResult.msg,
