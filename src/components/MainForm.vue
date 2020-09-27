@@ -85,103 +85,129 @@
         >
       </div>
       <!-- radiobox (when spare time) -->
+
       <!-- build a group append -->
-      <div v-if="item.type === 'group'" class="flex flex-col items-center">
-        <div>
-          <h2 class="font-bold">{{ item.title }}</h2>
+      <div v-if="item.type === 'group'">
+        <div class="flex items-center mt-6 mb-4">
+          <h2 class="select-none font-bold">{{ item.title }}</h2>
           <button
-            class="focus:outline-none shadow-lg hover:bg-green-700 font-medium py-2 px-2 rounded-full"
+            class="ml-6 bg-gray-500 focus:outline-none shadow-lg hover:bg-green-700 font-medium w-10 h-10 py-2 px-2 rounded-full"
           >
             +
           </button>
         </div>
         <div
-          v-for="paItem in formDataRef[
-            props.outputFortitle ? item.title : item.id
+          v-for="(groupObj, groupIndex) in formDataRef[
+            outputFortitle ? item.title : item.id
           ]"
-          :key="paItem.gid"
+          :key="groupObj"
         >
-          <!-- textbox -->
-          <input
-            v-model.trim="paItem.content"
-            v-if="groupPattern(item.groupPattern, paItem.title).type === 'text'"
-            class="w-4/5 border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
-            :placeholder="paItem.title"
-            type="text"
-          />
-          <!-- password -->
-          <input
-            v-model.trim="paItem.content"
-            v-if="
-              groupPattern(item.groupPattern, paItem.title).type === 'password'
-            "
-            class="w-4/5 border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
-            :placeholder="paItem.title"
-            type="password"
-          />
-          <!-- email -->
-          <input
-            v-model.trim="paItem.content"
-            v-if="
-              groupPattern(item.groupPattern, paItem.title).type === 'email'
-            "
-            class="w-4/5 border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
-            :placeholder="paItem.title"
-            type="email"
-          />
-          <!-- datetimepicker -->
-          <datetimepicker
-            v-if="
-              groupPattern(item.groupPattern, paItem.title).type ===
-              'datetimepicker'
-            "
-            @isinner="dateTimePickerCloseClick"
-            v-model:isShowCalender="isShowCalenderRef[paItem.title]"
-            v-model:maintext="paItem.content"
-          ></datetimepicker>
-          <!-- dropdownlist -->
+          <h3 class="text-lg text-gray-800 mb-4">
+            {{ item.title }} - {{ groupIndex + 1 }}
+          </h3>
           <div
-            v-if="groupPattern(item.groupPattern, paItem.title).type === 'ddl'"
+            v-for="paItem in groupObj"
+            :key="paItem.gid"
+            :class="marginMainStyle(paItem)"
           >
-            <label for>{{ paItem.title }}</label>
-            <select
-              v-model="paItem.content"
-              class="ml-4 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
-            >
-              <option class="bg-white" value>please Select</option>
-              <option
-                v-for="ddlpItem in paItem.ddl"
-                :key="ddlpItem.value"
-                class="bg-white"
-                :value="ddlpItem.value"
-              >
-                {{ ddlpItem.title }}
-              </option>
-            </select>
-          </div>
-          <!-- checkbox -->
-          <div
-            v-if="
-              groupPattern(item.groupPattern, paItem.title).type === 'checkbox'
-            "
-            class="flex items-center"
-          >
+            <!-- textbox -->
             <input
               v-model.trim="paItem.content"
-              :true-value="
-                paItem.cb && paItem.cb.trueValue ? paItem.cb.trueValue : true
+              v-if="
+                groupPattern(item.groupPattern, paItem.title).type === 'text'
               "
-              :false-value="
-                paItem.cb && paItem.cb.falseValue ? paItem.cb.falseValue : false
-              "
-              :id="paItem.title + item.title + item.id"
-              type="checkbox"
+              class="w-4/5 border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
+              :placeholder="paItem.title"
+              type="text"
             />
-            <label
-              class="cursor-pointer text-xs ml-2"
-              :for="paItem.title + item.title + item.id"
-              >{{ paItem.title }}</label
+            <!-- password -->
+            <input
+              v-model.trim="paItem.content"
+              v-if="
+                groupPattern(item.groupPattern, paItem.title).type ===
+                'password'
+              "
+              class="w-4/5 border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
+              :placeholder="paItem.title"
+              type="password"
+            />
+            <!-- email -->
+            <input
+              v-model.trim="paItem.content"
+              v-if="
+                groupPattern(item.groupPattern, paItem.title).type === 'email'
+              "
+              class="w-4/5 border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
+              :placeholder="paItem.title"
+              type="email"
+            />
+            <!-- datetimepicker -->
+            <datetimepicker
+              v-if="
+                groupPattern(item.groupPattern, paItem.title).type ===
+                'datetimepicker'
+              "
+              @isinner="dateTimePickerCloseClick"
+              v-model:isShowCalender="isShowCalenderRef[paItem.title]"
+              v-model:maintext="paItem.content"
+            ></datetimepicker>
+            <!-- dropdownlist -->
+            <div
+              v-if="
+                groupPattern(item.groupPattern, paItem.title).type === 'ddl'
+              "
             >
+              <label for>{{ paItem.title }}</label>
+              <select
+                v-model="paItem.content"
+                class="ml-4 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
+              >
+                <option class="bg-white" value>please Select</option>
+                <option
+                  v-for="ddlpItem in groupPattern(
+                    item.groupPattern,
+                    paItem.title
+                  ).ddl"
+                  :key="ddlpItem.value"
+                  class="bg-white"
+                  :value="ddlpItem.value"
+                >
+                  {{ ddlpItem.title }}
+                </option>
+              </select>
+            </div>
+            <!-- checkbox -->
+            <div
+              v-if="
+                groupPattern(item.groupPattern, paItem.title).type ===
+                'checkbox'
+              "
+              class="flex items-center"
+            >
+              <input
+                v-model.trim="paItem.content"
+                :true-value="
+                  groupPattern(item.groupPattern, paItem.title).cb &&
+                  groupPattern(item.groupPattern, paItem.title).cb.trueValue
+                    ? groupPattern(item.groupPattern, paItem.title).cb.trueValue
+                    : true
+                "
+                :false-value="
+                  groupPattern(item.groupPattern, paItem.title).cb &&
+                  groupPattern(item.groupPattern, paItem.title).cb.falseValue
+                    ? groupPattern(item.groupPattern, paItem.title).cb
+                        .falseValue
+                    : false
+                "
+                :id="paItem.title + item.title + item.id"
+                type="checkbox"
+              />
+              <label
+                class="cursor-pointer text-xs ml-2"
+                :for="paItem.title + item.title + item.id"
+                >{{ paItem.title }}</label
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -349,15 +375,17 @@ export default {
           item.label;
       }
       if (item.type === "group") {
-        const newFit = item.groupPattern.map((pitem) => {
-          return {
-            title: props.outputFortitle ? pitem.title : pitem.id,
-            content: "",
-          };
-        });
-        formDataRef.value[props.outputFortitle ? item.title : item.id] = [
-          newFit,
-        ];
+        if (!formDataRef.value[props.outputFortitle ? item.title : item.id]) {
+          const newFit = item.groupPattern.map((pitem) => {
+            return {
+              title: props.outputFortitle ? pitem.title : pitem.id,
+              content: "",
+            };
+          });
+          formDataRef.value[props.outputFortitle ? item.title : item.id] = [
+            newFit,
+          ];
+        }
       }
     });
 
@@ -405,8 +433,7 @@ export default {
 
     const groupPattern = (pattern, sampleTitle) => {
       return pattern.find(
-        (item) =>
-          item[props.outputFortitle ? item.title : item.id] === sampleTitle
+        (item) => (props.outputFortitle ? item.title : item.id) === sampleTitle
       );
     };
 
