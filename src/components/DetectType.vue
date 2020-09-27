@@ -285,6 +285,7 @@ export default {
         detectTypeId: iData["detectTypeId"],
         normalRange: iData["Normal Range"],
         cctNo: iData["CCT No."],
+        testResult: iData["Test Result"],
       });
       if (!success) {
         console.log("update user fail");

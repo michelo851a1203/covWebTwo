@@ -98,7 +98,6 @@ export default {
             console.error("no Authorization");
             return
         }
-
         try {
             const url = `${config.baseURL}/api/v1/detect/type/${detectTypeId}`
             const iData = {

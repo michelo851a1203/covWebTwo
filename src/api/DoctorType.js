@@ -78,12 +78,21 @@ export default function DoctorType() {
     }
 
     const UpdateDetectType = async ({ detectTypeId, normalRange, cctNo, testResult }) => {
-        if (typeof testResult !== "object") {
+        if (!(testResult instanceof Array)) {
             return {
                 success: false
             }
         }
-        const illegalArr = testResult.filter(item => typeof item.name !== "string" || !item.name || typeof item.type !== "string" || !item.type || typeof item.status !== "boolean")
+
+        const combineData = testResult.map(mainObj => {
+            const aData = {}
+            mainObj.forEach(item => {
+                aData[item.title] = item.content
+            })
+            return aData
+        })
+
+        const illegalArr = combineData.filter(item => typeof item.name !== "string" || !item.name || typeof item.type !== "number" || typeof item.status !== "boolean")
         if (illegalArr.length > 0) {
             return {
                 success: false,
