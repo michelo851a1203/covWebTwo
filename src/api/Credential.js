@@ -4,6 +4,7 @@ import CredentialModule from "./request/Credential.js"
 import report from "./global/report.js"
 import credentialData from "./global/credentialData.js"
 import navTag from "@/api/global/navTag.js"
+import AdminState from "./global/admin.js"
 
 export default function Credential() {
 
@@ -16,29 +17,22 @@ export default function Credential() {
         if (credentialData.attributes.length === 0) {
             return [];
         }
+        const ddlTestType = AdminState.detectTypeMainList.map(item => {
+            return {
+                value: item["Test Type"],
+                title: item["Test Type"]
+            }
+        })
+
         let oData = credentialData.attributes.map((item) => {
             const ddlArray = [
                 {
                     title: "Test Type",
-                    option: [
-                        {
-                            value: "",
-                            title: ""
-                        }
-                    ]
+                    option: ddlTestType,
                 },
                 {
                     title: "Test Result",
-                    option: [
-                        {
-                            value: "DETECTED",
-                            title: "Detected"
-                        },
-                        {
-                            value: "NONDETECTED",
-                            title: "Nondetected"
-                        },
-                    ]
+                    option: AdminState.currentTestTypeDdl,
                 },
                 {
                     title: "Referred Doctor",

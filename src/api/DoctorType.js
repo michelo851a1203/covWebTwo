@@ -166,6 +166,29 @@ export default function DoctorType() {
             data: oData
         }
     }
-    return { ...toRefs(AdminState), getMainList, AddDetectType, UpdateDetectType, DeleteDetectType, getMainOne }
+
+    const mainDdlChange = ({ title, value }) => {
+        if (!value || value === "") return
+        if (title === "Test Type") {
+            const testTypeId = AdminState.detectTypeMainList.find(
+                (item) => item["Test Type"] === value
+            ).id;
+            const testResultArr = AdminState.testResultDdl[testTypeId];
+            if (!testResultArr) return;
+            const testResultData = testResultArr
+                .filter((item) => item.status === true)
+                .map((item) => {
+                    return {
+                        value: item.type,
+                        title: item.name,
+                    };
+                });
+            console.group(`%c testResultData`, 'color:yellow');
+            console.log(testResultData);
+            console.groupEnd();
+            AdminState.currentTestTypeDdl = testResultData
+        }
+    };
+    return { ...toRefs(AdminState), getMainList, AddDetectType, UpdateDetectType, DeleteDetectType, getMainOne, mainDdlChange }
 
 }

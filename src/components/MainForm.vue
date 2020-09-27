@@ -53,6 +53,7 @@
       <div v-if="item.type === 'ddl'">
         <label for>{{ item.title }}</label>
         <select
+          @change="ddlChange($event, item.title)"
           v-model="formDataRef[outputFortitle ? item.title : item.id]"
           class="ml-4 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
         >
@@ -432,6 +433,13 @@ export default {
       emit(emitName);
     };
 
+    const ddlChange = (event, titlename) => {
+      emit("ddlemit", {
+        title: titlename,
+        value: event.target.value,
+      });
+    };
+
     const groupPattern = (pattern, sampleTitle) => {
       return pattern.find(
         (item) => (props.outputFortitle ? item.title : item.id) === sampleTitle
@@ -514,6 +522,7 @@ export default {
     return {
       formDataRef,
       btnClick,
+      ddlChange,
       groupPattern,
       isShowCalenderRef,
       dateTimePickerCloseClick,

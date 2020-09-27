@@ -6,4 +6,5 @@ export default reactive({
     detectTypeMainList: [],
     directorMainList: [],
     testResultDdl: {},
+    currentTestTypeDdl: [],
 })
