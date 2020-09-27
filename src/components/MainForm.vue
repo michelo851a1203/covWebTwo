@@ -91,6 +91,7 @@
         <div class="flex items-center mt-6 mb-4">
           <h2 class="select-none font-bold">{{ item.title }}</h2>
           <button
+            @click="groupAppend(item)"
             class="ml-6 bg-gray-500 focus:outline-none shadow-lg hover:bg-green-700 font-medium w-10 h-10 py-2 px-2 rounded-full"
           >
             +
@@ -495,6 +496,21 @@ export default {
       return btnStyle;
     };
 
+    const groupAppend = (groupObjItem) => {
+      const groupObj = props.iData.find((item) => item.id === groupObjItem.id);
+      const newData = [...groupObj.groupPattern];
+      const newFit = newData.map((item) => {
+        return {
+          title: props.outputFortitle ? item.title : item.id,
+          content: "",
+        };
+      });
+
+      formDataRef.value[
+        props.outputFortitle ? groupObjItem.title : groupObjItem.id
+      ].push(newFit);
+    };
+
     return {
       formDataRef,
       btnClick,
@@ -503,6 +519,7 @@ export default {
       dateTimePickerCloseClick,
       marginMainStyle,
       btnMainStyle,
+      groupAppend,
     };
   },
 };
