@@ -73,6 +73,56 @@ export default {
           type: "text",
           margin: "small",
         },
+        {
+          id: 4,
+          title: "Test Result",
+          type: "group",
+          margin: "small",
+          groupPattern: [
+            {
+              gid: 1,
+              title: "name",
+              type: "text",
+              margin: "small",
+            },
+            {
+              gid: 2,
+              title: "type",
+              type: "ddl",
+              margin: "small",
+              ddl: [
+                {
+                  value: 0,
+                  title: "normal",
+                },
+                {
+                  value: 1,
+                  title: "abnormal",
+                },
+                {
+                  value: 2,
+                  title: "N/A",
+                },
+              ],
+            },
+            {
+              gid: 3,
+              title: "status",
+              type: "ddl",
+              margin: "small",
+              ddl: [
+                {
+                  value: 0,
+                  title: "enable",
+                },
+                {
+                  value: 1,
+                  title: "disable",
+                },
+              ],
+            },
+          ],
+        },
       ];
       funcBoardRef.boardFunc = [
         {
@@ -113,6 +163,54 @@ export default {
           type: "text",
           margin: "small",
         },
+        // {
+        //   id: 4,
+        //   title: "Test Result",
+        //   type: "title",
+        //   margin: "title",
+        // },
+        // {
+        //   id: 5,
+        //   title: "test Result Name",
+        //   type: "text",
+        //   margin: "small",
+        // },
+        // {
+        //   id: 6,
+        //   title: "test Result type",
+        //   type: "ddl",
+        //   margin: "small",
+        //   ddl: [
+        //     {
+        //       value: 0,
+        //       title: "normal",
+        //     },
+        //     {
+        //       value: 1,
+        //       title: "abnormal",
+        //     },
+        //     {
+        //       value: 2,
+        //       title: "N/A",
+        //     },
+        //   ],
+        // },
+        // {
+        //   id: 7,
+        //   title: "test Result Status",
+        //   type: "ddl",
+        //   margin: "small",
+        //   ddl: [
+        //     {
+        //       value: 0,
+        //       title: "enable",
+        //     },
+        //     {
+        //       value: 1,
+        //       title: "disable",
+        //     },
+        //   ],
+        // },
       ];
       funcBoardRef.boardFunc = [
         {
@@ -133,6 +231,10 @@ export default {
       const initialData = doctorTypeModules.detectTypeMainList.value.find(
         (item) => item.id === detectTypeId
       );
+
+      if (initialData.data instanceof Array) {
+        console.log("OK");
+      }
 
       funcBoardRef.updateDefault = [
         {
