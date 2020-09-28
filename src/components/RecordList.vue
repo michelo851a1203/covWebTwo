@@ -22,6 +22,7 @@ import alert from "@/components/Alert.vue";
 import alertmobile from "@/components/Alertmobile.vue";
 import config from "@/api/request/config.js";
 import mainform from "@/components/MainForm.vue";
+import Doctor from "@/api/Doctor.js";
 import DoctorType from "@/api/DoctorType.js";
 import { ref } from "vue";
 export default {
@@ -39,6 +40,7 @@ export default {
 
     const credentialModule = Credential();
     const doctorTypeModule = DoctorType();
+    const doctorModule = Doctor();
     const credentialData = credentialModule.credentialData;
     if (credentialData.name !== "" && credentialData.attributes.length > 0) {
       return { ...credentialModule, sendIssueFunc, alertComponent };
@@ -48,9 +50,16 @@ export default {
     const {
       success: testTypeDdlSuccess,
     } = await doctorTypeModule.getMainList();
+
+    const { success: doctorListSucess } = await doctorModule.getMainList();
     if (!testTypeDdlSuccess) {
       console.error("test type ddl fail");
     }
+
+    if (!doctorListSucess) {
+      console.error("doctor ddl fail");
+    }
+
     // here to get test type
     if (!oResult) {
       return;
@@ -94,6 +103,7 @@ export default {
     return {
       ...credentialModule,
       ...doctorTypeModule,
+      ...doctorModule,
       sendIssueFunc,
       alertComponent,
       recordbtn,

@@ -18,6 +18,12 @@ export default function Credential() {
         if (credentialData.attributes.length === 0) {
             return [];
         }
+        const ddlDoctor = AdminState.doctorMainList.map(item => {
+            return {
+                value: item["Doctor Name"],
+                title: item["Doctor Name"]
+            }
+        })
         const ddlTestType = AdminState.detectTypeMainList.map(item => {
             return {
                 value: item["Test Type"],
@@ -37,12 +43,7 @@ export default function Credential() {
                 },
                 {
                     title: "Referred Doctor",
-                    option: [
-                        {
-                            value: "",
-                            title: ""
-                        }
-                    ]
+                    option: ddlDoctor,
                 },
                 {
                     title: "Medical Director",
