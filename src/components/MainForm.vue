@@ -10,7 +10,9 @@
       :class="marginMainStyle(item)"
     >
       <!-- title -->
-      <h2 class="font-bold" v-if="item.type === 'title'">{{ item.title }}</h2>
+      <h2 class="font-bold select-none" v-if="item.type === 'title'">
+        {{ item.title }}
+      </h2>
       <!-- label -->
       <label v-if="item.type === 'label'"
         >{{ outputFortitle ? item.title : item.id }} : {{ item.label }}</label

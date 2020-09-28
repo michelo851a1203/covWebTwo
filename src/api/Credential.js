@@ -31,7 +31,10 @@ export default function Credential() {
             }
         })
 
-        let oData = credentialData.attributes.map((item) => {
+
+        // TODO must optimize after
+        const newAttribute = [...credentialData.attributes, "Medical Director"]
+        let oData = newAttribute.map((item) => {
             const ddlArray = [
                 {
                     title: "Test Type",
@@ -234,7 +237,7 @@ export default function Credential() {
         // const response = await CredentialModule.sendCredential(sendToUserEmail.value, credentialData.definitionId, issueData.value)
         const issueArr = [
             "Test Lab",
-            // "Medical Director",
+            "Medical Director",
             "Referred Doctor",
             // "Doctor Email",
             // "Test Data",
