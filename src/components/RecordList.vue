@@ -24,6 +24,7 @@ import config from "@/api/request/config.js";
 import mainform from "@/components/MainForm.vue";
 import Doctor from "@/api/Doctor.js";
 import DoctorType from "@/api/DoctorType.js";
+import Director from "@/api/Director.js";
 import { ref } from "vue";
 export default {
   name: "RecordList",
@@ -39,8 +40,10 @@ export default {
     }
 
     const credentialModule = Credential();
-    const doctorTypeModule = DoctorType();
     const doctorModule = Doctor();
+    const doctorTypeModule = DoctorType();
+    const directorModule = Director();
+
     const credentialData = credentialModule.credentialData;
     if (credentialData.name !== "" && credentialData.attributes.length > 0) {
       return { ...credentialModule, sendIssueFunc, alertComponent };
@@ -51,13 +54,18 @@ export default {
       success: testTypeDdlSuccess,
     } = await doctorTypeModule.getMainList();
 
-    const { success: doctorListSucess } = await doctorModule.getMainList();
+    const { success: doctorListSuccess } = await doctorModule.getMainList();
+    const { success: directorListSuccess } = await directorModule.getMainList();
     if (!testTypeDdlSuccess) {
       console.error("test type ddl fail");
     }
 
-    if (!doctorListSucess) {
+    if (!doctorListSuccess) {
       console.error("doctor ddl fail");
+    }
+
+    if (!directorListSuccess) {
+      console.error("dirctor ddl fail");
     }
 
     // here to get test type
@@ -104,6 +112,7 @@ export default {
       ...credentialModule,
       ...doctorTypeModule,
       ...doctorModule,
+      ...directorModule,
       sendIssueFunc,
       alertComponent,
       recordbtn,

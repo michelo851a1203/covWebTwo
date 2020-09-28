@@ -30,7 +30,12 @@ export default function Credential() {
                 title: item["Test Type"]
             }
         })
-
+        const ddlDirector = AdminState.directorMainList.map(item => {
+            return {
+                value: item["Director Name"],
+                title: item["Director Name"]
+            }
+        })
 
         // TODO must optimize after
         const newAttribute = [...credentialData.attributes, "Medical Director"]
@@ -50,12 +55,7 @@ export default function Credential() {
                 },
                 {
                     title: "Medical Director",
-                    option: [
-                        {
-                            value: "",
-                            title: ""
-                        }
-                    ]
+                    option: ddlDirector,
                 },
                 {
                     title: "Gender",
