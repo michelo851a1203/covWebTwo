@@ -33,7 +33,6 @@ export default function Doctor() {
                 "Create Time": createTime
             }
         })
-
         // ============================================================================
 
         AdminState.doctorMainList = oData

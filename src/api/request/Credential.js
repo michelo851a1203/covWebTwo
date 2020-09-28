@@ -27,7 +27,7 @@ export default {
         }
     },
     // 檢驗中心使用：建立 憑證 與 Wallet 後進行連線並取得憑證發送至檢測者信箱
-    sendCredential: async (email, definitionId, data) => {
+    sendCredential: async (doctor, detectType, definitionId, director, data) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
         if (!cluster || !token || cluster === "" || token === "") {
@@ -38,8 +38,10 @@ export default {
         try {
             const url = `${config.baseURL}/api/v1/credential`
             const iData = {
-                email,
+                doctor,
+                detectType,
                 definitionId,
+                director,
                 data
             }
             const response = await fetch(url, {

@@ -8,9 +8,11 @@
     ></component>
     <mainform
       v-if="testCenterAttr.length > 0"
+      :outputFortitle="true"
       :iData="testCenterAttr"
       :funcbtn="recordbtn"
       :tagCluster="tagRef"
+      @sendissue="sendIssueFunc"
       v-on="recordEvent"
     ></mainform>
   </div>
@@ -99,13 +101,11 @@ export default {
         title: "Issue",
         style: "info",
         emitname: "sendissue",
-        needSendData: false,
       },
     ]);
 
     const recordEvent = ref({
       refill: credentialModule.refillRecord,
-      sendissue: sendIssueFunc,
       ddlemit: doctorTypeModule.mainDdlChange,
     });
 

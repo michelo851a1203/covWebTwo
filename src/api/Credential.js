@@ -19,19 +19,19 @@ export default function Credential() {
         }
         const ddlDoctor = AdminState.doctorMainList.map(item => {
             return {
-                value: item["Doctor Name"],
+                value: item["id"],
                 title: item["Doctor Name"]
             }
         })
         const ddlTestType = AdminState.detectTypeMainList.map(item => {
             return {
-                value: item["Test Type"],
+                value: item["id"],
                 title: item["Test Type"]
             }
         })
         const ddlDirector = AdminState.directorMainList.map(item => {
             return {
-                value: item["Director Name"],
+                value: item["id"],
                 title: item["Director Name"]
             }
         })
@@ -111,12 +111,6 @@ export default function Credential() {
         const belowData = [
             {
                 id: config.uuid(),
-                title: "Doctor Email",
-                type: "email",
-                margin: "small"
-            },
-            {
-                id: config.uuid(),
                 title: "Above information is correct",
                 type: "checkbox",
                 margin: "medium"
@@ -129,7 +123,6 @@ export default function Credential() {
             "Test Lab",
             "Medical Director",
             "Referred Doctor",
-            "Doctor Email",
             "Test Data",
             "Sample ID",
             "Test Type",
@@ -198,13 +191,13 @@ export default function Credential() {
 
     const sendIssue = async (iData) => {
         // if (sendToUserEmail.value === "") {
-        if (iData["Doctor Email"] === "") {
-            console.error("Doctor Email is empty");
-            return {
-                success: false,
-                msg: "Doctor Email required"
-            }
-        }
+        // if (iData["Doctor Email"] === "") {
+        //     console.error("Doctor Email is empty");
+        //     return {
+        //         success: false,
+        //         msg: "Doctor Email required"
+        //     }
+        // }
         if (credentialData.definitionId === "") {
             console.error("definitionId is empty");
             return {
@@ -228,13 +221,13 @@ export default function Credential() {
             }
         }
         // if (!config.validateEmail(sendToUserEmail.value)) {
-        if (!config.validateEmail(iData["Doctor Email"])) {
-            console.error("Doctor Email is error");
-            return {
-                success: false,
-                msg: "Error Doctor Email format"
-            }
-        }
+        // if (!config.validateEmail(iData["Doctor Email"])) {
+        //     console.error("Doctor Email is error");
+        //     return {
+        //         success: false,
+        //         msg: "Error Doctor Email format"
+        //     }
+        // }
         // if (!lock.value) {
         if (!iData["Above information is correct"]) {
             console.error("not accept to send");
@@ -256,12 +249,12 @@ export default function Credential() {
         // const response = await CredentialModule.sendCredential(sendToUserEmail.value, credentialData.definitionId, issueData.value)
         const issueArr = [
             "Test Lab",
-            "Medical Director",
-            "Referred Doctor",
+            // "Medical Director",
+            // "Referred Doctor",
             // "Doctor Email",
             // "Test Data",
             "Sample ID",
-            "Test Type",
+            // "Test Type",
             "Test Result",
             "Collection Date",
             "Report Date",
@@ -273,19 +266,24 @@ export default function Credential() {
             "Review Person",
             // "Above information is correct"
         ]
-        const issueData = issueArr.map(item => {
-            return {
-                item: iData[item]
-            }
+
+        const issueData = {}
+        issueArr.forEach(item => {
+            issueData[item] = iData[item]
         })
 
         // const response = await CredentialModule.sendCredential(iData["Doctor Email"], credentialData.definitionId, issueData.value)
-        const response = await CredentialModule.sendCredential(iData["Doctor Email"], credentialData.definitionId, issueData)
+        console.log("issueData", issueData);
+        const response = await CredentialModule.sendCredential(iData["Referred Doctor"], iData["Test Type"], credentialData.definitionId, iData["Medical Director"], issueData)
+
+        console.group(`%c response`, 'color:yellow');
+        console.log(response);
+        console.groupEnd();
         if (!response || !response.success) {
             console.error("getCredentialDetail error");
             return {
                 success: false,
-                msg: "請求返回失敗"
+                msg: "request fail"
             }
         }
         const responseData = response.data

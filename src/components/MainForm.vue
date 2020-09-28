@@ -414,7 +414,10 @@ export default {
           if (item.type === "email") {
             isEmailType.push(key);
           }
-          if (Object.keys(formDataRef.value).includes(key)) {
+          if (
+            Object.keys(formDataRef.value).includes(key) ||
+            item.type === "title"
+          ) {
             return;
           }
           formDataRef.value[key] = "";
@@ -431,12 +434,16 @@ export default {
         if (isEmailType.length > 0) {
           let emailFail = false;
           isEmailType.forEach((emailKey) => {
-            if (config.validateEmail(formDataRef.value[emailKey])) {
+            if (
+              formDataRef.value[emailKey] === "" ||
+              config.validateEmail(formDataRef.value[emailKey])
+            ) {
               return;
             }
             emailFail = true;
           });
           if (emailFail) {
+            console.error("email Fail");
             emit("failresponse", "email format fail");
             return;
           }
@@ -449,8 +456,9 @@ export default {
     };
 
     const ddlChange = (event, titlename, { tagName, tagValue }) => {
-      const targetddl = props.iData.find(item => item.targetTag === tagName)
-      formDataRef.value[props.outputFortitle ? targetddl.title : targetddl.id] = ""
+      const targetddl = props.iData.find((item) => item.targetTag === tagName);
+      formDataRef.value[props.outputFortitle ? targetddl.title : targetddl.id] =
+        "";
       emit("ddlemit", {
         title: titlename,
         value: event.target.value,
