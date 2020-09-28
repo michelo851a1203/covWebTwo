@@ -10,6 +10,7 @@
       v-if="testCenterAttr.length > 0"
       :iData="testCenterAttr"
       :funcbtn="recordbtn"
+      :tagCluster="tagRef"
       v-on="recordEvent"
     ></mainform>
   </div>

@@ -55,13 +55,18 @@
       <div v-if="item.type === 'ddl'">
         <label for>{{ item.title }}</label>
         <select
-          @change="ddlChange($event, item.title)"
+          @change="
+            ddlChange($event, item.title, {
+              tagName: item.tag,
+              tagValue: $event.target.value,
+            })
+          "
           v-model="formDataRef[outputFortitle ? item.title : item.id]"
           class="ml-4 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
         >
           <option class="bg-white" value>please Select</option>
           <option
-            v-for="ddlItem in item.ddl"
+            v-for="ddlItem in ddlFilter(item.ddl, item.targetTag)"
             :key="ddlItem.value"
             class="bg-white"
             :value="ddlItem.value"
@@ -168,10 +173,10 @@
               >
                 <option class="bg-white" value>please Select</option>
                 <option
-                  v-for="ddlpItem in groupPattern(
-                    item.groupPattern,
-                    paItem.title
-                  ).ddl"
+                  v-for="ddlpItem in ddlFilter(
+                    groupPattern(item.groupPattern, paItem.title).ddl,
+                    groupPattern(item.groupPattern, paItem.title).tag
+                  )"
                   :key="ddlpItem.value"
                   class="bg-white"
                   :value="ddlpItem.value"
@@ -263,10 +268,14 @@
 //     margin: "small,medium,large,title",
 //     ep: "bold,none",
 //     label: "to set a label text",
-//     ddl: [{ value, title }], // if type is ddl need this one
-//     cb: { trueValue: "", falseValue: "" }, // if is checkbox apply this
+//     ddl: [{ value, title, group<optional> }], // if type is ddl need this one
+//     cb: { trueValue: "", falseValue: "" }, // if is checkbox apply this,
+//     tag:"this tag is apply to ddl to get data and connection with targetTag"
+//     targetTag:"this is change connect with tag"
 //   },
-
+// tagCluster:{
+//   "tageName":tagValue
+// }
 // ============================================================================
 // ** iData group append pattern **
 // in this append fixed patten
@@ -350,6 +359,10 @@ export default {
         });
         return isValid;
       },
+    },
+    tagCluster: {
+      default: () => {},
+      type: Object,
     },
     funcbtn: {
       default: () => [],
@@ -435,10 +448,14 @@ export default {
       emit(emitName);
     };
 
-    const ddlChange = (event, titlename) => {
+    const ddlChange = (event, titlename, { tagName, tagValue }) => {
       emit("ddlemit", {
         title: titlename,
         value: event.target.value,
+        tagData: {
+          tagName,
+          tagValue,
+        },
       });
     };
 
@@ -521,6 +538,28 @@ export default {
       ].push(newFit);
     };
 
+    // ============================================================================
+    // ddl group sample
+    const ddlFilter = (ddlItem, tagName = null) => {
+      const isNeedGroup = ddlItem.filter(
+        (item) => item.group && item.group !== ""
+      );
+      if (isNeedGroup.length === 0 || !tagName) {
+        return ddlItem;
+      }
+
+      const ddlClassify = ddlItem.map((item) => {
+        if (typeof item.group !== "boolean" && !item.group) {
+          item.status = "none";
+        }
+        return item;
+      });
+
+      return ddlClassify.filter(
+        (item) => item.status === props.tagProps[tagName]
+      );
+    };
+
     return {
       formDataRef,
       btnClick,
@@ -531,6 +570,7 @@ export default {
       marginMainStyle,
       btnMainStyle,
       groupAppend,
+      ddlFilter,
     };
   },
 };

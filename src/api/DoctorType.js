@@ -1,6 +1,6 @@
 import DoctorTypeModule from "./request/DoctorType.js";
 import AdminState from "./global/admin.js"
-import { toRefs } from "vue";
+import { ref, toRefs } from "vue";
 
 export default function DoctorType() {
     const getMainList = async () => {
@@ -167,26 +167,14 @@ export default function DoctorType() {
         }
     }
 
-    const mainDdlChange = ({ title, value }) => {
+    const tagRef = ref({})
+    const mainDdlChange = ({ title, value, tagData }) => {
         if (!value || value === "") return
         if (title === "Test Type") {
-            const testTypeId = AdminState.detectTypeMainList.find(
-                (item) => item["Test Type"] === value
-            ).id;
-            const testResultArr = AdminState.testResultDdl[testTypeId];
-            if (!testResultArr) return;
-            const testResultData = testResultArr
-                .filter((item) => item.status === true)
-                .map((item) => {
-                    return {
-                        value: item.type,
-                        title: item.name,
-                    };
-                });
-            // console.log(testResultData);
-            AdminState.currentTestTypeDdl = testResultData
+            const testTypeObj = AdminState.detectTypeMainList.find(item => item["Test Type"] === tagData.tagValue)
+            tagRef.value[tagData.tagName] = testTypeObj.id
         }
     };
-    return { ...toRefs(AdminState), getMainList, AddDetectType, UpdateDetectType, DeleteDetectType, getMainOne, mainDdlChange }
+    return { ...toRefs(AdminState), getMainList, AddDetectType, UpdateDetectType, DeleteDetectType, getMainOne, tagRef, mainDdlChange }
 
 }

@@ -14,7 +14,6 @@ export default function Credential() {
     });
 
     const testCenterAttr = computed(() => {
-        // TODO: this mainDdlChange to set ddl will influence here
         if (credentialData.attributes.length === 0) {
             return [];
         }
@@ -37,6 +36,18 @@ export default function Credential() {
             }
         })
 
+        let ddlTestResult = []
+        Object.keys(AdminState.testResultDdl).forEach(item => {
+            const aaData = AdminState.testResultDdl[item].map(objItem => {
+                return {
+                    value: objItem.name,
+                    title: objItem.name,
+                    group: item
+                }
+            })
+            ddlTestResult = [...ddlTestResult, ...aaData]
+        })
+
         // TODO must optimize after
         const newAttribute = [...credentialData.attributes, "Medical Director"]
         let oData = newAttribute.map((item) => {
@@ -44,10 +55,12 @@ export default function Credential() {
                 {
                     title: "Test Type",
                     option: ddlTestType,
+                    tag: "TestResult",
                 },
                 {
                     title: "Test Result",
-                    option: AdminState.currentTestTypeDdl,
+                    option: ddlTestResult,
+                    targetTag: "TestResult",
                 },
                 {
                     title: "Referred Doctor",
