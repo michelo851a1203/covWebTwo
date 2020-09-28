@@ -97,6 +97,12 @@ export default function Credential() {
                 oArray.type = "ddl"
                 const obj = ddlArray.find(ddlItem => ddlItem.title === item)
                 oArray.ddl = obj.option
+                if (obj.tag) {
+                    oArray.tag = obj.tag
+                }
+                if (obj.targetTag) {
+                    oArray.targetTag = obj.targetTag
+                }
             }
 
             return oArray

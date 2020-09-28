@@ -449,6 +449,8 @@ export default {
     };
 
     const ddlChange = (event, titlename, { tagName, tagValue }) => {
+      console.log(tagName);
+      console.log(tagValue);
       emit("ddlemit", {
         title: titlename,
         value: event.target.value,
@@ -555,8 +557,12 @@ export default {
         return item;
       });
 
+      if (!props.tagCluster[tagName]) {
+        return [];
+      }
+
       return ddlClassify.filter(
-        (item) => item.status === props.tagProps[tagName]
+        (item) => item.group === props.tagCluster[tagName]
       );
     };
 
