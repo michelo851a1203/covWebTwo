@@ -272,6 +272,14 @@ export default function Credential() {
             issueData[item] = iData[item]
         })
 
+        const refDoctor = AdminState.doctorMainList.find(item => item.id)
+        const testType = AdminState.detectTypeMainList.find(item => item.id)
+
+        issueData["Referred Doctor"] = refDoctor["Doctor Name"]
+        issueData["Test Type"] = testType["Test Type"]
+
+
+
         // const response = await CredentialModule.sendCredential(iData["Doctor Email"], credentialData.definitionId, issueData.value)
         console.log("issueData", issueData);
         const response = await CredentialModule.sendCredential(iData["Referred Doctor"], iData["Test Type"], credentialData.definitionId, iData["Medical Director"], issueData)

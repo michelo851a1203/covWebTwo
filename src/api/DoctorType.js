@@ -175,6 +175,9 @@ export default function DoctorType() {
         }
         if (title === "Test Type") {
             const testTypeObj = AdminState.detectTypeMainList.find(item => item["id"] === tagData.tagValue)
+            if (!testTypeObj) {
+                tagRef.value[tagData.tagName] = null
+            }
             tagRef.value[tagData.tagName] = testTypeObj.id
         }
     };

@@ -53,7 +53,7 @@
       <!-- need append email validator -->
       <!-- dropdownlist -->
       <div v-if="item.type === 'ddl'">
-        <label for>{{ item.title }}</label>
+        <label class="select-none" for>{{ item.title }}</label>
         <select
           @change="
             ddlChange($event, item.title, {
@@ -565,7 +565,7 @@ export default {
         return item;
       });
 
-      if (!props.tagCluster[tagName]) {
+      if (!props.tagCluster || !props.tagCluster[tagName]) {
         return [];
       }
 
