@@ -169,7 +169,10 @@ export default function DoctorType() {
 
     const tagRef = ref({})
     const mainDdlChange = ({ title, value, tagData }) => {
-        if (!value || value === "") return
+        if (!value || value === "") {
+            tagRef.value[tagData.tagName] = null
+            return
+        }
         if (title === "Test Type") {
             const testTypeObj = AdminState.detectTypeMainList.find(item => item["Test Type"] === tagData.tagValue)
             tagRef.value[tagData.tagName] = testTypeObj.id

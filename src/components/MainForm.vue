@@ -449,8 +449,8 @@ export default {
     };
 
     const ddlChange = (event, titlename, { tagName, tagValue }) => {
-      console.log(tagName);
-      console.log(tagValue);
+      const targetddl = props.iData.find(item => item.targetTag === tagName)
+      formDataRef.value[props.outputFortitle ? targetddl.title : targetddl.id] = ""
       emit("ddlemit", {
         title: titlename,
         value: event.target.value,
