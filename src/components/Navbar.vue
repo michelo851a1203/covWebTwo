@@ -2,7 +2,6 @@
   <div class="fixed top-0 bg-gray-300 shadow-2xl w-full h-16">
     <div class="flex items-center h-full">
       <div class="ml-10">COVID-19 Certificate Verification System</div>
-      <span class="text-red-800">{{ testCenterTrigger }}</span>
       <div
         ref="settingBtnRef"
         @click="testCenterTriggerSwitch"

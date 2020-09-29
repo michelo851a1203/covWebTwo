@@ -14,7 +14,7 @@
         {{ item.title }}
       </h2>
       <!-- label -->
-      <label v-if="item.type === 'label'"
+      <label class="select-none" v-if="item.type === 'label'"
         >{{ outputFortitle ? item.title : item.id }} : {{ item.label }}</label
       >
       <!-- textbox -->
@@ -29,7 +29,7 @@
       <input
         v-model.trim="formDataRef[outputFortitle ? item.title : item.id]"
         v-if="item.type === 'password'"
-        class="w-4/5 border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
+        class="w-full border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
         :placeholder="item.title"
         type="password"
       />
@@ -37,7 +37,7 @@
       <input
         v-model.trim="formDataRef[outputFortitle ? item.title : item.id]"
         v-if="item.type === 'email'"
-        class="w-4/5 border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
+        class="w-full border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
         :placeholder="item.title"
         type="email"
       />

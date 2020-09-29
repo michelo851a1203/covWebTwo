@@ -105,6 +105,20 @@ export default function Credential() {
                 }
             }
 
+            // Test Lab must have initial Data from Login 
+            // ============================================================================
+            if (item === "Test Lab") {
+                const userStr = localStorage.getItem("covWebItemUser");
+                if (userStr) {
+                    const userData = config.tryParseJSON(userStr)
+                    if (userData) {
+                        oArray.type = "label"
+                        oArray.label = userData.displayName
+                    }
+                }
+            }
+            // ============================================================================
+
             return oArray
         });
 
