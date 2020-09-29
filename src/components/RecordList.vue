@@ -6,7 +6,7 @@
       :currentstatus="currentCredStatus"
       :is="alertComponent"
     ></component>
-    <mainform
+    <mainform class="w-full px-12"
       v-if="testCenterAttr.length > 0"
       :outputFortitle="true"
       :iData="testCenterAttr"

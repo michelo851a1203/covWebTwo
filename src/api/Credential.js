@@ -202,6 +202,9 @@ export default function Credential() {
     }
 
     const sendIssue = async (iData) => {
+        console.group(`%c sendIssue`,'color:yellow');
+        console.log(iData);
+        console.groupEnd();
         if (credentialData.definitionId === "") {
             console.error("definitionId is empty");
             return {

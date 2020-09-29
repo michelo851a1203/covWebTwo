@@ -460,9 +460,15 @@ export default {
     };
 
     const ddlChange = (event, titlename, { tagName, tagValue }) => {
-      const targetddl = props.iData.find((item) => item.targetTag === tagName);
-      formDataRef.value[props.outputFortitle ? targetddl.title : targetddl.id] =
-        "";
+      if (tagName) {
+        const targetddl = props.iData.find(
+          (item) => item.targetTag && item.targetTag === tagName
+        );
+        formDataRef.value[
+          props.outputFortitle ? targetddl.title : targetddl.id
+        ] = "";
+      }
+
       emit("ddlemit", {
         title: titlename,
         value: event.target.value,
