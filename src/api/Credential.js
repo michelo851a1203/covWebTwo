@@ -210,6 +210,35 @@ export default function Credential() {
             }
         }
         // if (!issueData.value["Test Result"] || issueData.value["Test Result"] === "") {
+
+        if (!iData["Test Lab"] || iData["Test Lab"] === "") {
+            return {
+                success: false,
+                msg: "Test Lab not show"
+            }
+        }
+
+        if (!iData["Medical Director"] || iData["Medical Director"] === "") {
+            return {
+                success: false,
+                msg: "Pease choose Medical Director"
+            }
+        }
+
+        if (!iData["Referred Doctor"] || iData["Referred Doctor"] === "") {
+            return {
+                success: false,
+                msg: "Pease choose Referred Doctor"
+            }
+        }
+
+        if (!iData["Test Type"] || iData["Test Type"] === "") {
+            return {
+                success: false,
+                msg: "Pease choose Test Type"
+            }
+        }
+
         if (!iData["Test Result"] || iData["Test Result"] === "") {
             return {
                 success: false,
