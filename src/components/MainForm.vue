@@ -53,7 +53,10 @@
       ></datetimepicker>
 
       <!-- datetimepicker-hour-min -->
-      <div class="flex items-center" v-if="item.type === 'dateTimePicker-hour-min'">
+      <div
+        class="flex items-center"
+        v-if="item.type === 'dateTimePicker-hour-min'"
+      >
         <datetimepicker
           @isinner="dateTimePickerCloseClick"
           v-model:isShowCalender="
@@ -402,6 +405,8 @@ export default {
   },
   setup(props, { emit }) {
     const formDataRef = ref({});
+    const isShowCalenderRef = ref({});
+    // solve initial calender ref initial
 
     if (props.defaultValue && props.defaultValue.length > 0) {
       props.defaultValue.forEach((item) => {
@@ -434,6 +439,9 @@ export default {
             newFit,
           ];
         }
+      }
+      if (item.type.indexOf("dateTimePicker") > -1) {
+        isShowCalenderRef.value[props.outputFortitle ? item.title : item.id] = false;
       }
     });
 
@@ -516,11 +524,6 @@ export default {
       );
     };
 
-    const isShowCalenderRef = ref({});
-    const dateTimePickerCloseClick = (isFromInner) => {
-      console.log(isFromInner);
-    };
-
     const marginMainStyle = (itemStyle) => {
       let initialStyle = "mb-4 ";
       switch (itemStyle.margin) {
@@ -548,6 +551,10 @@ export default {
         initialStyle += "self-start";
       }
       return initialStyle;
+    };
+
+    const dateTimePickerCloseClick = (isFromInner) => {
+      console.log(isFromInner);
     };
 
     const btnMainStyle = (styleName) => {

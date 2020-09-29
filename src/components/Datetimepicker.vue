@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative">
     <input
       ref="datetimeInput"
       :value="maintext"
@@ -15,6 +15,14 @@
         @mouseleave="isHoverCalender(false)"
         class="calenderBorder"
       >
+        <div class="px-4 mb-2">
+          <button
+            @click="clearFunc"
+            class="w-full bg-gray-500 focus:outline-none text-white font-medium py-1 px-2 rounded"
+          >
+            clear
+          </button>
+        </div>
         <div class="flex items-center justify-around mb-2">
           <div class="flex items-center select-none">
             <div class="cursor-pointer" @click="switchYear('prev')">
@@ -151,6 +159,12 @@ export default {
 
     const inputData = (e) => {
       emit("update:maintext", e.target.value);
+    };
+
+    const clearFunc = () => {
+      datetimeInput.value.value = "";
+      emit("update:maintext", "");
+      emit("update:isShowCalender", false);
     };
 
     const isHoverCalender = (hover) => {
@@ -291,6 +305,7 @@ export default {
     return {
       datetimeInput,
       inputData,
+      clearFunc,
       isHoverCalender,
       clearCalender,
       switchYear,
@@ -310,7 +325,7 @@ export default {
 
 <style scoped lang="postcss">
 .calenderBorder {
-  @apply mt-1  py-4 rounded bg-gray-300 shadow-xl fixed w-full;
+  @apply mt-1 absolute z-50 py-4 rounded bg-gray-300 shadow-xl w-full;
   bottom: 0;
 }
 
