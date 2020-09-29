@@ -13,9 +13,9 @@
       <div
         v-if="isShowCalender"
         @mouseleave="isHoverCalender(false)"
-        class="calenderBorder"
+        class="calenderBorder fixed sm:absolute"
       >
-        <div class="px-4 mb-2">
+        <div class="hidden sm:block px-4 mb-2">
           <button
             @click="clearFunc"
             class="w-full bg-gray-500 focus:outline-none text-white font-medium py-1 px-2 rounded"
@@ -325,8 +325,9 @@ export default {
 
 <style scoped lang="postcss">
 .calenderBorder {
-  @apply mt-1 absolute z-50 py-4 rounded bg-gray-300 shadow-xl w-full;
+  @apply mt-1 z-50 py-4 rounded bg-gray-300 shadow-xl w-full;
   bottom: 0;
+  left: 0;
 }
 
 @media only screen and (min-width: theme(screens.sm)) {

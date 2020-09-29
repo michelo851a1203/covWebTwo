@@ -579,7 +579,8 @@ export default {
     };
 
     const dateTimePickerCloseClick = (isFromInner) => {
-      console.log(isFromInner);
+      // console.log(isFromInner);
+      isFromInner
     };
 
     const btnMainStyle = (styleName) => {
