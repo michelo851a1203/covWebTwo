@@ -6,7 +6,7 @@
     <div
       v-for="item in iData"
       :key="item.id"
-      class="w-full ml-10"
+      class="w-full"
       :class="marginMainStyle(item)"
     >
       <!-- title -->
@@ -21,7 +21,7 @@
       <input
         v-model.trim="formDataRef[outputFortitle ? item.title : item.id]"
         v-if="item.type === 'text'"
-        class="w-4/5 border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
+        class="w-full border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
         :placeholder="item.title"
         type="text"
       />
@@ -52,7 +52,7 @@
       ></datetimepicker>
       <!-- need append email validator -->
       <!-- dropdownlist -->
-      <div v-if="item.type === 'ddl'">
+      <div class="flex items-center" v-if="item.type === 'ddl'">
         <label class="select-none" for>{{ item.title }}</label>
         <select
           @change="
@@ -62,7 +62,7 @@
             })
           "
           v-model="formDataRef[outputFortitle ? item.title : item.id]"
-          class="ml-4 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
+          class="ml-4 flex-1 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
         >
           <option class="bg-white" value>please Select</option>
           <option
@@ -405,6 +405,10 @@ export default {
         }
       }
     });
+
+    // const cleardefaultValue = () => {
+    //   props.iData[props.outputFortitle ? item.title : item.id]
+    // }
 
     const btnClick = (emitName, needSendData = true) => {
       if (needSendData) {

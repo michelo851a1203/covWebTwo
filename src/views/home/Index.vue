@@ -66,13 +66,13 @@ export default {
 
 @media only screen and (min-width: theme(screens.sm)) {
   .recordContent {
-    width: 30%;
+    width: 40%;
   }
 }
 
 @media only screen and (min-width: theme(screens.ultra)) {
   .recordContent {
-    width: 20%;
+    width: 30%;
   }
 }
 

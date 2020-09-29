@@ -159,8 +159,6 @@ export default function Credential() {
     const issueData = ref({
         "Test Result": ""
     })
-    const sendToUserEmail = ref("")
-    const lock = ref(false)
     const getCredDefinition = async () => {
         if (credentialData.name !== "" && credentialData.attributes.length > 0) {
             console.error("no credentialData.attributes or credentialData.name");
@@ -190,14 +188,6 @@ export default function Credential() {
     }
 
     const sendIssue = async (iData) => {
-        // if (sendToUserEmail.value === "") {
-        // if (iData["Doctor Email"] === "") {
-        //     console.error("Doctor Email is empty");
-        //     return {
-        //         success: false,
-        //         msg: "Doctor Email required"
-        //     }
-        // }
         if (credentialData.definitionId === "") {
             console.error("definitionId is empty");
             return {
@@ -220,15 +210,6 @@ export default function Credential() {
                 msg: "Not fill content"
             }
         }
-        // if (!config.validateEmail(sendToUserEmail.value)) {
-        // if (!config.validateEmail(iData["Doctor Email"])) {
-        //     console.error("Doctor Email is error");
-        //     return {
-        //         success: false,
-        //         msg: "Error Doctor Email format"
-        //     }
-        // }
-        // if (!lock.value) {
         if (!iData["Above information is correct"]) {
             console.error("not accept to send");
             return {
@@ -249,22 +230,14 @@ export default function Credential() {
         // const response = await CredentialModule.sendCredential(sendToUserEmail.value, credentialData.definitionId, issueData.value)
         const issueArr = [
             "Test Lab",
-            // "Medical Director",
-            // "Referred Doctor",
-            // "Doctor Email",
-            // "Test Data",
             "Sample ID",
-            // "Test Type",
             "Test Result",
             "Collection Date",
             "Report Date",
-            // "Patient Data",
             "Name",
             "Birthday",
             "Gender",
-            // "Review Person Name",
             "Review Person",
-            // "Above information is correct"
         ]
 
         const issueData = {}
@@ -362,5 +335,5 @@ export default function Credential() {
             values: {}
         }
     }
-    return { navTag, currentCredStatus, report, credentialData, testCenterAttr, issueData, sendToUserEmail, lock, getCredDefinition, sendIssue, refillRecord, sendMailApi, getUserDetail, closeCredentialAlert, normalCredentialAlert, clearCredentialReport }
+    return { navTag, currentCredStatus, report, credentialData, testCenterAttr, issueData, getCredDefinition, sendIssue, refillRecord, sendMailApi, getUserDetail, closeCredentialAlert, normalCredentialAlert, clearCredentialReport }
 }
