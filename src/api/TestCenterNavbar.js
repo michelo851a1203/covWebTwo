@@ -13,6 +13,11 @@ export default function TestCenterNavbar() {
             if (!action) return;
             centerList.testCenterTrigger = false
         },
+        dataReset: () => {
+            centerList.testCenterTrigger = false
+            centerList.listLocX = 0
+            centerList.listLocY = 0
+        },
         testCenterTriggerFill: computed(() => centerList.testCenterTrigger ? "#2b6cb0" : "black")
     })
 

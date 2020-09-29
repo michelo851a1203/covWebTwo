@@ -2,6 +2,7 @@
   <div class="fixed top-0 bg-gray-300 shadow-2xl w-full h-16">
     <div class="flex items-center h-full">
       <div class="ml-10">COVID-19 Certificate Verification System</div>
+      <span class="text-red-800">{{ testCenterTrigger }}</span>
       <div
         ref="settingBtnRef"
         @click="testCenterTriggerSwitch"
@@ -144,7 +145,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import router from "@/router";
 import Login from "@/api/Login.js";
 import Navbar from "@/api/Navbar.js";
@@ -176,19 +177,24 @@ export default {
     });
     const TestCenterNavbarModule = TestCenterNavbar();
 
+    function closeEvent(event) {
+      const inbtnArray = [
+        settingSvgRef.value,
+        settingBtnRef.value,
+        settingSvgpathRef.value,
+      ];
+      if (inbtnArray.includes(event.target)) {
+        return;
+      }
+      const closeFunc = TestCenterNavbarModule.testCenterListClose.value;
+      closeFunc(true);
+    }
+
     onMounted(() => {
-      document.addEventListener("click", function (event) {
-        const inbtnArray = [
-          settingSvgRef.value,
-          settingBtnRef.value,
-          settingSvgpathRef.value,
-        ];
-        if (inbtnArray.includes(event.target)) {
-          return;
-        }
-        const closeFunc = TestCenterNavbarModule.testCenterListClose.value;
-        closeFunc(true);
-      });
+      document.addEventListener("click", closeEvent);
+    });
+    onUnmounted(() => {
+      document.removeEventListener("click", closeEvent);
     });
     return {
       ...AdminModule,

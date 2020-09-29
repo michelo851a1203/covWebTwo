@@ -34,6 +34,7 @@ export default {
     const loginModule = Login();
     const TestCenterNavbarModule = TestCenterNavbar();
     loginModule.regainLoginUser();
+    TestCenterNavbarModule.dataReset.value()
     const getmainRole = ref(-1);
     getmainRole.value = loginModule.userData.role;
     return { isMobileRef, getmainRole, ...TestCenterNavbarModule };
