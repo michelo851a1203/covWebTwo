@@ -450,9 +450,9 @@ export default {
           formDataRef.value[mainKey] = {};
           formDataRef.value[mainKey]["date"] = "";
 
-          ["hour", "min", "sec"].forEach((item) => {
-            if (item.type.indexOf(item) > -1) {
-              formDataRef.value[mainKey][item] = "";
+          ["hour", "min", "sec"].forEach((oItem) => {
+            if (item.type.indexOf(oItem) > -1) {
+              formDataRef.value[mainKey][oItem] = "";
             }
           });
         }
@@ -480,9 +480,9 @@ export default {
           if (item.type.indexOf("datetimepicker-") > -1) {
             formDataRef.value[key] = {};
             formDataRef.value[key]["date"] = "";
-            ["hour", "min", "sec"].forEach((item) => {
-              if (item.type.indexOf(item) > -1) {
-                formDataRef.value[key][item] = "";
+            ["hour", "min", "sec"].forEach((oItem) => {
+              if (item.type.indexOf(oItem) > -1) {
+                formDataRef.value[key][oItem] = "";
               }
             });
 
