@@ -63,22 +63,26 @@
             isShowCalenderRef[outputFortitle ? item.title : item.id]
           "
           :placeholder="item.title"
-          v-model:maintext="formDataRef[outputFortitle ? item.title : item.id]"
+          v-model:maintext="
+            formDataRef[outputFortitle ? item.title : item.id]['date']
+          "
         ></datetimepicker>
         <select
+          v-model="formDataRef[outputFortitle ? item.title : item.id]['hour']"
           class="ml-4 flex-1 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
         >
           <option class="bg-white" value>Hour</option>
-          <option class="bg-white" v-for="item in 12" :key="item">
+          <option class="bg-white" :value="item" v-for="item in 12" :key="item">
             {{ item }}
           </option>
         </select>
         <label for="">:</label>
         <select
+          v-model="formDataRef[outputFortitle ? item.title : item.id]['min']"
           class="ml-4 flex-1 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
         >
           <option class="bg-white" value>Mins</option>
-          <option class="bg-white" v-for="item in 60" :key="item">
+          <option class="bg-white" :value="item" v-for="item in 60" :key="item">
             {{ item }}
           </option>
         </select>
@@ -409,10 +413,11 @@ export default {
     // solve initial calender ref initial
 
     if (props.defaultValue && props.defaultValue.length > 0) {
+      const propsData = props.iData.map((item) => {
+        return props.outputFortitle ? item.title : item.id;
+      });
+
       props.defaultValue.forEach((item) => {
-        const propsData = props.iData.map((item) => {
-          return props.outputFortitle ? item.title : item.id;
-        });
         if (propsData.includes(item.key)) {
           formDataRef.value[item.key] = item.value;
         }
@@ -420,28 +425,37 @@ export default {
     }
 
     props.iData.forEach((item) => {
+      const mainKey = props.outputFortitle ? item.title : item.id;
       if (item.type === "ddl") {
-        formDataRef.value[props.outputFortitle ? item.title : item.id] = "";
+        formDataRef.value[mainKey] = "";
       }
       if (item.type === "label") {
-        formDataRef.value[props.outputFortitle ? item.title : item.id] =
-          item.label;
+        formDataRef.value[mainKey] = item.label;
       }
       if (item.type === "group") {
-        if (!formDataRef.value[props.outputFortitle ? item.title : item.id]) {
+        if (!formDataRef.value[mainKey]) {
           const newFit = item.groupPattern.map((pitem) => {
+            const subMainKey = props.outputFortitle ? pitem.title : pitem.id;
             return {
-              title: props.outputFortitle ? pitem.title : pitem.id,
+              title: subMainKey,
               content: "",
             };
           });
-          formDataRef.value[props.outputFortitle ? item.title : item.id] = [
-            newFit,
-          ];
+          formDataRef.value[mainKey] = [newFit];
         }
       }
       if (item.type.indexOf("dateTimePicker") > -1) {
-        isShowCalenderRef.value[props.outputFortitle ? item.title : item.id] = false;
+        isShowCalenderRef.value[mainKey] = false;
+        if (item.type.indexOf("dateTimePicker-") > -1) {
+          formDataRef.value[mainKey] = {};
+          formDataRef.value[mainKey]["date"] = "";
+
+          ["hour", "min", "sec"].forEach((item) => {
+            if (item.type.indexOf(item) > -1) {
+              formDataRef.value[mainKey][item] = "";
+            }
+          });
+        }
       }
     });
 
@@ -461,6 +475,17 @@ export default {
             Object.keys(formDataRef.value).includes(key) ||
             item.type === "title"
           ) {
+            return;
+          }
+          if (item.type.indexOf("datetimepicker-") > -1) {
+            formDataRef.value[key] = {};
+            formDataRef.value[key]["date"] = "";
+            ["hour", "min", "sec"].forEach((item) => {
+              if (item.type.indexOf(item) > -1) {
+                formDataRef.value[key][item] = "";
+              }
+            });
+
             return;
           }
           formDataRef.value[key] = "";
