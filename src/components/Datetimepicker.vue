@@ -17,10 +17,10 @@
       >
         <div class="hidden sm:block px-4 mb-2">
           <button
-            @click="clearFunc"
+            @click="getNow"
             class="w-full bg-gray-500 focus:outline-none text-white font-medium py-1 px-2 rounded"
           >
-            clear
+            today
           </button>
         </div>
         <div class="flex items-center justify-around mb-2">
@@ -101,10 +101,10 @@
             </tr>
           </tbody>
         </table>
-        <div class="mx-auto mt-4 w-11/12 sm:hidden">
+        <div class="mx-auto mt-4 w-full px-4">
           <button
             @click="clearCalender(false)"
-            class="w-full bg-blue-300 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded"
+            class="w-full bg-gray-500 hover:bg-blue-500 text-white font-medium py-1 px-2 rounded"
           >
             clear
           </button>
@@ -161,10 +161,18 @@ export default {
       emit("update:maintext", e.target.value);
     };
 
-    const clearFunc = () => {
-      datetimeInput.value.value = "";
-      emit("update:maintext", "");
-      emit("update:isShowCalender", false);
+    const getNow = () => {
+      const current = new Date(Date.now());
+      const currentYear = current.getFullYear();
+      let currentMonth = `${current.getMonth() + 1}`;
+      let currentDay = `${current.getDate()}`;
+      currentMonth =
+        currentMonth.length === 1 ? `0${currentMonth}` : currentMonth;
+      currentDay = currentDay.length === 1 ? `0${currentDay}` : currentDay;
+      const nowFormat = `${currentYear}-${currentMonth}-${currentDay}`;
+      isHoverCalender(false);
+      emit("update:maintext", nowFormat);
+      datetimeInput.value.value = nowFormat;
     };
 
     const isHoverCalender = (hover) => {
@@ -305,7 +313,7 @@ export default {
     return {
       datetimeInput,
       inputData,
-      clearFunc,
+      getNow,
       isHoverCalender,
       clearCalender,
       switchYear,
