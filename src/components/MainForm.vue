@@ -43,13 +43,44 @@
       />
       <!-- datetimepicker -->
       <datetimepicker
-        v-if="item.type === 'datetimepicker'"
+        v-if="item.type === 'dateTimePicker'"
         @isinner="dateTimePickerCloseClick"
         v-model:isShowCalender="
           isShowCalenderRef[outputFortitle ? item.title : item.id]
         "
+        :placeholder="item.title"
         v-model:maintext="formDataRef[outputFortitle ? item.title : item.id]"
       ></datetimepicker>
+
+      <!-- datetimepicker-hour-min -->
+      <div class="flex items-center" v-if="item.type === 'dateTimePicker-hour-min'">
+        <datetimepicker
+          @isinner="dateTimePickerCloseClick"
+          v-model:isShowCalender="
+            isShowCalenderRef[outputFortitle ? item.title : item.id]
+          "
+          :placeholder="item.title"
+          v-model:maintext="formDataRef[outputFortitle ? item.title : item.id]"
+        ></datetimepicker>
+        <select
+          class="ml-4 flex-1 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
+        >
+          <option class="bg-white" value>Hour</option>
+          <option class="bg-white" v-for="item in 12" :key="item">
+            {{ item }}
+          </option>
+        </select>
+        <label for="">:</label>
+        <select
+          class="ml-4 flex-1 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
+        >
+          <option class="bg-white" value>Mins</option>
+          <option class="bg-white" v-for="item in 60" :key="item">
+            {{ item }}
+          </option>
+        </select>
+      </div>
+
       <!-- need append email validator -->
       <!-- dropdownlist -->
       <div class="flex items-center" v-if="item.type === 'ddl'">
@@ -154,7 +185,7 @@
             <datetimepicker
               v-if="
                 groupPattern(item.groupPattern, paItem.title).type ===
-                'datetimepicker'
+                'dateTimePicker'
               "
               @isinner="dateTimePickerCloseClick"
               v-model:isShowCalender="isShowCalenderRef[paItem.title]"
@@ -289,7 +320,7 @@
 //       {
 //         gid: "id",
 //         title: "placeholder",
-//         type: "title,label,text,password,ddl,datetimepicker,checkbox,radio,email",
+//         type: "title,label,text,password,ddl,dateTimePicker,datetimepicker-hour-min,checkbox,radio,email",
 //         margin: "small,medium,large,title",
 //         ep: "bold,none",
 //         label: "to set a label text",

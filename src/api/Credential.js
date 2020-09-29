@@ -119,6 +119,14 @@ export default function Credential() {
             }
             // ============================================================================
 
+            const timeComponent = ["Collection Date", "Report Date"]
+            if (timeComponent.includes(item)) {
+                oArray.type = "dateTimePicker-hour-min"
+            }
+
+            // ============================================================================
+            // generateDateTimePicker
+
             return oArray
         });
 
@@ -202,7 +210,7 @@ export default function Credential() {
     }
 
     const sendIssue = async (iData) => {
-        console.group(`%c sendIssue`,'color:yellow');
+        console.group(`%c sendIssue`, 'color:yellow');
         console.log(iData);
         console.groupEnd();
         if (credentialData.definitionId === "") {

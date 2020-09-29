@@ -3,13 +3,18 @@
     <input
       ref="datetimeInput"
       :value="maintext"
+      :placeholder="placeholder"
       @input="inputData"
       @focus="isHoverCalender(true)"
-      class="border px-2 py-1 border-gray-600 rounded"
+      class="w-full border-b-2 border-gray-600 placeholder-gray-600 bg-transparent sm:border-gray-400 px-4 pt-1 focus:outline-none"
       type="text"
     />
     <transition name="fade">
-      <div v-if="isShowCalender" @mouseleave="isHoverCalender(false)" class="calenderBorder">
+      <div
+        v-if="isShowCalender"
+        @mouseleave="isHoverCalender(false)"
+        class="calenderBorder"
+      >
         <div class="flex items-center justify-around mb-2">
           <div class="flex items-center select-none">
             <div class="cursor-pointer" @click="switchYear('prev')">
@@ -24,7 +29,9 @@
                 />
               </svg>
             </div>
-            <div class="select-none rounded px-2 py-1 shadow-lg mx-4">{{ selectYearRef }}</div>
+            <div class="select-none rounded px-2 py-1 shadow-lg mx-4">
+              {{ selectYearRef }}
+            </div>
             <div class="cursor-pointer" @click="switchYear('next')">
               <svg class="w-3" viewBox="0 0 100 100">
                 <polyline
@@ -40,8 +47,18 @@
           </div>
           <div>
             <label class="mr-2" for>month</label>
-            <select v-model="selectMonthRef" class="border rounded border-gray-500 px-2 py-1">
-              <option v-for="item in 12" :key="item" class="bg-white" :value="item">{{ item }}</option>
+            <select
+              v-model="selectMonthRef"
+              class="border rounded border-gray-500 px-2 py-1"
+            >
+              <option
+                v-for="item in 12"
+                :key="item"
+                class="bg-white"
+                :value="item"
+              >
+                {{ item }}
+              </option>
             </select>
           </div>
         </div>
@@ -55,12 +72,23 @@
             <tr v-for="row in setrowRef" :key="row">
               <td class="text-center" v-for="col in week.length" :key="col">
                 <div
-                  @click="dateClick(allSetRef[(col - 1) + (row - 1) * week.length])"
+                  @click="
+                    dateClick(allSetRef[col - 1 + (row - 1) * week.length])
+                  "
                   class="mx-auto rounded-full w-6 h-6 transition duration-100 ease-in-out hover:bg-blue-300 hover:shadow-2xl cursor-pointer"
-                  :class="{ 'bg-red-300': currentDateRef === allSetRef[(col - 1) + (row - 1) * week.length].mainDate && currentYearRef === selectYearRef && currentMonthRef === selectMonthRef,
-                  'text-gray-600':allSetRef[(col - 1) + (row - 1) * week.length].status !== 'Now'
+                  :class="{
+                    'bg-red-300':
+                      currentDateRef ===
+                        allSetRef[col - 1 + (row - 1) * week.length].mainDate &&
+                      currentYearRef === selectYearRef &&
+                      currentMonthRef === selectMonthRef,
+                    'text-gray-600':
+                      allSetRef[col - 1 + (row - 1) * week.length].status !==
+                      'Now',
                   }"
-                >{{ allSetRef[(col - 1) + (row - 1) * week.length].mainDate }}</div>
+                >
+                  {{ allSetRef[col - 1 + (row - 1) * week.length].mainDate }}
+                </div>
               </td>
             </tr>
           </tbody>
@@ -69,7 +97,9 @@
           <button
             @click="clearCalender(false)"
             class="w-full bg-blue-300 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded"
-          >clear</button>
+          >
+            clear
+          </button>
         </div>
       </div>
     </transition>
@@ -101,6 +131,10 @@ export default {
     isShowCalender: {
       type: Boolean,
       default: false,
+    },
+    placeholder: {
+      type: [String, Number],
+      default: "",
     },
   },
   setup(props, { emit }) {
