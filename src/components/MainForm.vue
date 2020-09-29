@@ -72,8 +72,8 @@
           class="ml-4 flex-1 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
         >
           <option class="bg-white" value>Hour</option>
-          <option class="bg-white" :value="item" v-for="item in 12" :key="item">
-            {{ item }}
+          <option class="bg-white" :value="item" v-for="(item,index) in 24" :key="item">
+            {{ index }}
           </option>
         </select>
         <label for="">:</label>

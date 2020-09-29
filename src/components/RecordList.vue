@@ -12,7 +12,6 @@
       :iData="testCenterAttr"
       :funcbtn="recordbtn"
       :tagCluster="tagRef"
-      @sendissue="sendIssueFunc"
       v-on="recordEvent"
     ></mainform>
   </div>
@@ -107,6 +106,7 @@ export default {
     const recordEvent = ref({
       refill: credentialModule.refillRecord,
       ddlemit: doctorTypeModule.mainDdlChange,
+      sendissue:sendIssueFunc,
     });
 
     return {
