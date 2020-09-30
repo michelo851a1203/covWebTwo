@@ -30,7 +30,6 @@ export default function DoctorType() {
             return {
                 id: item._id,
                 "Test Type": item.name,
-                "Normal Range": item.normalRange,
                 "CCT No.": item.cctNo,
                 "Create Time": createTime
             }
@@ -44,7 +43,7 @@ export default function DoctorType() {
         }
     }
 
-    const AddDetectType = async ({ name, normalRange, cctNo, testResult }) => {
+    const AddDetectType = async ({ name, cctNo, testResult }) => {
         if (!(testResult instanceof Array)) {
             return {
                 success: false
@@ -64,7 +63,7 @@ export default function DoctorType() {
                 success: false,
             }
         }
-        const response = await DoctorTypeModule.createDocTypeList({ name, normalRange, cctNo, testResult: combineData })
+        const response = await DoctorTypeModule.createDocTypeList({ name, cctNo, testResult: combineData })
         if (!response || !response.success) {
             console.error("AddDetectType error");
             return {
@@ -77,7 +76,7 @@ export default function DoctorType() {
         }
     }
 
-    const UpdateDetectType = async ({ detectTypeId, normalRange, cctNo, testResult }) => {
+    const UpdateDetectType = async ({ detectTypeId, cctNo, testResult }) => {
         if (!(testResult instanceof Array)) {
             return {
                 success: false
@@ -98,7 +97,7 @@ export default function DoctorType() {
                 success: false,
             }
         }
-        const response = await DoctorTypeModule.updateDocTypeList(detectTypeId, { normalRange, cctNo, testResult })
+        const response = await DoctorTypeModule.updateDocTypeList(detectTypeId, { cctNo, testResult })
         if (!response || !response.success) {
             console.error("UpdateDetectType error");
             return {
@@ -149,7 +148,6 @@ export default function DoctorType() {
         const oData = {
             id: getData._id,
             "Test Type": getData.name,
-            "Normal Range": getData.normalRange,
             "CCT No.": getData.cctNo,
             "Create Time": createTime
         }

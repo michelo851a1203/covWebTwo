@@ -62,12 +62,6 @@ export default {
           margin: "small",
         },
         {
-          id: 2,
-          title: "Normal Range",
-          type: "text",
-          margin: "small",
-        },
-        {
           id: 3,
           title: "CCT No.",
           type: "text",
@@ -152,12 +146,6 @@ export default {
           margin: "small",
         },
         {
-          id: 2,
-          title: "Normal Range",
-          type: "text",
-          margin: "small",
-        },
-        {
           id: 3,
           title: "CCT No.",
           type: "text",
@@ -238,10 +226,6 @@ export default {
 
       funcBoardRef.updateDefault = [
         {
-          key: "Normal Range",
-          value: initialData["Normal Range"],
-        },
-        {
           key: "CCT No.",
           value: initialData["CCT No."],
         },
@@ -269,7 +253,6 @@ export default {
     const addDataAction = async (iData) => {
       const { success } = await doctorTypeModules.AddDetectType({
         name: iData["Test Type"],
-        normalRange: iData["Normal Range"],
         cctNo: iData["CCT No."],
         testResult: iData["Test Result"],
       });
@@ -283,7 +266,6 @@ export default {
     const updateDataAction = async (iData) => {
       const { success } = await doctorTypeModules.UpdateDetectType({
         detectTypeId: iData["detectTypeId"],
-        normalRange: iData["Normal Range"],
         cctNo: iData["CCT No."],
         testResult: iData["Test Result"],
       });
