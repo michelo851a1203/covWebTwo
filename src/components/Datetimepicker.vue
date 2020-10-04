@@ -18,7 +18,7 @@
         <div class="hidden sm:block px-4 mb-2">
           <button
             @click="getNow"
-            class="w-full bg-gray-500 focus:outline-none text-white font-medium py-1 px-2 rounded"
+            class="w-full hover:bg-blue-500 bg-gray-500 focus:outline-none text-white font-medium py-1 px-2 rounded"
           >
             today
           </button>
@@ -126,7 +126,7 @@
 // maintext : Date Format
 // isShowCalenderRef : is show Calender content
 // ============================================================================
-import { ref, watch } from "vue";
+import { ref, watch, reactive, toRefs } from "vue";
 export default {
   name: "datetimepicker",
   props: {
@@ -146,186 +146,177 @@ export default {
     },
   },
   setup(props, { emit }) {
-    const week = ref(["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."]);
-    // get days of month
     const current = new Date();
     const datetimeInput = ref(null);
-    const currentYearRef = ref(current.getFullYear());
-    const currentMonthRef = ref(current.getMonth() + 1);
-    const currentDateRef = ref(current.getDate());
 
-    const selectYearRef = ref(current.getFullYear());
-    const selectMonthRef = ref(current.getMonth() + 1);
-
-    const inputData = (e) => {
-      emit("update:maintext", e.target.value);
-    };
-
-    const getNow = () => {
-      const current = new Date(Date.now());
-      const currentYear = current.getFullYear();
-      let currentMonth = `${current.getMonth() + 1}`;
-      let currentDay = `${current.getDate()}`;
-      currentMonth =
-        currentMonth.length === 1 ? `0${currentMonth}` : currentMonth;
-      currentDay = currentDay.length === 1 ? `0${currentDay}` : currentDay;
-      const nowFormat = `${currentYear}-${currentMonth}-${currentDay}`;
-      isHoverCalender(false);
-      emit("update:maintext", nowFormat);
-      datetimeInput.value.value = nowFormat;
-    };
-
-    const isHoverCalender = (hover) => {
-      emit("update:isShowCalender", hover);
-      emit("isinner", true);
-      if (!hover) {
-        const expTest = /^\d{4}-\d{2}-\d{2}$/g.test(props.maintext);
-        if (!expTest && props.maintext !== "") {
-          window.alert("not correspond to dateformat");
-          emit("update:maintext", "");
-          datetimeInput.value.value = "";
+    const dateTimePickerCluster = reactive({
+      week: ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."],
+      currentYearRef: current.getFullYear(),
+      currentMonthRef: current.getMonth() + 1,
+      currentDateRef: current.getDate(),
+      selectYearRef: current.getFullYear(),
+      selectMonthRef: current.getMonth() + 1,
+      setrowRef: null,
+      allSetRef: null,
+      inputData: (e) => {
+        emit("update:maintext", e.target.value);
+      },
+      getNow: () => {
+        const current = new Date(Date.now());
+        const currentYear = current.getFullYear();
+        let currentMonth = `${current.getMonth() + 1}`;
+        let currentDay = `${current.getDate()}`;
+        currentMonth =
+          currentMonth.length === 1 ? `0${currentMonth}` : currentMonth;
+        currentDay = currentDay.length === 1 ? `0${currentDay}` : currentDay;
+        const nowFormat = `${currentYear}-${currentMonth}-${currentDay}`;
+        dateTimePickerCluster.isHoverCalender(false);
+        emit("update:maintext", nowFormat);
+        datetimeInput.value.value = nowFormat;
+      },
+      isHoverCalender: (hover) => {
+        emit("update:isShowCalender", hover);
+        emit("isinner", true);
+        if (!hover) {
+          const expTest = /^\d{4}-\d{2}-\d{2}$/g.test(props.maintext);
+          if (!expTest && props.maintext !== "") {
+            window.alert("not correspond to dateformat");
+            emit("update:maintext", "");
+            datetimeInput.value.value = "";
+          }
+          datetimeInput.value.blur();
         }
-        datetimeInput.value.blur();
-      }
-    };
-
-    const clearCalender = () => {
-      isHoverCalender(false);
-      emit("update:maintext", "");
-      datetimeInput.value.value = "";
-    };
-
-    const changeContent = (weekLen, chooseYear, chooseMonth) => {
-      const numOfPreDate = new Date(chooseYear, chooseMonth - 1, 0).getDate();
-      const numOfCurrentDate = new Date(chooseYear, chooseMonth, 0).getDate();
-      const currentSet = Array.from({ length: numOfCurrentDate }, (_, i) => {
-        return {
-          mainDate: i + 1,
-          status: "Now",
-        };
-      });
-
-      // get first day of month is on what week
-      const initDate = new Date();
-      initDate.setDate(1);
-      const firstDayWeek = initDate.getDay();
-
-      // get last day of month is on what week
-      const ultDate = new Date();
-      ultDate.setDate(numOfCurrentDate);
-
-      // calc the num of row
-      const setLen = firstDayWeek + numOfCurrentDate;
-      const rowLen = parseInt(setLen / weekLen);
-      const isRest = setLen % weekLen;
-      const setrow = isRest === 0 ? rowLen : rowLen + 1;
-
-      // get the pastSet
-      const pastMonthset = [];
-      for (let i = 0; i < firstDayWeek; i++) {
-        const pastValue = numOfPreDate - (firstDayWeek - i) + 1;
-        pastMonthset.push({
-          mainDate: pastValue,
-          status: "prev",
-        });
-      }
-
-      let allSet = [...pastMonthset, ...currentSet];
-
-      if (isRest !== 0) {
-        const lastLen = Array.from({ length: isRest }, (_, i) => {
+      },
+      clearCalender: () => {
+        dateTimePickerCluster.isHoverCalender(false);
+        emit("update:maintext", "");
+        datetimeInput.value.value = "";
+      },
+      changeContent: (weekLen, chooseYear, chooseMonth) => {
+        const numOfPreDate = new Date(chooseYear, chooseMonth - 1, 0).getDate();
+        const numOfCurrentDate = new Date(chooseYear, chooseMonth, 0).getDate();
+        const currentSet = Array.from({ length: numOfCurrentDate }, (_, i) => {
           return {
             mainDate: i + 1,
-            status: "next",
+            status: "Now",
           };
         });
-        allSet = [...allSet, ...lastLen];
-      }
 
-      return {
-        firstDayWeek,
-        setrow,
-        allSet,
-      };
-    };
+        // get first day of month is on what week
+        const initDate = new Date();
+        initDate.setDate(1);
+        const firstDayWeek = initDate.getDay();
 
-    const switchYear = (cmd) => {
-      if (cmd === "prev") {
-        selectYearRef.value = selectYearRef.value - 1;
-        return;
-      }
-      if (cmd === "next") {
-        selectYearRef.value = selectYearRef.value + 1;
-        return;
-      }
-    };
+        // get last day of month is on what week
+        const ultDate = new Date();
+        ultDate.setDate(numOfCurrentDate);
 
-    const dateClick = (iData) => {
-      let chooseMonth = selectMonthRef.value;
-      if (iData.status === "prev") {
-        chooseMonth = chooseMonth === 1 ? 12 : chooseMonth - 1;
-      }
-      if (iData.status === "next") {
-        chooseMonth = chooseMonth === 12 ? 1 : chooseMonth + 1;
-      }
+        // calc the num of row
+        const setLen = firstDayWeek + numOfCurrentDate;
+        const rowLen = parseInt(setLen / weekLen);
+        const isRest = setLen % weekLen;
+        const setrow = isRest === 0 ? rowLen : rowLen + 1;
 
-      const mainMonth =
-        `${chooseMonth}`.length === 1 ? `0${chooseMonth}` : `${chooseMonth}`;
+        // get the pastSet
+        const pastMonthset = [];
+        for (let i = 0; i < firstDayWeek; i++) {
+          const pastValue = numOfPreDate - (firstDayWeek - i) + 1;
+          pastMonthset.push({
+            mainDate: pastValue,
+            status: "prev",
+          });
+        }
 
-      const mainDate =
-        `${iData.mainDate}`.length === 1
-          ? `0${iData.mainDate}`
-          : `${iData.mainDate}`;
-      const dateFmt = `${selectYearRef.value}-${mainMonth}-${mainDate}`;
-      emit("update:maintext", dateFmt);
-      isHoverCalender(false);
-    };
+        let allSet = [...pastMonthset, ...currentSet];
 
-    const { setrow, allSet } = changeContent(
-      week.value.length,
-      selectYearRef.value,
-      selectMonthRef.value
+        if (isRest !== 0) {
+          const lastLen = Array.from({ length: isRest }, (_, i) => {
+            return {
+              mainDate: i + 1,
+              status: "next",
+            };
+          });
+          allSet = [...allSet, ...lastLen];
+        }
+
+        return {
+          firstDayWeek,
+          setrow,
+          allSet,
+        };
+      },
+      switchYear: (cmd) => {
+        if (cmd === "prev") {
+          dateTimePickerCluster.selectYearRef =
+            dateTimePickerCluster.selectYearRef - 1;
+          return;
+        }
+        if (cmd === "next") {
+          dateTimePickerCluster.selectYearRef =
+            dateTimePickerCluster.selectYearRef + 1;
+          return;
+        }
+      },
+      dateClick: (iData) => {
+        let chooseMonth = dateTimePickerCluster.selectMonthRef;
+        if (iData.status === "prev") {
+          chooseMonth = chooseMonth === 1 ? 12 : chooseMonth - 1;
+        }
+        if (iData.status === "next") {
+          chooseMonth = chooseMonth === 12 ? 1 : chooseMonth + 1;
+        }
+
+        const mainMonth =
+          `${chooseMonth}`.length === 1 ? `0${chooseMonth}` : `${chooseMonth}`;
+
+        const mainDate =
+          `${iData.mainDate}`.length === 1
+            ? `0${iData.mainDate}`
+            : `${iData.mainDate}`;
+        const dateFmt = `${dateTimePickerCluster.selectYearRef}-${mainMonth}-${mainDate}`;
+        emit("update:maintext", dateFmt);
+        dateTimePickerCluster.isHoverCalender(false);
+      },
+    });
+
+    const { setrow, allSet } = dateTimePickerCluster.changeContent(
+      dateTimePickerCluster.week.length,
+      dateTimePickerCluster.selectYearRef,
+      dateTimePickerCluster.selectMonthRef
     );
 
-    const setrowRef = ref(setrow);
-    const allSetRef = ref(allSet);
+    dateTimePickerCluster.setrowRef = setrow;
+    dateTimePickerCluster.allSetRef = allSet;
 
-    watch(selectYearRef, (val) => {
-      const { setrow, allSet } = changeContent(
-        week.value.length,
-        val,
-        selectMonthRef.value
-      );
-      setrowRef.value = setrow;
-      allSetRef.value = allSet;
-    });
+    watch(
+      () => dateTimePickerCluster.selectYearRef,
+      (val) => {
+        const { setrow, allSet } = dateTimePickerCluster.changeContent(
+          dateTimePickerCluster.week.length,
+          val,
+          dateTimePickerCluster.selectMonthRef
+        );
+        dateTimePickerCluster.setrowRef = setrow;
+        dateTimePickerCluster.allSetRef = allSet;
+      }
+    );
 
-    watch(selectMonthRef, (val) => {
-      const { setrow, allSet } = changeContent(
-        week.value.length,
-        selectYearRef.value,
-        val
-      );
-      setrowRef.value = setrow;
-      allSetRef.value = allSet;
-    });
+    watch(
+      () => dateTimePickerCluster.selectMonthRef,
+      (val) => {
+        const { setrow, allSet } = dateTimePickerCluster.changeContent(
+          dateTimePickerCluster.week.length,
+          dateTimePickerCluster.selectYearRef,
+          val
+        );
+        dateTimePickerCluster.setrowRef = setrow;
+        dateTimePickerCluster.allSetRef = allSet;
+      }
+    );
 
     return {
       datetimeInput,
-      inputData,
-      getNow,
-      isHoverCalender,
-      clearCalender,
-      switchYear,
-      dateClick,
-      selectYearRef,
-      selectMonthRef,
-      currentYearRef,
-      currentMonthRef,
-      currentDateRef,
-      week,
-      setrowRef,
-      allSetRef,
+      ...toRefs(dateTimePickerCluster),
     };
   },
 };
@@ -342,7 +333,7 @@ export default {
   .calenderBorder {
     @apply ml-1;
     bottom: unset;
-    max-width: 20rem;
+    min-width: 18rem;
   }
 }
 .fade-enter-active,
