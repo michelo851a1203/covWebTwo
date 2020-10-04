@@ -188,6 +188,9 @@ export default {
         }
       },
       clearCalender: () => {
+        const newCurrent = new Date();
+        dateTimePickerCluster.selectYearRef = newCurrent.getFullYear();
+        dateTimePickerCluster.selectMonthRef = newCurrent.getMonth() + 1;
         dateTimePickerCluster.isHoverCalender(false);
         emit("update:maintext", "");
         datetimeInput.value.value = "";
