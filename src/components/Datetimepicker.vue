@@ -311,6 +311,16 @@ export default {
         );
         dateTimePickerCluster.setrowRef = setrow;
         dateTimePickerCluster.allSetRef = allSet;
+
+        const mainRegx = /^\d{0,4}-\d{0,2}-\d{0,2}$/g;
+        if (props.maintext !== "" && mainRegx.test(props.maintext)) {
+          const newData = `${val}`.length === 1 ? `0${val}` : `${val}`;
+          const replaceData = props.maintext.replace(
+            /(^\d{0,4}-)\d{0,2}(-\d{0,2}$)/g,
+            "$1" + newData + "$2"
+          );
+          emit("update:maintext", replaceData);
+        }
       }
     );
 
