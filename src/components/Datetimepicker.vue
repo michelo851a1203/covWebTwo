@@ -93,6 +93,11 @@
                     'text-gray-600':
                       allSetRef[col - 1 + (row - 1) * week.length].status !==
                       'Now',
+                    'bg-blue-300':
+                      indicationRef.year === selectYearRef &&
+                      indicationRef.month === selectMonthRef &&
+                      indicationRef.day ===
+                        allSetRef[col - 1 + (row - 1) * week.length].mainDate,
                   }"
                 >
                   {{ allSetRef[col - 1 + (row - 1) * week.length].mainDate }}
@@ -156,6 +161,11 @@ export default {
       currentDateRef: current.getDate(),
       selectYearRef: current.getFullYear(),
       selectMonthRef: current.getMonth() + 1,
+      indicationRef: {
+        year: null,
+        month: null,
+        day: null,
+      },
       setrowRef: null,
       allSetRef: null,
       inputData: (e) => {
@@ -196,6 +206,9 @@ export default {
         dateTimePickerCluster.isHoverCalender(false);
         emit("update:maintext", "");
         datetimeInput.value.value = "";
+        dateTimePickerCluster.indicationRef.year = null
+        dateTimePickerCluster.indicationRef.month = null
+        dateTimePickerCluster.indicationRef.day = null
       },
       changeContent: (weekLen, chooseYear, chooseMonth) => {
         const numOfPreDate = new Date(chooseYear, chooseMonth - 1, 0).getDate();
@@ -279,6 +292,12 @@ export default {
             ? `0${iData.mainDate}`
             : `${iData.mainDate}`;
         const dateFmt = `${dateTimePickerCluster.selectYearRef}-${mainMonth}-${mainDate}`;
+
+        dateTimePickerCluster.indicationRef.year =
+          dateTimePickerCluster.selectYearRef;
+        dateTimePickerCluster.indicationRef.month = chooseMonth;
+        dateTimePickerCluster.indicationRef.day = iData.mainDate;
+
         emit("update:maintext", dateFmt);
         dateTimePickerCluster.isHoverCalender(false);
       },
