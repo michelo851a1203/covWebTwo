@@ -112,9 +112,10 @@
         >
           <select
             v-if="needHour"
+            v-model="selectHour"
             class="border rounded border-gray-500 shadow-lg px-2 py-1"
           >
-            <option class="bg-white" value="">Hour</option>
+            <option class="bg-white" value="0">Hour</option>
             <option
               v-for="(item, index) in 24"
               :key="item"
@@ -126,9 +127,10 @@
           </select>
           <select
             v-if="needMin"
+            v-model="selectMins"
             class="border rounded border-gray-500 shadow-lg px-2 py-1"
           >
-            <option class="bg-white" value="">Mins</option>
+            <option class="bg-white" value="0">Mins</option>
             <option
               v-for="(item, index) in 60"
               :key="item"
@@ -140,6 +142,7 @@
           </select>
           <select
             v-if="needSec"
+            v-model="selectSec"
             class="border rounded border-gray-500 px-2 py-1"
           >
             <option class="bg-white" value="">item1</option>
@@ -212,6 +215,9 @@ export default {
       currentDateRef: current.getDate(),
       selectYearRef: current.getFullYear(),
       selectMonthRef: current.getMonth() + 1,
+      selectHour: 0,
+      selectMins: 0,
+      selectSec: 0,
       indicationRef: {
         year: null,
         month: null,
@@ -398,9 +404,6 @@ export default {
           dateTimePickerCluster.indicationRef.day === filterData.mainDate &&
           dateTimePickerCluster.indicationRef.status === filterData.status
         );
-
-        // dateTimePickerCluster.indicationRef.month ===
-        //     dateTimePickerCluster.selectMonthRef
       },
     });
 
