@@ -97,7 +97,7 @@ export default function DoctorType() {
                 success: false,
             }
         }
-        const response = await DoctorTypeModule.updateDocTypeList(detectTypeId, { cctNo, testResult })
+        const response = await DoctorTypeModule.updateDocTypeList(detectTypeId, { cctNo, testResult: combineData })
         if (!response || !response.success) {
             console.error("UpdateDetectType error");
             return {
