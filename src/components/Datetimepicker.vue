@@ -206,9 +206,9 @@ export default {
         dateTimePickerCluster.isHoverCalender(false);
         emit("update:maintext", "");
         datetimeInput.value.value = "";
-        dateTimePickerCluster.indicationRef.year = null
-        dateTimePickerCluster.indicationRef.month = null
-        dateTimePickerCluster.indicationRef.day = null
+        dateTimePickerCluster.indicationRef.year = null;
+        dateTimePickerCluster.indicationRef.month = null;
+        dateTimePickerCluster.indicationRef.day = null;
       },
       changeContent: (weekLen, chooseYear, chooseMonth) => {
         const numOfPreDate = new Date(chooseYear, chooseMonth - 1, 0).getDate();
