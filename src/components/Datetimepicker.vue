@@ -183,6 +183,9 @@ export default {
         currentDay = currentDay.length === 1 ? `0${currentDay}` : currentDay;
         const nowFormat = `${currentYear}-${currentMonth}-${currentDay}`;
         dateTimePickerCluster.isHoverCalender(false);
+        dateTimePickerCluster.indicationRef.year = null;
+        dateTimePickerCluster.indicationRef.month = null;
+        dateTimePickerCluster.indicationRef.day = null;
         emit("update:maintext", nowFormat);
         // okay here try to solve all the problem
       },
