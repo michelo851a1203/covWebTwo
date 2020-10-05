@@ -89,15 +89,15 @@
                       currentDateRef ===
                         allSetRef[col - 1 + (row - 1) * week.length].mainDate &&
                       currentYearRef === selectYearRef &&
-                      currentMonthRef === selectMonthRef,
+                      currentMonthRef === selectMonthRef &&
+                      allSetRef[col - 1 + (row - 1) * week.length].status ===
+                        'Now',
                     'text-gray-600':
                       allSetRef[col - 1 + (row - 1) * week.length].status !==
                       'Now',
-                    'bg-blue-300':
-                      indicationRef.year === selectYearRef &&
-                      indicationRef.month === selectMonthRef &&
-                      indicationRef.day ===
-                        allSetRef[col - 1 + (row - 1) * week.length].mainDate,
+                    'bg-blue-300': indicationisOkay(
+                      allSetRef[col - 1 + (row - 1) * week.length]
+                    ),
                   }"
                 >
                   {{ allSetRef[col - 1 + (row - 1) * week.length].mainDate }}
@@ -165,6 +165,7 @@ export default {
         year: null,
         month: null,
         day: null,
+        status: null,
       },
       setrowRef: null,
       allSetRef: null,
@@ -186,6 +187,7 @@ export default {
         dateTimePickerCluster.indicationRef.year = null;
         dateTimePickerCluster.indicationRef.month = null;
         dateTimePickerCluster.indicationRef.day = null;
+        dateTimePickerCluster.indicationRef.status = null;
         emit("update:maintext", nowFormat);
         // okay here try to solve all the problem
       },
@@ -212,6 +214,7 @@ export default {
         dateTimePickerCluster.indicationRef.year = null;
         dateTimePickerCluster.indicationRef.month = null;
         dateTimePickerCluster.indicationRef.day = null;
+        dateTimePickerCluster.indicationRef.status = null;
       },
       changeContent: (weekLen, chooseYear, chooseMonth) => {
         const numOfPreDate = new Date(chooseYear, chooseMonth - 1, 0).getDate();
@@ -300,9 +303,53 @@ export default {
           dateTimePickerCluster.selectYearRef;
         dateTimePickerCluster.indicationRef.month = chooseMonth;
         dateTimePickerCluster.indicationRef.day = iData.mainDate;
+        dateTimePickerCluster.indicationRef.status = iData.status;
 
         emit("update:maintext", dateFmt);
         dateTimePickerCluster.isHoverCalender(false);
+      },
+      indicationisOkay: (filterData) => {
+        let mounthStatus = false;
+
+        switch (dateTimePickerCluster.indicationRef.status) {
+          case "now":
+            mounthStatus =
+              dateTimePickerCluster.indicationRef.month ===
+              dateTimePickerCluster.selectMonthRef;
+            break;
+          case "prev": {
+            const prevMonth = parseInt(dateTimePickerCluster.selectMonthRef);
+            const preData = prevMonth === 1 ? 12 : prevMonth - 1;
+            mounthStatus =
+              parseInt(dateTimePickerCluster.indicationRef.month) === preData;
+            break;
+          }
+          case "next": {
+            const nextMonth = parseInt(dateTimePickerCluster.selectMonthRef);
+            const nextData = nextMonth === 12 ? 1 : nextMonth + 1;
+            mounthStatus =
+              parseInt(dateTimePickerCluster.indicationRef.month) === nextData;
+            break;
+          }
+          default:
+            mounthStatus =
+              dateTimePickerCluster.indicationRef.month ===
+              dateTimePickerCluster.selectMonthRef;
+            break;
+        }
+        return (
+          props.maintext !== "" &&
+          /^\d{4}-\d{2}-\d{2}$/g.test(props.maintext) &&
+          props.maintext.split("-").length === 3 &&
+          mounthStatus &&
+          dateTimePickerCluster.indicationRef.year ===
+            dateTimePickerCluster.selectYearRef &&
+          dateTimePickerCluster.indicationRef.day === filterData.mainDate &&
+          dateTimePickerCluster.indicationRef.status === filterData.status
+        );
+
+        // dateTimePickerCluster.indicationRef.month ===
+        //     dateTimePickerCluster.selectMonthRef
       },
     });
 
