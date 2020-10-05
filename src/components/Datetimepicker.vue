@@ -455,21 +455,51 @@ export default {
     watch(
       () => dateTimePickerCluster.selectHour,
       (val) => {
-        console.log(val);
+        let mainRegx = /(^\d{0,4}-\d{2}-\d{2} )\d{2}($)/g;
+        if (props.needMin) {
+          mainRegx = /(^\d{0,4}-\d{2}-\d{2} )\d{2}(:\d{2}$)/g;
+        }
+        if (props.needSec) {
+          mainRegx = /(^\d{0,4}-\d{2}-\d{2} )\d{2}(:\d{2}:\d{2})/g;
+        }
+        if (props.maintext !== "" && mainRegx.test(props.maintext)) {
+          const oResult = `${val}`.length === 1 ? `0${val}` : `${val}`;
+          const dateFmt = props.maintext.replace(
+            mainRegx,
+            "$1" + oResult + "$2"
+          );
+        }
       }
     );
 
     watch(
       () => dateTimePickerCluster.selectMins,
       (val) => {
-        console.log(val);
+        let mainRegx = /(^\d{0,4}-\d{2}-\d{2} \d{2}:)\d{2}($)/g;
+        if (props.needSec) {
+          mainRegx = /(^\d{0,4}-\d{2}-\d{2} \d{2}:)\d{2}(:\d{2})/g;
+        }
+        if (props.maintext !== "" && mainRegx.test(props.maintext)) {
+          const oResult = `${val}`.length === 1 ? `0${val}` : `${val}`;
+          const dateFmt = props.maintext.replace(
+            mainRegx,
+            "$1" + oResult + "$2"
+          );
+        }
       }
     );
 
     watch(
       () => dateTimePickerCluster.selectSec,
       (val) => {
-        console.log(val);
+        const mainRegx = /(^\d{0,4}-\d{2}-\d{2} \d{2}:\d{2}:)\d{2}($)/g;
+        if (props.maintext !== "" && mainRegx.test(props.maintext)) {
+          const oResult = `${val}`.length === 1 ? `0${val}` : `${val}`;
+          const dateFmt = props.maintext.replace(
+            mainRegx,
+            "$1" + oResult + "$2"
+          );
+        }
       }
     );
 
