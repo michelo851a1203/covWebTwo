@@ -452,6 +452,27 @@ export default {
       }
     );
 
+    watch(
+      () => dateTimePickerCluster.selectHour,
+      (val) => {
+        console.log(val);
+      }
+    );
+
+    watch(
+      () => dateTimePickerCluster.selectMins,
+      (val) => {
+        console.log(val);
+      }
+    );
+
+    watch(
+      () => dateTimePickerCluster.selectSec,
+      (val) => {
+        console.log(val);
+      }
+    );
+
     return {
       datetimeInput,
       ...toRefs(dateTimePickerCluster),
