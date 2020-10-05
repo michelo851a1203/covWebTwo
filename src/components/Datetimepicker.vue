@@ -106,6 +106,45 @@
             </tr>
           </tbody>
         </table>
+        <div
+          v-if="needHour || needMin || needSec"
+          class="mx-auto flex mt-4 items-center justify-around"
+        >
+          <select
+            v-if="needHour"
+            class="border rounded border-gray-500 shadow-lg px-2 py-1"
+          >
+            <option class="bg-white" value="">Hour</option>
+            <option
+              v-for="(item, index) in 24"
+              :key="item"
+              class="bg-white"
+              :value="index"
+            >
+              {{ index }}
+            </option>
+          </select>
+          <select
+            v-if="needMin"
+            class="border rounded border-gray-500 shadow-lg px-2 py-1"
+          >
+            <option class="bg-white" value="">Mins</option>
+            <option
+              v-for="(item, index) in 60"
+              :key="item"
+              class="bg-white"
+              :value="index"
+            >
+              {{ index }}
+            </option>
+          </select>
+          <select
+            v-if="needSec"
+            class="border rounded border-gray-500 px-2 py-1"
+          >
+            <option class="bg-white" value="">item1</option>
+          </select>
+        </div>
         <div class="mx-auto mt-4 w-full px-4">
           <button
             @click="clearCalender(false)"
@@ -148,6 +187,18 @@ export default {
     placeholder: {
       type: [String, Number],
       default: "",
+    },
+    needHour: {
+      type: Boolean,
+      default: false,
+    },
+    needMin: {
+      type: Boolean,
+      default: false,
+    },
+    needSec: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, { emit }) {
