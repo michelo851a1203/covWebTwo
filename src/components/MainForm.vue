@@ -58,6 +58,8 @@
         v-if="item.type === 'dateTimePicker-hour-min'"
       >
         <datetimepicker
+          :needHour="true"
+          :needMin="true"
           @isinner="dateTimePickerCloseClick"
           v-model:isShowCalender="
             isShowCalenderRef[outputFortitle ? item.title : item.id]
@@ -72,7 +74,12 @@
           class="ml-4 flex-1 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
         >
           <option class="bg-white" value>Hour</option>
-          <option class="bg-white" :value="item" v-for="(item,index) in 24" :key="item">
+          <option
+            class="bg-white"
+            :value="item"
+            v-for="(item, index) in 24"
+            :key="item"
+          >
             {{ index }}
           </option>
         </select>
@@ -580,7 +587,7 @@ export default {
 
     const dateTimePickerCloseClick = (isFromInner) => {
       // console.log(isFromInner);
-      isFromInner
+      isFromInner;
     };
 
     const btnMainStyle = (styleName) => {
