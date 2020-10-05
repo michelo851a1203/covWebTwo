@@ -468,6 +468,7 @@ export default {
             mainRegx,
             "$1" + oResult + "$2"
           );
+          emit("update:maintext", dateFmt);
         }
       }
     );
@@ -485,6 +486,7 @@ export default {
             mainRegx,
             "$1" + oResult + "$2"
           );
+          emit("update:maintext", dateFmt);
         }
       }
     );
@@ -499,6 +501,7 @@ export default {
             mainRegx,
             "$1" + oResult + "$2"
           );
+          emit("update:maintext", dateFmt);
         }
       }
     );
