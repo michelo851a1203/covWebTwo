@@ -164,6 +164,8 @@ export default {
       getNow: () => {
         const current = new Date(Date.now());
         const currentYear = current.getFullYear();
+        dateTimePickerCluster.selectYearRef = currentYear;
+        dateTimePickerCluster.selectMonthRef = current.getMonth() + 1;
         let currentMonth = `${current.getMonth() + 1}`;
         let currentDay = `${current.getDate()}`;
         currentMonth =
@@ -172,7 +174,7 @@ export default {
         const nowFormat = `${currentYear}-${currentMonth}-${currentDay}`;
         dateTimePickerCluster.isHoverCalender(false);
         emit("update:maintext", nowFormat);
-        datetimeInput.value.value = nowFormat;
+        // okay here try to solve all the problem
       },
       isHoverCalender: (hover) => {
         emit("update:isShowCalender", hover);
