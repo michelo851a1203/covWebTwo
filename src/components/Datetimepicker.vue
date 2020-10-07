@@ -234,7 +234,29 @@ export default {
         currentMonth =
           currentMonth.length === 1 ? `0${currentMonth}` : currentMonth;
         currentDay = currentDay.length === 1 ? `0${currentDay}` : currentDay;
-        const nowFormat = `${currentYear}-${currentMonth}-${currentDay}`;
+        let nowFormat = `${currentYear}-${currentMonth}-${currentDay}`;
+
+        if (props.leastUnit > 0) {
+          const cHour = current.getHours();
+          const hour = `${cHour}`.length === 1 ? `0${cHour}` : `${cHour}`;
+          dateTimePickerCluster.selectHour = cHour;
+          nowFormat += ` ${hour}`;
+
+          if (props.leastUnit > 1) {
+            const cMins = current.getMinutes();
+            const min = `${cMins}`.length === 1 ? `0${cMins}` : `${cMins}`;
+            nowFormat += `:${min}`;
+            dateTimePickerCluster.selectMins = cMins;
+          }
+
+          if (props.leastUnit > 2) {
+            const cSec = current.getSeconds();
+            const sec = `${cSec}`.length === 1 ? `0${cSec}` : `${cSec}`;
+            nowFormat += `:${sec}`;
+            dateTimePickerCluster.selectSec = cSec;
+          }
+        }
+
         dateTimePickerCluster.isHoverCalender(false);
         dateTimePickerCluster.indicationRef.year = null;
         dateTimePickerCluster.indicationRef.month = null;
@@ -281,6 +303,9 @@ export default {
         dateTimePickerCluster.indicationRef.month = null;
         dateTimePickerCluster.indicationRef.day = null;
         dateTimePickerCluster.indicationRef.status = null;
+        dateTimePickerCluster.selectHour = 0;
+        dateTimePickerCluster.selectMins = 0;
+        dateTimePickerCluster.selectSec = 0;
       },
       changeContent: (weekLen, chooseYear, chooseMonth) => {
         const numOfPreDate = new Date(chooseYear, chooseMonth - 1, 0).getDate();
