@@ -61,9 +61,7 @@
           isShowCalenderRef[outputFortitle ? item.title : item.id]
         "
         :placeholder="item.title"
-        v-model:maintext="
-          formDataRef[outputFortitle ? item.title : item.id]
-        "
+        v-model:maintext="formDataRef[outputFortitle ? item.title : item.id]"
       ></datetimepicker>
 
       <!-- need append email validator -->

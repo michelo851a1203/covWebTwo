@@ -6,7 +6,8 @@
       :currentstatus="currentCredStatus"
       :is="alertComponent"
     ></component>
-    <mainform class="w-full px-12"
+    <mainform
+      class="w-full px-12"
       v-if="testCenterAttr.length > 0"
       :outputFortitle="true"
       :iData="testCenterAttr"
@@ -47,33 +48,6 @@ export default {
     const directorModule = Director();
 
     const credentialData = credentialModule.credentialData;
-    if (credentialData.name !== "" && credentialData.attributes.length > 0) {
-      return { ...credentialModule, sendIssueFunc, alertComponent };
-    }
-
-    const oResult = await credentialModule.getCredDefinition();
-    const {
-      success: testTypeDdlSuccess,
-    } = await doctorTypeModule.getMainList();
-
-    const { success: doctorListSuccess } = await doctorModule.getMainList();
-    const { success: directorListSuccess } = await directorModule.getMainList();
-    if (!testTypeDdlSuccess) {
-      console.error("test type ddl fail");
-    }
-
-    if (!doctorListSuccess) {
-      console.error("doctor ddl fail");
-    }
-
-    if (!directorListSuccess) {
-      console.error("dirctor ddl fail");
-    }
-
-    // here to get test type
-    if (!oResult) {
-      return;
-    }
 
     const sendIssueFunc = async (iData) => {
       const oResult = await credentialModule.sendIssue(iData);
@@ -106,8 +80,45 @@ export default {
     const recordEvent = ref({
       refill: credentialModule.refillRecord,
       ddlemit: doctorTypeModule.mainDdlChange,
-      sendissue:sendIssueFunc,
+      sendissue: sendIssueFunc,
     });
+
+    if (credentialData.name !== "" && credentialData.attributes.length > 0) {
+      return {
+        ...credentialModule,
+        ...doctorTypeModule,
+        ...doctorModule,
+        ...directorModule,
+        sendIssueFunc,
+        alertComponent,
+        recordbtn,
+        recordEvent,
+      };
+    }
+
+    const oResult = await credentialModule.getCredDefinition();
+    const {
+      success: testTypeDdlSuccess,
+    } = await doctorTypeModule.getMainList();
+
+    const { success: doctorListSuccess } = await doctorModule.getMainList();
+    const { success: directorListSuccess } = await directorModule.getMainList();
+    if (!testTypeDdlSuccess) {
+      console.error("test type ddl fail");
+    }
+
+    if (!doctorListSuccess) {
+      console.error("doctor ddl fail");
+    }
+
+    if (!directorListSuccess) {
+      console.error("dirctor ddl fail");
+    }
+
+    // here to get test type
+    if (!oResult) {
+      return;
+    }
 
     return {
       ...credentialModule,
