@@ -107,11 +107,10 @@
           </tbody>
         </table>
         <div
-          v-if="needHour || needMin || needSec"
+          v-if="leastUnit > 0"
           class="mx-auto flex mt-4 items-center justify-around"
         >
           <select
-            v-if="needHour"
             v-model="selectHour"
             class="border rounded border-gray-500 shadow-lg px-2 py-1"
           >
@@ -126,7 +125,7 @@
             </option>
           </select>
           <select
-            v-if="needMin"
+            v-if="leastUnit > 1"
             v-model="selectMins"
             class="border rounded border-gray-500 shadow-lg px-2 py-1"
           >
@@ -141,7 +140,7 @@
             </option>
           </select>
           <select
-            v-if="needSec"
+            v-if="leastUnit > 2"
             v-model="selectSec"
             class="border rounded border-gray-500 px-2 py-1"
           >
@@ -191,17 +190,13 @@ export default {
       type: [String, Number],
       default: "",
     },
-    needHour: {
-      type: Boolean,
-      default: false,
-    },
-    needMin: {
-      type: Boolean,
-      default: false,
-    },
-    needSec: {
-      type: Boolean,
-      default: false,
+    leastUnit: {
+      type: Number,
+      default: 0,
+      // 0 :date
+      // 1 :hour
+      // 2 :min
+      // 3 :sec
     },
   },
   setup(props, { emit }) {
@@ -456,10 +451,10 @@ export default {
       () => dateTimePickerCluster.selectHour,
       (val) => {
         let mainRegx = /(^\d{0,4}-\d{2}-\d{2} )\d{2}($)/g;
-        if (props.needMin) {
+        if (props.leastUnit === 2) {
           mainRegx = /(^\d{0,4}-\d{2}-\d{2} )\d{2}(:\d{2}$)/g;
         }
-        if (props.needSec) {
+        if (props.leastUnit === 3) {
           mainRegx = /(^\d{0,4}-\d{2}-\d{2} )\d{2}(:\d{2}:\d{2})/g;
         }
         if (props.maintext !== "" && mainRegx.test(props.maintext)) {
@@ -477,7 +472,7 @@ export default {
       () => dateTimePickerCluster.selectMins,
       (val) => {
         let mainRegx = /(^\d{0,4}-\d{2}-\d{2} \d{2}:)\d{2}($)/g;
-        if (props.needSec) {
+        if (props.leastUnit === 3) {
           mainRegx = /(^\d{0,4}-\d{2}-\d{2} \d{2}:)\d{2}(:\d{2})/g;
         }
         if (props.maintext !== "" && mainRegx.test(props.maintext)) {

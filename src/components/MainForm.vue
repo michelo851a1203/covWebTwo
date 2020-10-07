@@ -58,8 +58,7 @@
         v-if="item.type === 'dateTimePicker-hour-min'"
       >
         <datetimepicker
-          :needHour="true"
-          :needMin="true"
+          :leastUnit="2"
           @isinner="dateTimePickerCloseClick"
           v-model:isShowCalender="
             isShowCalenderRef[outputFortitle ? item.title : item.id]
