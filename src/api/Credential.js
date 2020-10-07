@@ -210,9 +210,6 @@ export default function Credential() {
     }
 
     const sendIssue = async (iData) => {
-        console.group(`%c sendIssue`, 'color:yellow');
-        console.log(iData);
-        console.groupEnd();
         if (credentialData.definitionId === "") {
             console.error("definitionId is empty");
             return {
@@ -296,25 +293,7 @@ export default function Credential() {
 
         const issueData = {}
 
-        const dateFilter = ["Collection Date", "Report Date"]
         issueArr.forEach(item => {
-            if (dateFilter.includes(item)) {
-                let hour = ""
-                let min = ""
-                if (`${iData[item].hour}`.length === 1) {
-                    hour = `0${iData[item].hour}`
-                } else {
-                    hour = `${iData[item].hour}`
-                }
-
-                if (`${iData[item].min}`.length === 1) {
-                    min = `0${iData[item].min}`
-                } else {
-                    min = `${iData[item].min}`
-                }
-                issueData[item] = `${iData[item].date} ${hour}:${min}`
-                return
-            }
             issueData[item] = iData[item]
         })
 
@@ -324,14 +303,8 @@ export default function Credential() {
         issueData["Referred Doctor"] = refDoctor["Doctor Name"]
         issueData["Test Type"] = testType["Test Type"]
 
-
-
-        // const response = await CredentialModule.sendCredential(iData["Doctor Email"], credentialData.definitionId, issueData.value)
         const response = await CredentialModule.sendCredential(iData["Referred Doctor"], iData["Test Type"], credentialData.definitionId, iData["Medical Director"], issueData)
 
-        console.group(`%c response`, 'color:yellow');
-        console.log(response);
-        console.groupEnd();
         if (!response || !response.success) {
             console.error("getCredentialDetail error");
             return {

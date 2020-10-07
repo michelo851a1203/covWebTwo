@@ -53,46 +53,18 @@
       ></datetimepicker>
 
       <!-- datetimepicker-hour-min -->
-      <div
-        class="flex items-center"
+      <datetimepicker
         v-if="item.type === 'dateTimePicker-hour-min'"
-      >
-        <datetimepicker
-          :leastUnit="2"
-          @isinner="dateTimePickerCloseClick"
-          v-model:isShowCalender="
-            isShowCalenderRef[outputFortitle ? item.title : item.id]
-          "
-          :placeholder="item.title"
-          v-model:maintext="
-            formDataRef[outputFortitle ? item.title : item.id]['date']
-          "
-        ></datetimepicker>
-        <select
-          v-model="formDataRef[outputFortitle ? item.title : item.id]['hour']"
-          class="ml-4 flex-1 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
-        >
-          <option class="bg-white" value>Hour</option>
-          <option
-            class="bg-white"
-            :value="item"
-            v-for="(item, index) in 24"
-            :key="item"
-          >
-            {{ index }}
-          </option>
-        </select>
-        <label for="">:</label>
-        <select
-          v-model="formDataRef[outputFortitle ? item.title : item.id]['min']"
-          class="ml-4 flex-1 border-b-2 bg-transparent focus:outline-none border-gray-500 px-2 py-1"
-        >
-          <option class="bg-white" value>Mins</option>
-          <option class="bg-white" :value="item" v-for="item in 60" :key="item">
-            {{ item }}
-          </option>
-        </select>
-      </div>
+        :leastUnit="2"
+        @isinner="dateTimePickerCloseClick"
+        v-model:isShowCalender="
+          isShowCalenderRef[outputFortitle ? item.title : item.id]
+        "
+        :placeholder="item.title"
+        v-model:maintext="
+          formDataRef[outputFortitle ? item.title : item.id]
+        "
+      ></datetimepicker>
 
       <!-- need append email validator -->
       <!-- dropdownlist -->
@@ -452,16 +424,6 @@ export default {
       }
       if (item.type.indexOf("dateTimePicker") > -1) {
         isShowCalenderRef.value[mainKey] = false;
-        if (item.type.indexOf("dateTimePicker-") > -1) {
-          formDataRef.value[mainKey] = {};
-          formDataRef.value[mainKey]["date"] = "";
-
-          ["hour", "min", "sec"].forEach((oItem) => {
-            if (item.type.indexOf(oItem) > -1) {
-              formDataRef.value[mainKey][oItem] = "";
-            }
-          });
-        }
       }
     });
 
@@ -481,17 +443,6 @@ export default {
             Object.keys(formDataRef.value).includes(key) ||
             item.type === "title"
           ) {
-            return;
-          }
-          if (item.type.indexOf("datetimepicker-") > -1) {
-            formDataRef.value[key] = {};
-            formDataRef.value[key]["date"] = "";
-            ["hour", "min", "sec"].forEach((oItem) => {
-              if (item.type.indexOf(oItem) > -1) {
-                formDataRef.value[key][oItem] = "";
-              }
-            });
-
             return;
           }
           formDataRef.value[key] = "";
