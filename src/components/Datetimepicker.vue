@@ -247,7 +247,21 @@ export default {
         emit("update:isShowCalender", hover);
         emit("isinner", true);
         if (!hover) {
-          const expTest = /^\d{4}-\d{2}-\d{2}$/g.test(props.maintext);
+          let mainRegx = /^\d{4}-\d{2}-\d{2}$/g;
+          switch (props.leastUnit) {
+            case 1:
+              mainRegx = /^\d{4}-\d{2}-\d{2} \d{2}$/g;
+              break;
+            case 2:
+              mainRegx = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/g;
+              break;
+            case 3:
+              mainRegx = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/g;
+              break;
+            default:
+              break;
+          }
+          const expTest = mainRegx.test(props.maintext);
           if (!expTest && props.maintext !== "") {
             window.alert("not correspond to dateformat");
             emit("update:maintext", "");
@@ -349,13 +363,37 @@ export default {
           `${iData.mainDate}`.length === 1
             ? `0${iData.mainDate}`
             : `${iData.mainDate}`;
-        const dateFmt = `${dateTimePickerCluster.selectYearRef}-${mainMonth}-${mainDate}`;
+        let dateFmt = `${dateTimePickerCluster.selectYearRef}-${mainMonth}-${mainDate}`;
 
         dateTimePickerCluster.indicationRef.year =
           dateTimePickerCluster.selectYearRef;
         dateTimePickerCluster.indicationRef.month = chooseMonth;
         dateTimePickerCluster.indicationRef.day = iData.mainDate;
         dateTimePickerCluster.indicationRef.status = iData.status;
+
+        if (props.leastUnit > 0) {
+          const hour =
+            `${dateTimePickerCluster.selectHour}`.length === 1
+              ? `0${dateTimePickerCluster.selectHour}`
+              : `${dateTimePickerCluster.selectHour}`;
+          dateFmt += ` ${hour}`;
+
+          if (props.leastUnit > 1) {
+            const min =
+              `${dateTimePickerCluster.selectMins}`.length === 1
+                ? `0${dateTimePickerCluster.selectMins}`
+                : `${dateTimePickerCluster.selectMins}`;
+            dateFmt += `:${min}`;
+          }
+
+          if (props.leastUnit > 2) {
+            const sec =
+              `${dateTimePickerCluster.selectSec}`.length === 1
+                ? `0${dateTimePickerCluster.selectSec}`
+                : `${dateTimePickerCluster.selectSec}`;
+            dateFmt += `:${sec}`;
+          }
+        }
 
         emit("update:maintext", dateFmt);
         dateTimePickerCluster.isHoverCalender(false);
