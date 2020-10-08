@@ -26,7 +26,7 @@
         class="select-none"
         v-if="item.type === 'label' && item.targetTag && item.targetTag !== ''"
         >{{ outputFortitle ? item.title : item.id }} :
-        {{ dynamicLabelRef[item.targetTag] }}</label
+        {{ tagCluster[item.targetTag] }}</label
       >
       <!-- textbox -->
       <input
@@ -410,8 +410,6 @@ export default {
   setup(props, { emit }) {
     const formDataRef = ref({});
     const isShowCalenderRef = ref({});
-    const dynamicLabelRef = ref({});
-    // solve initial calender ref initial
 
     if (props.defaultValue && props.defaultValue.length > 0) {
       const propsData = props.iData.map((item) => {
@@ -630,7 +628,6 @@ export default {
 
     return {
       formDataRef,
-      dynamicLabelRef,
       btnClick,
       ddlChange,
       groupPattern,

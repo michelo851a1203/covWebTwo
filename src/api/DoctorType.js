@@ -179,7 +179,18 @@ export default function DoctorType() {
             tagRef.value[tagData.tagName] = testTypeObj.id
         }
 
-        console.log(title, value, tagData);
+        if (title === "Referred Doctor") {
+            const targetTag = tagData.tagName
+            const selectedValue = tagData.tagValue
+
+            const emailObj = AdminState.doctorMainList.find(item => item.id === selectedValue)
+            if (emailObj) {
+                console.log(emailObj);
+                emailObj["Doctor Email"]
+                tagRef.value[targetTag] = emailObj["Doctor Email"]
+            }
+        }
+
     };
     return { ...toRefs(AdminState), getMainList, AddDetectType, UpdateDetectType, DeleteDetectType, getMainOne, tagRef, mainDdlChange }
 
