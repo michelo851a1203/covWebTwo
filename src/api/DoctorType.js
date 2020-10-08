@@ -178,6 +178,8 @@ export default function DoctorType() {
             }
             tagRef.value[tagData.tagName] = testTypeObj.id
         }
+
+        console.log(title, value, tagData);
     };
     return { ...toRefs(AdminState), getMainList, AddDetectType, UpdateDetectType, DeleteDetectType, getMainOne, tagRef, mainDdlChange }
 

@@ -65,6 +65,7 @@ export default function Credential() {
                 {
                     title: "Referred Doctor",
                     option: ddlDoctor,
+                    tag: "DoctorEmail",
                 },
                 {
                     title: "Medical Director",
@@ -137,6 +138,14 @@ export default function Credential() {
                 type: "checkbox",
                 margin: "medium"
             },
+            {
+                id: config.uuid(),
+                title: "Doctor Email",
+                type: "label",
+                label: "AAAAA",
+                margin: "small",
+                targetTag: "DoctorEmail"
+            },
         ]
         oData = [...oData, ...belowData]
         // okay sort data with specific order
@@ -145,6 +154,7 @@ export default function Credential() {
             "Test Lab",
             "Medical Director",
             "Referred Doctor",
+            "Doctor Email",
             "Test Data",
             "Sample ID",
             "Test Type",

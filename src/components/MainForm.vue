@@ -14,8 +14,19 @@
         {{ item.title }}
       </h2>
       <!-- label -->
-      <label class="select-none" v-if="item.type === 'label'"
+      <label
+        class="select-none"
+        v-if="
+          item.type === 'label' && (!item.targetTag || item.targetTag === '')
+        "
         >{{ outputFortitle ? item.title : item.id }} : {{ item.label }}</label
+      >
+
+      <label
+        class="select-none"
+        v-if="item.type === 'label' && item.targetTag && item.targetTag !== ''"
+        >{{ outputFortitle ? item.title : item.id }} :
+        {{ dynamicLabelRef[item.targetTag] }}</label
       >
       <!-- textbox -->
       <input
@@ -285,8 +296,10 @@
 //     ddl: [{ value, title, group<optional> }], // if type is ddl need this one
 //     cb: { trueValue: "", falseValue: "" }, // if is checkbox apply this,
 //     tag:"this tag is apply to ddl to get data and connection with targetTag"
-//     targetTag:"this is change connect with tag"
+//     targetTag:"this is change connect with tag"(currently can apply to ddl -> label and ddl -> ddl )
 //   },
+//
+// this props is for target tag cluster to send data { "TestResult": "{id}" }
 // tagCluster:{
 //   "tageName":tagValue
 // }
@@ -328,6 +341,17 @@
 // ];
 
 // ** emit **
+
+// ddlemit : ddl change to emit
+// params :
+// ----------------------------------------------------------
+// ** title : (ddl Title) String ,
+// ** value : (selected ddl Value) String,Number
+// ** tagData : { tagName , tagValue } Object
+// **** tagValue : usually put id
+// **** tagName : usually put target tagName
+// ----------------------------------------------------------
+
 // failresponse : emit error response
 
 // ============================================================================
@@ -386,6 +410,7 @@ export default {
   setup(props, { emit }) {
     const formDataRef = ref({});
     const isShowCalenderRef = ref({});
+    const dynamicLabelRef = ref({});
     // solve initial calender ref initial
 
     if (props.defaultValue && props.defaultValue.length > 0) {
@@ -605,6 +630,7 @@ export default {
 
     return {
       formDataRef,
+      dynamicLabelRef,
       btnClick,
       ddlChange,
       groupPattern,
