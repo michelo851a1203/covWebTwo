@@ -307,8 +307,8 @@ export default function Credential() {
             issueData[item] = iData[item]
         })
 
-        const refDoctor = AdminState.doctorMainList.find(item => item.id)
-        const testType = AdminState.detectTypeMainList.find(item => item.id)
+        const refDoctor = AdminState.doctorMainList.find(item => item.id === iData["Referred Doctor"])
+        const testType = AdminState.detectTypeMainList.find(item => item.id === iData["Test Type"])
 
         issueData["Referred Doctor"] = refDoctor["Doctor Name"]
         issueData["Test Type"] = testType["Test Type"]

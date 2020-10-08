@@ -185,7 +185,6 @@ export default function DoctorType() {
 
             const emailObj = AdminState.doctorMainList.find(item => item.id === selectedValue)
             if (emailObj) {
-                console.log(emailObj);
                 emailObj["Doctor Email"]
                 tagRef.value[targetTag] = emailObj["Doctor Email"]
             }
