@@ -15,7 +15,7 @@
         @mouseleave="isHoverCalender(false)"
         class="calenderBorder fixed sm:absolute"
       >
-        <div class="hidden sm:block px-4 mb-2">
+        <div class="px-4 mb-2">
           <button
             @click="getNow"
             class="w-full hover:bg-blue-500 bg-gray-500 focus:outline-none text-white font-medium py-1 px-2 rounded"

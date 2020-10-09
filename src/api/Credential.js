@@ -128,6 +128,12 @@ export default function Credential() {
             // ============================================================================
             // generateDateTimePicker
 
+            const birthDayComponent = ["Birthday"]
+            if (birthDayComponent.includes(item)) {
+                oArray.type = "dateTimePicker"
+                oArray.dateTimeFormat = "/"
+            }
+
             return oArray
         });
 

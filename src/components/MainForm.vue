@@ -61,6 +61,7 @@
         "
         :placeholder="item.title"
         v-model:maintext="formDataRef[outputFortitle ? item.title : item.id]"
+        :dateSeparator="item.dateTimeFormat"
       ></datetimepicker>
 
       <!-- datetimepicker-hour-min -->
@@ -73,6 +74,7 @@
         "
         :placeholder="item.title"
         v-model:maintext="formDataRef[outputFortitle ? item.title : item.id]"
+        :dateSeparator="item.dateTimeFormat"
       ></datetimepicker>
 
       <!-- need append email validator -->
@@ -184,6 +186,7 @@
               @isinner="dateTimePickerCloseClick"
               v-model:isShowCalender="isShowCalenderRef[paItem.title]"
               v-model:maintext="paItem.content"
+              :dateSeparator="item.dateTimeFormat"
             ></datetimepicker>
             <!-- dropdownlist -->
             <div
@@ -322,6 +325,7 @@
 //         label: "to set a label text",
 //         ddl: [{ value, title }], // if type is ddl need this one
 //         cb: { trueValue: "", falseValue: "" }, // if is checkbox apply this
+//         dateTimeFormat:"-" // this if for datetimpicker
 //       },
 //     ],
 //   },
