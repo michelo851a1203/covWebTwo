@@ -573,11 +573,11 @@ export default {
     watch(
       () => dateTimePickerCluster.selectHour,
       (val) => {
-        const yyyy = /\^d{0,4}/g;
+        const yyyy = /\d{0,4}/g;
         const MM = /\d{0,2}/g;
         const dd = /\d{0,2}/g;
         let mainRegx = new RegExp(
-          "(" +
+          "(^" +
             yyyy.source +
             props.dateSeparator +
             MM.source +
@@ -589,7 +589,7 @@ export default {
 
         if (props.leastUnit === 2) {
           mainRegx = new RegExp(
-            "(" +
+            "(^" +
               yyyy.source +
               props.dateSeparator +
               MM.source +
@@ -602,7 +602,7 @@ export default {
         }
         if (props.leastUnit === 3) {
           mainRegx = new RegExp(
-            "(" +
+            "(^" +
               yyyy.source +
               props.dateSeparator +
               MM.source +
