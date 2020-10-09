@@ -227,7 +227,6 @@ export default function Credential() {
                 msg: "Not acquire definitionId"
             }
         }
-        // if (!issueData.value["Test Result"] || issueData.value["Test Result"] === "") {
 
         if (!iData["Test Lab"] || iData["Test Lab"] === "") {
             return {
@@ -279,16 +278,10 @@ export default function Credential() {
             }
         }
 
-        // credentialData.attributes.forEach(item => {
-        //     if (!issueData.value[item]) {
-        //         issueData.value[item] = ""
-        //     }
-        // })
 
         currentCredStatus.value.title = "Loading..."
         currentCredStatus.value.status = "loading"
 
-        // const response = await CredentialModule.sendCredential(sendToUserEmail.value, credentialData.definitionId, issueData.value)
         const issueArr = [
             "Test Lab",
             "Sample ID",
