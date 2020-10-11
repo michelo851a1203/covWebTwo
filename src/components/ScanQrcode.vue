@@ -1,7 +1,9 @@
 <template>
   <div class="h-full sm:mx-auto">
     <component
-      v-if="currentVerifyStatus.title !== '' && currentVerifyStatus.status !== ''"
+      v-if="
+        currentVerifyStatus.title !== '' && currentVerifyStatus.status !== ''
+      "
       @close="closeVerifyAlert"
       :currentstatus="currentVerifyStatus"
       :is="alertComponent"
@@ -10,7 +12,9 @@
       <button
         @click="cameraClick"
         class="w-full bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
-      >Scan QR Code</button>
+      >
+        Scan QR Code
+      </button>
     </div>
     <video class="w-full h-full" ref="video"></video>
     <input
@@ -31,7 +35,7 @@ import alertmobile from "@/components/Alertmobile.vue";
 import router from "@/router";
 import config from "@/api/request/config.js";
 import navTag from "@/api/global/navTag.js";
-import { ref, watch, onUnmounted } from "vue";
+import { reactive, ref, watch, onUnmounted, toRefs } from "vue";
 import { BrowserQRCodeReader } from "@zxing/library";
 
 export default {
@@ -56,9 +60,67 @@ export default {
     const inputRef = ref(null);
     const scanRole = LoginModule.userData.role;
     const codeReader = new BrowserQRCodeReader();
-    const cameraRef = ref("");
     const video = ref(null);
+    // const cameraRef = ref("");
+
     navTag.value = "scanQrcode";
+
+    const qrcodeCluseter = reactive({
+      cameraRef: "",
+      decodeOnce: (mainCodeReader, deviceId) => {
+        mainCodeReader
+          .decodeOnceFromVideoDevice(deviceId, video.value)
+          .then((qrcodeObject) => {
+            if (!qrcodeObject || qrcodeObject.text === "") {
+              return new Promise((res, err) => {
+                err("qrcodeObject and qrcodeObject.text is empty");
+              });
+            }
+
+            verificationModule.verifyCredentialId.value = qrcodeObject.text;
+
+            if (scanRole === 1) {
+              return verificationModule.userScanQrcode();
+            }
+            if (scanRole === 2) {
+              return verificationModule.sendVerify();
+            }
+            return new Promise((res, err) => {
+              err("no role error");
+            });
+          })
+          .then((oResult) => {
+            if (!oResult.success) {
+              verificationModule.normalVerifyAlert({
+                title: oResult.msg,
+                status: "fail",
+              });
+              mainCodeReader.reset();
+              qrcodeCluseter.decodeOnce(mainCodeReader, deviceId);
+              return;
+            }
+            switch (scanRole) {
+              case 1:
+                verificationModule.normalVerifyAlert({
+                  title: "send success",
+                  status: "ok",
+                });
+                break;
+              case 2:
+                router.push("/verifyreport");
+                break;
+
+              default:
+                break;
+            }
+          })
+          .catch((err) => {
+            mainCodeReader.reset();
+            qrcodeCluseter.decodeOnce(mainCodeReader, deviceId);
+            console.error(err);
+          });
+      },
+    });
 
     const filereaderToVideo = (file) => {
       return new Promise((resolve, reject) => {
@@ -138,62 +200,22 @@ export default {
         if (videoInputDevices.length === 0) {
           return;
         }
-        cameraRef.value = videoInputDevices[0].deviceId;
+        // cameraRef.value = videoInputDevices[0].deviceId;
+        qrcodeCluseter.cameraRef = videoInputDevices[0].deviceId;
       })
       .catch((err) => {
         console.error(err);
       });
 
-    watch(cameraRef, (deviceId) => {
-      if (deviceId === "") {
-        return;
+    watch(
+      () => qrcodeCluseter.cameraRef,
+      (deviceId) => {
+        if (deviceId === "") {
+          return;
+        }
+        qrcodeCluseter.decodeOnce(codeReader, deviceId);
       }
-      codeReader
-        .decodeOnceFromVideoDevice(deviceId, video.value)
-        .then((qrcodeObject) => {
-          if (!qrcodeObject || qrcodeObject.text === "") {
-            return new Promise((res, err) => {
-              err("qrcodeObject and qrcodeObject.text is empty");
-            });
-          }
-          verificationModule.verifyCredentialId.value = qrcodeObject.text;
-          if (scanRole === 1) {
-            return verificationModule.userScanQrcode();
-          }
-          if (scanRole === 2) {
-            return verificationModule.sendVerify();
-          }
-          return new Promise((res, err) => {
-            err("no role error");
-          });
-        })
-        .then((oResult) => {
-          if (!oResult.success) {
-            verificationModule.normalVerifyAlert({
-              title: oResult.msg,
-              status: "fail",
-            });
-            return;
-          }
-          switch (scanRole) {
-            case 1:
-              verificationModule.normalVerifyAlert({
-                title: "send success",
-                status: "ok",
-              });
-              break;
-            case 2:
-              router.push("/verifyreport");
-              break;
-
-            default:
-              break;
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    });
+    );
     const cameraClick = () => {
       inputRef.value.click();
     };
@@ -208,6 +230,7 @@ export default {
       getCameraChange,
       alertComponent,
       video,
+      ...toRefs(qrcodeCluseter),
     };
   },
 };
