@@ -225,6 +225,40 @@ export default {
       },
       setrowRef: null,
       allSetRef: null,
+      dateCheck: () => {
+        const yyyy = /\d{4}/g;
+        const MM = /\d{2}/g;
+        const dd = /\d{2}/g;
+
+        let mainRegx = new RegExp(
+          `^${yyyy.source}${props.dateSeparator}${MM.source}${props.dateSeparator}${dd.source}`,
+          "g"
+        );
+
+        switch (props.leastUnit) {
+          case 1: {
+            const hour = / \d{0,2}$/g;
+            mainRegx = new RegExp(`^${mainRegx.source}${hour.source}`);
+            break;
+          }
+          case 2: {
+            const min = / \d{0,2}:\d{0,2}$/g;
+            mainRegx = new RegExp(`^${mainRegx.source}${min.source}`);
+            break;
+          }
+          case 3: {
+            const sec = / \d{0,2}:\d{0,2}:\d{0,2}$/g;
+            mainRegx = new RegExp(`^${mainRegx.source}${sec.source}`);
+            break;
+          }
+          default: {
+            mainRegx = new RegExp(`^${mainRegx.source}$`);
+            break;
+          }
+        }
+
+        return mainRegx;
+      },
       inputData: (e) => {
         emit("update:maintext", e.target.value);
       },
@@ -273,41 +307,9 @@ export default {
         emit("update:isShowCalender", hover);
         emit("isinner", true);
         if (!hover) {
-          const yyyy = /\d{4}/g;
-          const MM = /\d{2}/g;
-          const dd = /\d{2}/g;
-
-          let mainRegx = new RegExp(
-            yyyy.source +
-              props.dateSeparator +
-              MM.source +
-              props.dateSeparator +
-              dd.source
-          );
-
-          switch (props.leastUnit) {
-            case 1: {
-              const hour = / \d{2}$/g;
-              mainRegx = new RegExp("^" + mainRegx.source + hour.source);
-              break;
-            }
-            case 2: {
-              const min = / \d{2}:\d{2}$/g;
-              mainRegx = new RegExp("^" + mainRegx.source + min.source);
-              break;
-            }
-            case 3: {
-              const sec = / \d{2}:\d{2}:\d{2}$/g;
-              mainRegx = new RegExp("^" + mainRegx.source + sec.source);
-              break;
-            }
-            default: {
-              mainRegx = new RegExp("^" + mainRegx.source + "$");
-              break;
-            }
-          }
-
-          const expTest = mainRegx.test(props.maintext);
+          const expTest = dateTimePickerCluster
+            .dateCheck()
+            .test(props.maintext);
           if (!expTest && props.maintext !== "") {
             window.alert("not correspond to dateformat");
             emit("update:maintext", "");
@@ -477,21 +479,9 @@ export default {
             break;
         }
 
-        const yyyy = /^\d{4}/g;
-        const MM = /\d{2}/g;
-        const dd = /\d{2}$/g;
-
-        let mainRegx = new RegExp(
-          yyyy.source +
-            props.dateSeparator +
-            MM.source +
-            props.dateSeparator +
-            dd.source
-        );
-
         return (
           props.maintext !== "" &&
-          mainRegx.test(props.maintext) &&
+          dateTimePickerCluster.dateCheck().test(props.maintext) &&
           props.maintext.split("-").length === 3 &&
           mounthStatus &&
           dateTimePickerCluster.indicationRef.year ===
@@ -573,44 +563,25 @@ export default {
     watch(
       () => dateTimePickerCluster.selectHour,
       (val) => {
-        const yyyy = /\d{0,4}/g;
-        const MM = /\d{0,2}/g;
-        const dd = /\d{0,2}/g;
+        const fourDigit = /\d{0,4}/g.source;
+        const twoDigit = /\d{0,2}/g.source;
+        const sp = props.dateSeparator;
+
         let mainRegx = new RegExp(
-          "(^" +
-            yyyy.source +
-            props.dateSeparator +
-            MM.source +
-            props.dateSeparator +
-            dd.source +
-            " )" +
-            /\d{2}($)/g.source
+          `(^${fourDigit}${sp}${twoDigit}${sp}${twoDigit} )${twoDigit}($)`,
+          "g"
         );
 
         if (props.leastUnit === 2) {
           mainRegx = new RegExp(
-            "(^" +
-              yyyy.source +
-              props.dateSeparator +
-              MM.source +
-              props.dateSeparator +
-              dd.source +
-              " )" +
-              /\d{2}/g.source +
-              /(:\d{2}$)/g.source
+            `(^${fourDigit}${sp}${twoDigit}${sp}${twoDigit} )${twoDigit}(:${twoDigit}$)`,
+            "g"
           );
         }
         if (props.leastUnit === 3) {
           mainRegx = new RegExp(
-            "(^" +
-              yyyy.source +
-              props.dateSeparator +
-              MM.source +
-              props.dateSeparator +
-              dd.source +
-              " )" +
-              /\d{2}/g.source +
-              /(:\d{2}:\d{2}$)/g.source
+            `(^${fourDigit}${sp}${twoDigit}${sp}${twoDigit} )${twoDigit}(:${twoDigit}:${twoDigit}$)`,
+            "g"
           );
         }
         if (props.maintext !== "" && mainRegx.test(props.maintext)) {
@@ -627,32 +598,17 @@ export default {
     watch(
       () => dateTimePickerCluster.selectMins,
       (val) => {
-        const yyyy = /\d{0,4}/g;
-        const MM = /\d{0,2}/g;
-        const dd = /\d{0,2}/g;
+        const fourDigit = /\d{0,4}/g.source;
+        const twoDigit = /\d{0,2}/g.source;
+        const sp = props.dateSeparator;
+
         let mainRegx = new RegExp(
-          "(^" +
-            yyyy.source +
-            props.dateSeparator +
-            MM.source +
-            props.dateSeparator +
-            dd.source +
-            / \d{2}:/g.source +
-            ")" +
-            /\d{2}($)/g.source
+          `(^${fourDigit}${sp}${twoDigit}${sp}${twoDigit} ${twoDigit}:)${twoDigit}($)`
         );
 
         if (props.leastUnit === 3) {
           mainRegx = new RegExp(
-            "(^" +
-              yyyy.source +
-              props.dateSeparator +
-              MM.source +
-              props.dateSeparator +
-              dd.source +
-              /d{2}/g.source +
-              ":)" +
-              /\d{2}(:"\d{2}$)/g.source
+            `(^${fourDigit}${sp}${twoDigit}${sp}${twoDigit} ${twoDigit}:)${twoDigit}(:${twoDigit}$)`
           );
         }
 
@@ -670,23 +626,14 @@ export default {
     watch(
       () => dateTimePickerCluster.selectSec,
       (val) => {
-        const yyyy = /\^d{0,4}/g;
-        const MM = /\d{0,2}/g;
-        const dd = /\d{0,2}/g;
+        const fourDigit = /\d{0,4}/g.source;
+        const twoDigit = /\d{0,2}/g.source;
+        const sp = props.dateSeparator;
 
-        const mainRegx = new RegExp(
-          "(" +
-            yyyy +
-            props.dateSeparator +
-            MM +
-            props.dateSeparator +
-            dd +
-            /d{2}:d{2}/g.source +
-            ")" +
-            /d{2}($)/g.source
+        let mainRegx = new RegExp(
+          `(^${fourDigit}${sp}${twoDigit}${sp}${twoDigit} ${twoDigit}:${twoDigit}:)${twoDigit}($)`
         );
 
-        // const mainRegx = /(^\d{0,4}-\d{2}-\d{2} \d{2}:\d{2}:)\d{2}($)/g;
         if (props.maintext !== "" && mainRegx.test(props.maintext)) {
           const oResult = `${val}`.length === 1 ? `0${val}` : `${val}`;
           const dateFmt = props.maintext.replace(
