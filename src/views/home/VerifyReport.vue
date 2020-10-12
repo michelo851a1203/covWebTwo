@@ -1,7 +1,14 @@
 <template>
-  <div class="verifyContent py-12 sm:mt-12 sm:shadow-2xl sm:rounded mx-auto sm:bg-white">
+  <div
+    class="verifyContent py-12 sm:mt-12 sm:shadow-2xl sm:rounded mx-auto sm:bg-white"
+  >
+    <!-- TODO:here need to fix logic -->
     <div
-      v-if="proofAttribute['Test Result'] && (proofAttribute['Test Result'] === 'DETECTED' || proofAttribute['Test Result'] === 'NONDETECTED')"
+      v-if="
+        proofAttribute['Test Result'] &&
+        (proofAttribute['Test Result'] === 'DETECTED' ||
+          proofAttribute['Test Result'] === 'NONDETECTED')
+      "
       class="flex items-center justify-center mb-12"
     >
       <div>
@@ -38,15 +45,33 @@
             fill="transparent"
           />
         </svg>
-        <svg v-else viewBox="0 0 100 100" class="w-16 stroke-current text-red-600">
+        <svg
+          v-else
+          viewBox="0 0 100 100"
+          class="w-16 stroke-current text-red-600"
+        >
           <polyline
             stroke-width="6"
             stroke-linejoin="round"
             fill="transparent"
             points="10,10 90,10 90,90 10,90 10,10"
           />
-          <line stroke-width="6" stroke-linecap="round" x1="30" y1="30" x2="70" y2="70" />
-          <line stroke-width="6" stroke-linecap="round" x1="30" y1="70" x2="70" y2="30" />
+          <line
+            stroke-width="6"
+            stroke-linecap="round"
+            x1="30"
+            y1="30"
+            x2="70"
+            y2="70"
+          />
+          <line
+            stroke-width="6"
+            stroke-linecap="round"
+            x1="30"
+            y1="70"
+            x2="70"
+            y2="30"
+          />
         </svg>
       </div>
     </div>
@@ -55,14 +80,18 @@
         <table class="text-sm">
           <tr v-for="item in Object.keys(mainThemeResult)" :key="item">
             <th class="border text-left px-3 py-1">{{ item }}</th>
-            <td class="border text-left text-blue-400 px-3 py-1">{{ verifyResult[item] }}</td>
+            <td class="border text-left text-blue-400 px-3 py-1">
+              {{ verifyResult[item] }}
+            </td>
           </tr>
           <tr v-if="Object.keys(proofAttribute).length > 0">
             <th colspan="2" class="px-3 py-1 text-center border">attributes</th>
           </tr>
           <tr v-for="item in Object.keys(proofAttribute)" :key="item">
             <th class="text-left px-3 py-1 border">{{ item }}</th>
-            <td class="text-left text-blue-400 px-3 py-1 border">{{ proofAttribute[item] }}</td>
+            <td class="text-left text-blue-400 px-3 py-1 border">
+              {{ proofAttribute[item] }}
+            </td>
           </tr>
         </table>
       </div>
@@ -71,7 +100,9 @@
       <button
         @click="backtoScan"
         class="w-1/3 bg-gray-700 focus:outline-none hover:bg-gray-900 text-white font-medium py-2 px-4 rounded"
-      >Back</button>
+      >
+        Back
+      </button>
     </section>
   </div>
 </template>
@@ -83,7 +114,6 @@ import Verification from "@/api/Verification.js";
 import router from "@/router";
 export default {
   name: "report",
-  components: {},
   setup() {
     const loginModule = Login();
     const verificationModule = Verification();

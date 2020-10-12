@@ -111,7 +111,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO 使者使用： 變更憑證讀取的狀態，當 lock 是 true 時無法被進行讀取 false 時候將無限制。
+    // 使者使用： 變更憑證讀取的狀態，當 lock 是 true 時無法被進行讀取 false 時候將無限制。
     lockCredential: async (lock) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)

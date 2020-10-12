@@ -31,6 +31,9 @@ export default function Verification() {
         }
         const verData = response.data
 
+        console.group(`%c verData`,'color:yellow');
+        console.log(verData);
+        console.groupEnd();
         verifyResult._id = verData._id
         verifyResult.verificationId = verData.verificationId
         verifyResult.definitionId = verData.definitionId

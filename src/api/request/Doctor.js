@@ -1,6 +1,6 @@
 import config from "./config.js"
 export default {
-    // TODO: 檢驗中心: 取得醫生列表，如果是用管理員會全部回傳，檢測中心則會取得底下資訊。
+    // 檢驗中心: 取得醫生列表，如果是用管理員會全部回傳，檢測中心則會取得底下資訊。
     getDoctorList: async () => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
@@ -49,7 +49,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO : 檢驗中心: 刪除醫生資料
+    // 檢驗中心: 刪除醫生資料
     deleteDoctorList: async (ids) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
@@ -78,7 +78,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO: 檢驗中心: 建立醫生資料
+    // 檢驗中心: 建立醫生資料
     createDoctorList: async ({ clinic, name, email, address, city, zip }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)

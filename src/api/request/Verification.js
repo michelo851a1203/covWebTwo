@@ -82,7 +82,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO 驗證者使用： 產生驗證用 Qrcode 資訊，給使用者做掃描使用。
+    // 驗證者使用： 產生驗證用 Qrcode 資訊，給使用者做掃描使用。
     createVerifyQrcodeForUser: async () => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)

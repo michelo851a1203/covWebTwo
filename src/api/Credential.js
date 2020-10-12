@@ -48,7 +48,6 @@ export default function Credential() {
             ddlTestResult = [...ddlTestResult, ...aaData]
         })
 
-        // TODO must optimize after
         const newAttribute = [...credentialData.attributes, "Medical Director"]
         let oData = newAttribute.map((item) => {
             const ddlArray = [
