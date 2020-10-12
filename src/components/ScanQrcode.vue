@@ -86,6 +86,8 @@ export default {
               return verificationModule.sendVerify();
             }
             return new Promise((res, err) => {
+              mainCodeReader.reset();
+              qrcodeCluseter.decodeOnce(mainCodeReader, deviceId);
               err("no role error");
             });
           })
