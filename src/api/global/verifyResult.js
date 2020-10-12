@@ -3,6 +3,7 @@ export default reactive({
     _id: "",
     verificationId: "",
     definitionId: "",
+    detectType: {},
     state: "",
     createdAt: -1,
     updatedAt: -1,
@@ -11,5 +12,5 @@ export default reactive({
         version: "",
         attributes: [],
     },
-    proof:{}
+    proof: {}
 })

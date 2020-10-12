@@ -31,12 +31,13 @@ export default function Verification() {
         }
         const verData = response.data
 
-        console.group(`%c verData`,'color:yellow');
+        console.group(`%c verData`, 'color:yellow');
         console.log(verData);
         console.groupEnd();
         verifyResult._id = verData._id
         verifyResult.verificationId = verData.verificationId
         verifyResult.definitionId = verData.definitionId
+        verifyResult.detectType = verData.detectType
         verifyResult.state = verData.state
         verifyResult.createdAt = verData.createdAt
         verifyResult.updatedAt = verData.updatedAt
@@ -50,7 +51,7 @@ export default function Verification() {
     }
 
     const mainThemeResult = computed(() => {
-        const keys = Object.keys(verifyResult).filter(item => item !== "policy" && item !== "proof")
+        const keys = Object.keys(verifyResult).filter(item => item !== "policy" && item !== "proof" && item !== "detectType")
         const oResult = {}
         keys.forEach(item => {
             oResult[item] = verifyResult[item]
@@ -139,6 +140,17 @@ export default function Verification() {
             success: true,
         }
     }
+
+    const testResultDdl = (selectName) => {
+        if (typeof verifyResult.detectType !== "object" || !verifyResult.detectType) return null
+        if (!verifyResult.detectType.data || !(verifyResult.detectType.data instanceof Array)) return null
+        if (verifyResult.detectType.data.length === 0) return null
+        const testResultObj = verifyResult.detectType.data.find(item => item.name === selectName)
+
+        if (((typeof testResultObj.type) !== "number" && !testResultObj.type) || ![0, 1, 2].includes(testResultObj.type)) return null
+        return testResultObj.type
+    }
+
     onUnmounted(() => {
         if (tmpInterval.value) {
             clearInterval(tmpInterval.value)
@@ -146,5 +158,5 @@ export default function Verification() {
         }
     })
 
-    return { tmpInterval, verifyResult, mainThemeResult, proofAttribute, currentVerifyStatus, verifyCredentialId, verifyQrcodeForUser, sendVerify, closeVerifyAlert, normalVerifyAlert, genQrcodeForUser, keepGetQrcodeInfo, userScanQrcode }
+    return { tmpInterval, verifyResult, mainThemeResult, proofAttribute, currentVerifyStatus, verifyCredentialId, verifyQrcodeForUser, sendVerify, closeVerifyAlert, normalVerifyAlert, genQrcodeForUser, keepGetQrcodeInfo, userScanQrcode, testResultDdl }
 }

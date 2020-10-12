@@ -210,6 +210,7 @@
 // func : [update,delete,create] // append to solve all
 // addBtnName : ""
 // ============================================================================
+// TODO: to responsive mobile solution.
 import { ref, computed } from "vue";
 export default {
   name: "dashboardTable",
