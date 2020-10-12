@@ -415,6 +415,11 @@ export default {
     const formDataRef = ref({});
     const isShowCalenderRef = ref({});
 
+    // const mainFormCluster = reactive({
+    //   formDataRef:{},
+    //   isShowCalenderRef:{}
+    // })
+
     if (props.defaultValue && props.defaultValue.length > 0) {
       const propsData = props.iData.map((item) => {
         return props.outputFortitle ? item.title : item.id;
