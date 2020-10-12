@@ -359,7 +359,7 @@
 // failresponse : emit error response
 
 // ============================================================================
-import { ref } from "vue";
+import { reactive, toRefs } from "vue";
 import config from "@/api/request/config.js";
 import datetimepicker from "@/components/Datetimepicker.vue";
 export default {
@@ -412,13 +412,177 @@ export default {
     },
   },
   setup(props, { emit }) {
-    const formDataRef = ref({});
-    const isShowCalenderRef = ref({});
+    const mainFormCluster = reactive({
+      formDataRef: {},
+      isShowCalenderRef: {},
+      btnClick: (emitName, needSendData = true) => {
+        if (needSendData) {
+          const isEmailType = [];
+          props.iData.forEach((item) => {
+            const key = props.outputFortitle ? item.title : item.id;
+            if (item.type === "email") {
+              isEmailType.push(key);
+            }
+            if (
+              Object.keys(mainFormCluster.formDataRef).includes(key) ||
+              item.type === "title"
+            ) {
+              return;
+            }
+            mainFormCluster.formDataRef[key] = "";
+          });
 
-    // const mainFormCluster = reactive({
-    //   formDataRef:{},
-    //   isShowCalenderRef:{}
-    // })
+          // email permission
+          // ============================================================================
+          // validateEmail: (email) => {
+          //   // change \ \ to \\
+          //   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          //   return re.test(email);
+          // };
+          // ============================================================================
+          if (isEmailType.length > 0) {
+            let emailFail = false;
+            isEmailType.forEach((emailKey) => {
+              if (
+                mainFormCluster.formDataRef[emailKey] === "" ||
+                config.validateEmail(mainFormCluster.formDataRef[emailKey])
+              ) {
+                return;
+              }
+              emailFail = true;
+            });
+            if (emailFail) {
+              console.error("email Fail");
+              emit("failresponse", "email format fail");
+              return;
+            }
+          }
+
+          emit(emitName, mainFormCluster.formDataRef);
+          return;
+        }
+        emit(emitName);
+      },
+      ddlChange: (event, titlename, { tagName, tagValue }) => {
+        if (tagName) {
+          const targetddl = props.iData.find(
+            (item) => item.targetTag && item.targetTag === tagName
+          );
+          mainFormCluster.formDataRef[
+            props.outputFortitle ? targetddl.title : targetddl.id
+          ] = "";
+        }
+
+        emit("ddlemit", {
+          title: titlename,
+          value: event.target.value,
+          tagData: {
+            tagName,
+            tagValue,
+          },
+        });
+      },
+      groupPattern: (pattern, sampleTitle) => {
+        return pattern.find(
+          (item) =>
+            (props.outputFortitle ? item.title : item.id) === sampleTitle
+        );
+      },
+      marginMainStyle: (itemStyle) => {
+        let initialStyle = "mb-4 ";
+        switch (itemStyle.margin) {
+          case "small":
+            initialStyle = "mb-4 ";
+            break;
+          case "medium":
+            initialStyle = "mb-10 ";
+            break;
+          case "large":
+            initialStyle = "mb-12 ";
+            break;
+          case "subtitle":
+            initialStyle = "mt-10 mb-6";
+            break;
+          default:
+            break;
+        }
+
+        if (
+          itemStyle.type === "ddl" ||
+          itemStyle.type === "checkbox" ||
+          itemStyle.type === "radio"
+        ) {
+          initialStyle += "self-start";
+        }
+        return initialStyle;
+      },
+      btnMainStyle: (styleName) => {
+        let btnStyle = "bg-gray-700 hover:bg-gray-900";
+        switch (styleName) {
+          case "info":
+            btnStyle = "bg-green-700 hover:bg-green-900";
+            break;
+          case "primary":
+            btnStyle = "bg-blue-700 hover:bg-blue-900";
+            break;
+          case "danger":
+            btnStyle = "bg-red-700 hover:bg-red-900";
+            break;
+          case "warn":
+            btnStyle = "bg-orange-700 hover:bg-orange-900";
+            break;
+          case "normal":
+            btnStyle = "bg-gray-700 hover:bg-green-900";
+            break;
+          default:
+            break;
+        }
+        return btnStyle;
+      },
+      groupAppend: (groupObjItem) => {
+        const groupObj = props.iData.find(
+          (item) => item.id === groupObjItem.id
+        );
+        const newData = [...groupObj.groupPattern];
+        const newFit = newData.map((item) => {
+          return {
+            title: props.outputFortitle ? item.title : item.id,
+            content: "",
+          };
+        });
+
+        mainFormCluster.formDataRef[
+          props.outputFortitle ? groupObjItem.title : groupObjItem.id
+        ].push(newFit);
+      },
+      ddlFilter: (ddlItem, tagName = null) => {
+        const isNeedGroup = ddlItem.filter(
+          (item) => item.group && item.group !== ""
+        );
+        if (isNeedGroup.length === 0 || !tagName) {
+          return ddlItem;
+        }
+
+        const ddlClassify = ddlItem.map((item) => {
+          if (typeof item.group !== "boolean" && !item.group) {
+            item.status = "none";
+          }
+          return item;
+        });
+
+        if (!props.tagCluster || !props.tagCluster[tagName]) {
+          return [];
+        }
+
+        return ddlClassify.filter(
+          (item) => item.group === props.tagCluster[tagName]
+        );
+      },
+      dateTimePickerCloseClick: (isFromInner) => {
+        // console.log(isFromInner);
+        isFromInner;
+      },
+    });
 
     if (props.defaultValue && props.defaultValue.length > 0) {
       const propsData = props.iData.map((item) => {
@@ -427,7 +591,7 @@ export default {
 
       props.defaultValue.forEach((item) => {
         if (propsData.includes(item.key)) {
-          formDataRef.value[item.key] = item.value;
+          mainFormCluster.formDataRef[item.key] = item.value;
         }
       });
     }
@@ -435,13 +599,13 @@ export default {
     props.iData.forEach((item) => {
       const mainKey = props.outputFortitle ? item.title : item.id;
       if (item.type === "ddl") {
-        formDataRef.value[mainKey] = "";
+        mainFormCluster.formDataRef[mainKey] = "";
       }
       if (item.type === "label") {
-        formDataRef.value[mainKey] = item.label;
+        mainFormCluster.formDataRef[mainKey] = item.label;
       }
       if (item.type === "group") {
-        if (!formDataRef.value[mainKey]) {
+        if (!mainFormCluster.formDataRef[mainKey]) {
           const newFit = item.groupPattern.map((pitem) => {
             const subMainKey = props.outputFortitle ? pitem.title : pitem.id;
             return {
@@ -449,11 +613,11 @@ export default {
               content: "",
             };
           });
-          formDataRef.value[mainKey] = [newFit];
+          mainFormCluster.formDataRef[mainKey] = [newFit];
         }
       }
       if (item.type.indexOf("dateTimePicker") > -1) {
-        isShowCalenderRef.value[mainKey] = false;
+        mainFormCluster.isShowCalenderRef[mainKey] = false;
       }
     });
 
@@ -461,191 +625,11 @@ export default {
     //   props.iData[props.outputFortitle ? item.title : item.id]
     // }
 
-    const btnClick = (emitName, needSendData = true) => {
-      if (needSendData) {
-        const isEmailType = [];
-        props.iData.forEach((item) => {
-          const key = props.outputFortitle ? item.title : item.id;
-          if (item.type === "email") {
-            isEmailType.push(key);
-          }
-          if (
-            Object.keys(formDataRef.value).includes(key) ||
-            item.type === "title"
-          ) {
-            return;
-          }
-          formDataRef.value[key] = "";
-        });
-
-        // email permission
-        // ============================================================================
-        // validateEmail: (email) => {
-        //   // change \ \ to \\
-        //   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        //   return re.test(email);
-        // };
-        // ============================================================================
-        if (isEmailType.length > 0) {
-          let emailFail = false;
-          isEmailType.forEach((emailKey) => {
-            if (
-              formDataRef.value[emailKey] === "" ||
-              config.validateEmail(formDataRef.value[emailKey])
-            ) {
-              return;
-            }
-            emailFail = true;
-          });
-          if (emailFail) {
-            console.error("email Fail");
-            emit("failresponse", "email format fail");
-            return;
-          }
-        }
-
-        emit(emitName, formDataRef.value);
-        return;
-      }
-      emit(emitName);
-    };
-
-    const ddlChange = (event, titlename, { tagName, tagValue }) => {
-      if (tagName) {
-        const targetddl = props.iData.find(
-          (item) => item.targetTag && item.targetTag === tagName
-        );
-        formDataRef.value[
-          props.outputFortitle ? targetddl.title : targetddl.id
-        ] = "";
-      }
-
-      emit("ddlemit", {
-        title: titlename,
-        value: event.target.value,
-        tagData: {
-          tagName,
-          tagValue,
-        },
-      });
-    };
-
-    const groupPattern = (pattern, sampleTitle) => {
-      return pattern.find(
-        (item) => (props.outputFortitle ? item.title : item.id) === sampleTitle
-      );
-    };
-
-    const marginMainStyle = (itemStyle) => {
-      let initialStyle = "mb-4 ";
-      switch (itemStyle.margin) {
-        case "small":
-          initialStyle = "mb-4 ";
-          break;
-        case "medium":
-          initialStyle = "mb-10 ";
-          break;
-        case "large":
-          initialStyle = "mb-12 ";
-          break;
-        case "subtitle":
-          initialStyle = "mt-10 mb-6";
-          break;
-        default:
-          break;
-      }
-
-      if (
-        itemStyle.type === "ddl" ||
-        itemStyle.type === "checkbox" ||
-        itemStyle.type === "radio"
-      ) {
-        initialStyle += "self-start";
-      }
-      return initialStyle;
-    };
-
-    const dateTimePickerCloseClick = (isFromInner) => {
-      // console.log(isFromInner);
-      isFromInner;
-    };
-
-    const btnMainStyle = (styleName) => {
-      let btnStyle = "bg-gray-700 hover:bg-gray-900";
-      switch (styleName) {
-        case "info":
-          btnStyle = "bg-green-700 hover:bg-green-900";
-          break;
-        case "primary":
-          btnStyle = "bg-blue-700 hover:bg-blue-900";
-          break;
-        case "danger":
-          btnStyle = "bg-red-700 hover:bg-red-900";
-          break;
-        case "warn":
-          btnStyle = "bg-orange-700 hover:bg-orange-900";
-          break;
-        case "normal":
-          btnStyle = "bg-gray-700 hover:bg-green-900";
-          break;
-        default:
-          break;
-      }
-      return btnStyle;
-    };
-
-    const groupAppend = (groupObjItem) => {
-      const groupObj = props.iData.find((item) => item.id === groupObjItem.id);
-      const newData = [...groupObj.groupPattern];
-      const newFit = newData.map((item) => {
-        return {
-          title: props.outputFortitle ? item.title : item.id,
-          content: "",
-        };
-      });
-
-      formDataRef.value[
-        props.outputFortitle ? groupObjItem.title : groupObjItem.id
-      ].push(newFit);
-    };
-
     // ============================================================================
     // ddl group sample
-    const ddlFilter = (ddlItem, tagName = null) => {
-      const isNeedGroup = ddlItem.filter(
-        (item) => item.group && item.group !== ""
-      );
-      if (isNeedGroup.length === 0 || !tagName) {
-        return ddlItem;
-      }
-
-      const ddlClassify = ddlItem.map((item) => {
-        if (typeof item.group !== "boolean" && !item.group) {
-          item.status = "none";
-        }
-        return item;
-      });
-
-      if (!props.tagCluster || !props.tagCluster[tagName]) {
-        return [];
-      }
-
-      return ddlClassify.filter(
-        (item) => item.group === props.tagCluster[tagName]
-      );
-    };
 
     return {
-      formDataRef,
-      btnClick,
-      ddlChange,
-      groupPattern,
-      isShowCalenderRef,
-      dateTimePickerCloseClick,
-      marginMainStyle,
-      btnMainStyle,
-      groupAppend,
-      ddlFilter,
+      ...toRefs(mainFormCluster),
     };
   },
 };
