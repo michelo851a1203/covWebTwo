@@ -107,45 +107,23 @@
           </tbody>
         </table>
         <div
-          v-if="leastUnit > 0"
+          v-if="leastUnit > 0 && hourRef.length > 0"
           class="mx-auto flex mt-4 items-center justify-around"
         >
-          <select
-            v-model="selectHour"
-            class="border rounded border-gray-500 shadow-lg px-2 py-1"
-          >
-            <option class="bg-white" value="0">Hour</option>
-            <option
-              v-for="(item, index) in 24"
-              :key="item"
-              class="bg-white"
-              :value="index"
-            >
-              {{ index }}
-            </option>
-          </select>
-          <select
+          <Dropdownlist
+            v-model:ddlValue="selectHour"
+            :iData="hourRef"
+          ></Dropdownlist>
+          <Dropdownlist
             v-if="leastUnit > 1"
-            v-model="selectMins"
-            class="border rounded border-gray-500 shadow-lg px-2 py-1"
-          >
-            <option class="bg-white" value="0">Mins</option>
-            <option
-              v-for="(item, index) in 60"
-              :key="item"
-              class="bg-white"
-              :value="index"
-            >
-              {{ index }}
-            </option>
-          </select>
-          <select
+            v-model:ddlValue="selectMins"
+            :iData="minRef"
+          ></Dropdownlist>
+          <Dropdownlist
             v-if="leastUnit > 2"
-            v-model="selectSec"
-            class="border rounded border-gray-500 px-2 py-1"
-          >
-            <option class="bg-white" value="">item1</option>
-          </select>
+            v-model:ddlValue="selectSec"
+            :iData="secondRef"
+          ></Dropdownlist>
         </div>
         <div class="mx-auto mt-4 w-full px-4">
           <button
@@ -173,8 +151,12 @@
 // isShowCalenderRef : is show Calender content
 // ============================================================================
 import { ref, watch, reactive, toRefs } from "vue";
+import Dropdownlist from "@/components/Dropdownlist.vue";
 export default {
   name: "datetimepicker",
+  components: {
+    Dropdownlist,
+  },
   props: {
     // dateFmt text in textbox
     maintext: {
@@ -217,6 +199,9 @@ export default {
       selectHour: 0,
       selectMins: 0,
       selectSec: 0,
+      hourRef: [],
+      minRef: [],
+      secondRef: [],
       indicationRef: {
         year: null,
         month: null,
@@ -491,6 +476,36 @@ export default {
         );
       },
     });
+
+    dateTimePickerCluster.hourRef.push({
+      value: 0,
+      name: "Hour",
+    });
+    dateTimePickerCluster.minRef.push({
+      value: 0,
+      name: "Mins",
+    });
+    dateTimePickerCluster.secondRef.push({
+      value: 0,
+      name: "Sec",
+    });
+
+    for (let i = 0; i < 24; i++) {
+      dateTimePickerCluster.hourRef.push({
+        value: i + 1,
+        name: i + 1,
+      });
+    }
+    for (let i = 0; i < 60; i++) {
+      dateTimePickerCluster.minRef.push({
+        value: i + 1,
+        name: i + 1,
+      });
+      dateTimePickerCluster.secondRef.push({
+        value: i + 1,
+        name: i + 1,
+      });
+    }
 
     const { setrow, allSet } = dateTimePickerCluster.changeContent(
       dateTimePickerCluster.week.length,
