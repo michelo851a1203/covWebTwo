@@ -55,7 +55,7 @@
           </div>
           <div>
             <label class="mr-2" for>month</label>
-            <select
+            <!-- <select
               v-model="selectMonthRef"
               class="border rounded border-gray-500 px-2 py-1"
             >
@@ -67,7 +67,11 @@
               >
                 {{ item }}
               </option>
-            </select>
+            </select> -->
+            <Dropdownlist
+              v-model:ddlValue="selectMonthRef"
+              :iData="monthRef"
+            ></Dropdownlist>
           </div>
         </div>
         <table class="w-full">
@@ -199,6 +203,7 @@ export default {
       selectHour: 0,
       selectMins: 0,
       selectSec: 0,
+      monthRef: [],
       hourRef: [],
       minRef: [],
       secondRef: [],
@@ -490,12 +495,20 @@ export default {
       name: "Sec",
     });
 
+    for (let i = 0; i < 12; i++) {
+      dateTimePickerCluster.monthRef.push({
+        value: i + 1,
+        name: i + 1,
+      });
+    }
+
     for (let i = 0; i < 24; i++) {
       dateTimePickerCluster.hourRef.push({
         value: i + 1,
         name: i + 1,
       });
     }
+
     for (let i = 0; i < 60; i++) {
       dateTimePickerCluster.minRef.push({
         value: i + 1,
