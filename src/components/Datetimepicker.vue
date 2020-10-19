@@ -53,21 +53,8 @@
               </svg>
             </div>
           </div>
-          <div>
-            <label class="mr-2" for>month</label>
-            <!-- <select
-              v-model="selectMonthRef"
-              class="border rounded border-gray-500 px-2 py-1"
-            >
-              <option
-                v-for="item in 12"
-                :key="item"
-                class="bg-white"
-                :value="item"
-              >
-                {{ item }}
-              </option>
-            </select> -->
+          <div class="flex space-x-4 items-center">
+            <div>month</div>
             <Dropdownlist
               v-model:ddlValue="selectMonthRef"
               :iData="monthRef"
