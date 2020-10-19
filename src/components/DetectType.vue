@@ -104,6 +104,7 @@ export default {
               title: "status",
               type: "ddl",
               margin: "small",
+              appendDefaultValue: true,
               ddl: [
                 {
                   value: true,
@@ -188,6 +189,7 @@ export default {
               title: "status",
               type: "ddl",
               margin: "small",
+              appendDefaultValue: true,
               ddl: [
                 {
                   value: true,

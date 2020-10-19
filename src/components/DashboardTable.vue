@@ -339,7 +339,7 @@
     </div>
     <div
       v-else
-      class="bg-gray-300 flex items-center justify-end px-2 py-1 space-x-5 rounded select-none w-full shadow-xl"
+      class="sm:hidden bg-gray-300 flex items-center justify-end px-2 py-1 space-x-5 rounded select-none w-full shadow-xl"
     >
       <div class="select-none animate-bounce">no Data</div>
       <button

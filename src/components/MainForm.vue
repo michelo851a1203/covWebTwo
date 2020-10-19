@@ -315,7 +315,7 @@
 //     title: "multiple title",
 //     type: "group",
 //     margin: "small,medium,large,title",
-//     group: [
+//     groupPattern: [
 //       {
 //         gid: "id",
 //         title: "placeholder",
@@ -326,6 +326,7 @@
 //         ddl: [{ value, title }], // if type is ddl need this one
 //         cb: { trueValue: "", falseValue: "" }, // if is checkbox apply this
 //         dateTimeFormat:"-" // this if for datetimpicker
+//         appendDefaultValue // this is append data default value
 //       },
 //     ],
 //   },
@@ -547,7 +548,10 @@ export default {
         const newFit = newData.map((item) => {
           return {
             title: props.outputFortitle ? item.title : item.id,
-            content: "",
+            content:
+              typeof item.appendDefaultValue !== "undefined"
+                ? item.appendDefaultValue
+                : "",
           };
         });
 
@@ -610,7 +614,10 @@ export default {
             const subMainKey = props.outputFortitle ? pitem.title : pitem.id;
             return {
               title: subMainKey,
-              content: "",
+              content:
+                typeof pitem.appendDefaultValue !== "undefined"
+                  ? pitem.appendDefaultValue
+                  : "",
             };
           });
           mainFormCluster.formDataRef[mainKey] = [newFit];
