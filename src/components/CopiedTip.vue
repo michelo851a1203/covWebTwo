@@ -59,6 +59,10 @@ export default {
       type: [String, Number],
       required: true,
     },
+    bindData: {
+      type: [String, Number],
+      default: "",
+    },
   },
   setup(props, { emit }) {
     const mainBtnRef = ref(null);
@@ -70,7 +74,7 @@ export default {
       isShow: false,
       clickToCopied: () => {
         tagCluseter.isShow = true;
-        emit("actionevent");
+        emit("actionevent", props.bindData);
       },
       setContentPosition: () => {
         const mainBtn = mainBtnRef.value;

@@ -116,6 +116,8 @@
                 </div>
                 <CopiedTip
                   v-if="canCopiedCol.includes(colItem)"
+                  :bindData="item[colItem]"
+                  @actionevent="copiedClick"
                   tipText="copied"
                 ></CopiedTip>
               </div>
@@ -344,6 +346,8 @@
                   </div>
                   <CopiedTip
                     v-if="canCopiedCol.includes(colItem)"
+                    :bindData="item[colItem]"
+                    @actionevent="copiedClick"
                     tipText="copied"
                   ></CopiedTip>
                 </div>
@@ -450,6 +454,16 @@ export default {
       },
       multipleClick: (type) => {
         emit(type, tableCluster.selectedRef);
+      },
+      copiedClick: (bindData) => {
+        const el = document.createElement("textarea");
+        el.value = bindData;
+        el.setAttribute("readonly", "");
+        el.style = { position: "absolute", left: "-9999px" };
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
       },
       title: computed(() => {
         if (props.iData.length === 0) {
