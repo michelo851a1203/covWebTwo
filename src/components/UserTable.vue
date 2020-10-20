@@ -4,7 +4,8 @@
       v-if="boardTitle === '' && boardiData.length === 0"
       addBtnName="add user"
       v-on="dashboardEvent"
-      :func="['update','delete','create']"
+      :canCopiedCol="['ID']"
+      :func="['update', 'delete', 'create']"
       :iData="userMainList"
     ></dashboardtable>
     <mainform

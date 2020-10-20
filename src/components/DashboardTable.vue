@@ -110,7 +110,15 @@
               v-for="colItem in title"
               :key="colItem"
             >
-              {{ item[colItem] }}
+              <div class="flex items-bottom space-x-4">
+                <div>
+                  {{ item[colItem] }}
+                </div>
+                <CopiedTip
+                  v-if="canCopiedCol.includes(colItem)"
+                  tipText="copied"
+                ></CopiedTip>
+              </div>
             </td>
             <td class="px-3 border" v-if="!funcReadOnly">
               <div class="flex items-center justify-center">
@@ -330,7 +338,15 @@
             <tr v-for="colItem in title" :key="colItem">
               <th class="w-1/3 px-2 py-1">{{ colItem }}</th>
               <td class="break-all">
-                {{ item[colItem] }}
+                <div class="flex items-center space-x-4">
+                  <div>
+                    {{ item[colItem] }}
+                  </div>
+                  <CopiedTip
+                    v-if="canCopiedCol.includes(colItem)"
+                    tipText="copied"
+                  ></CopiedTip>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -368,11 +384,18 @@
 // func : [update,delete,create] // append to solve all
 // addBtnName : ""
 // ============================================================================
-// TODO: to responsive mobile solution.
+import CopiedTip from "@/components/CopiedTip.vue";
 import { reactive, computed, toRefs } from "vue";
 export default {
   name: "dashboardTable",
+  components: {
+    CopiedTip,
+  },
   props: {
+    canCopiedCol: {
+      default: () => [],
+      type: Array,
+    },
     funcReadOnly: {
       default: false,
       type: Boolean,
