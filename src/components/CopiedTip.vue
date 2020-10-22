@@ -81,9 +81,9 @@ export default {
         const mainContent = mainContentRef.value;
 
         tagCluseter.initialtop =
-          mainBtn.offsetTop + tagCluseter.getEleH(mainBtn) - 8;
+          mainBtn.screenY + tagCluseter.getEleH(mainBtn) - 8;
         tagCluseter.initialleft =
-          mainBtn.offsetLeft - tagCluseter.getEleW(mainContent) / 2 + 30;
+          mainBtn.screenX - tagCluseter.getEleW(mainContent) / 2 + 30;
       },
       getEleW: (div) => {
         if (typeof div === "undefined" || div === null) return;
