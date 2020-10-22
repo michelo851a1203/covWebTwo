@@ -424,9 +424,7 @@ export default {
       rowMouse: (trigger, event = null, id = -1) => {
         if (event) {
           const element = event.target;
-          if (element.tagName === "INPUT") {
-            return;
-          }
+          if (element.tagName === "INPUT") return;
         }
         tableCluster.isTrigger = trigger;
         if (trigger && id !== -1) {
@@ -466,9 +464,7 @@ export default {
         document.body.removeChild(el);
       },
       title: computed(() => {
-        if (props.iData.length === 0) {
-          return [];
-        }
+        if (props.iData.length === 0) return [];
         const mainTitle = [];
         props.iData.forEach((item) => {
           Object.keys(item).forEach((colItem) => {
