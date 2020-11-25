@@ -71,6 +71,7 @@
             <tr v-for="row in setrowRef" :key="row">
               <td class="text-center" v-for="col in week.length" :key="col">
                 <div
+                  v-if="allSetRef[col - 1 + (row - 1) * week.length]"
                   @click="
                     dateClick(allSetRef[col - 1 + (row - 1) * week.length])
                   "
