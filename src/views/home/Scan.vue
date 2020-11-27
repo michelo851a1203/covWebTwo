@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import scanqrcode from "@/components/ScanQrcode.vue";
+import scanqrcode from "@/components/ScanQrcodeMain.vue";
 import verifyqrcode from "@/components/VerifyQrcode.vue";
 // import reportlist from "@/components/ReportList.vue";
 import Navbar from "@/api/Navbar.js";

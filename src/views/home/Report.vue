@@ -35,7 +35,7 @@
 import Login from "@/api/Login.js";
 import Navbar from "@/api/Navbar.js";
 import reportlist from "@/components/ReportList.vue";
-import scanqrcode from "@/components/ScanQrcode.vue";
+import scanqrcode from "@/components/ScanQrcodeMain.vue";
 import router from "@/router";
 export default {
   name: "report",
