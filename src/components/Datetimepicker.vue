@@ -25,7 +25,7 @@
         </div>
         <div class="flex items-center justify-around mb-2">
           <div class="flex items-center select-none">
-            <div class="cursor-pointer" @click="switchYear('prev')">
+            <!-- <div class="cursor-pointer" @click="switchYear('prev')">
               <svg class="w-4" viewBox="0 0 100 100">
                 <polyline
                   points="65 20 30 50 65 80"
@@ -36,11 +36,15 @@
                   stroke-linejoin="round"
                 />
               </svg>
-            </div>
-            <div class="select-none rounded px-2 py-1 shadow-lg mx-4">
+            </div> -->
+            <Dropdownlist
+              v-model:ddlValue="selectYearRef"
+              :iData="currentYear"
+            ></Dropdownlist>
+            <!-- <div class="select-none rounded px-2 py-1 shadow-lg mx-4">
               {{ selectYearRef }}
-            </div>
-            <div class="cursor-pointer" @click="switchYear('next')">
+            </div> -->
+            <!-- <div class="cursor-pointer" @click="switchYear('next')">
               <svg class="w-3" viewBox="0 0 100 100">
                 <polyline
                   points="25,10 80,50 25,90"
@@ -51,10 +55,9 @@
                   fill="transparent"
                 />
               </svg>
-            </div>
+            </div> -->
           </div>
           <div class="flex space-x-4 items-center">
-            <div>month</div>
             <Dropdownlist
               v-model:ddlValue="selectMonthRef"
               :iData="monthRef"
@@ -181,9 +184,19 @@ export default {
     const current = new Date();
     const datetimeInput = ref(null);
 
+    const currentYear = ref([]);
+
+    const currentY = current.getFullYear();
+    for (let i = 0; i < 100; i++) {
+      currentYear.value.push({
+        value: currentY - i,
+        name: currentY - i,
+      });
+    }
+
     const dateTimePickerCluster = reactive({
       week: ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."],
-      currentYearRef: current.getFullYear(),
+      currentYearRef: currentY,
       currentMonthRef: current.getMonth() + 1,
       currentDateRef: current.getDate(),
       selectYearRef: current.getFullYear(),
@@ -663,6 +676,7 @@ export default {
 
     return {
       datetimeInput,
+      currentYear,
       ...toRefs(dateTimePickerCluster),
     };
   },
