@@ -16,6 +16,7 @@
 import Login from "@/api/Login.js";
 import svgcomponent from "@/components/SvgComponent.vue";
 import Navbar from "@/api/Navbar.js";
+import router from "@/router";
 export default {
   name: "BelowList",
   components: {
@@ -25,6 +26,7 @@ export default {
     const loginModule = Login();
     loginModule.regainLoginUser();
     let NavbarModule = null;
+    console.log(router);
     switch (loginModule.userData.role) {
       case 1:
         NavbarModule = Navbar({
@@ -33,15 +35,11 @@ export default {
         });
         break;
       case 2: {
-        const printRec = localStorage.getItem("tmptoVer");
         NavbarModule = Navbar({
           initial:
-            printRec && printRec === "print" ? "verifyqrcode" : "scanqrcode",
+            location.search.indexOf("print=true") > -1 ? "verifyqrcode" : "scanqrcode",
           role: 2,
         });
-        if (printRec) {
-          localStorage.removeItem("tmptoVer");
-        }
         break;
       }
       case 3:

@@ -50,10 +50,8 @@ export default {
       role: 2,
     };
 
-    const tmpVer = localStorage.getItem("tmptoVer");
-    if (tmpVer && tmpVer === "print") {
+    if (location.search.indexOf("print=true") > -1) {
       navResponse.initial = "verifyqrcode";
-      // localStorage.removeItem("tmptoVer");
     }
 
     const NavbarModule = Navbar(navResponse);

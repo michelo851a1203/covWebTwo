@@ -137,7 +137,6 @@ export default {
       if (verifyReturnData._id && verifyReturnData._id !== "") {
         const cluster = localStorage.getItem("covWebItem");
         const token = localStorage.getItem(cluster);
-        localStorage.setItem("tmptoVer", "print");
         window.location = `raygate://a910/printer?verificationId=${verifyReturnData._id}&token=${token}`;
       }
     };
