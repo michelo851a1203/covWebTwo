@@ -2,7 +2,7 @@
   <div class="belowlist sm:hidden">
     <div
       @click="clickBelow(item.id)"
-      :class="{ 'belowitemActive' : item.active }"
+      :class="{ belowitemActive: item.active }"
       class="border-t-2 h-16 w-full flex justify-center"
       v-for="item in list"
       :key="item.id"
@@ -32,12 +32,18 @@ export default {
           role: 1,
         });
         break;
-      case 2:
+      case 2: {
+        const printRec = localStorage.getItem("tmptoVer");
         NavbarModule = Navbar({
-          initial: "scanqrcode",
+          initial:
+            printRec && printRec === "print" ? "verifyqrcode" : "scanqrcode",
           role: 2,
         });
+        if (printRec) {
+          localStorage.removeItem("tmptoVer");
+        }
         break;
+      }
       case 3:
         console.error("get wrong role error");
         break;

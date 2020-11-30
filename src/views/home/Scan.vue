@@ -1,5 +1,7 @@
 <template>
-  <div class="scanContent sm:h-screen py-12 mt-10 sm:shadow-2xl sm:rounded mx-auto sm:bg-white">
+  <div
+    class="scanContent sm:h-screen py-12 mt-10 sm:shadow-2xl sm:rounded mx-auto sm:bg-white"
+  >
     <suspense>
       <template #default>
         <component :is="showTypeRef"></component>
@@ -43,10 +45,18 @@ export default {
     verifyqrcode,
   },
   setup() {
-    const NavbarModule = Navbar({
+    let navResponse = {
       initial: "scanqrcode",
       role: 2,
-    });
+    };
+
+    const tmpVer = localStorage.getItem("tmptoVer");
+    if (tmpVer && tmpVer === "print") {
+      navResponse.initial = "verifyqrcode";
+      // localStorage.removeItem("tmptoVer");
+    }
+
+    const NavbarModule = Navbar(navResponse);
     return { ...NavbarModule };
   },
 };

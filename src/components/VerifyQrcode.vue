@@ -2,7 +2,10 @@
   <div>
     <div
       class="qrcodepos"
-      v-if="verifyReturnData.verificationId === '' && verifyReturnData.policy.attributes.length === 0"
+      v-if="
+        verifyReturnData.verificationId === '' &&
+        verifyReturnData.policy.attributes.length === 0
+      "
     >
       <genqrcode
         class="qrcodeContent"
@@ -21,23 +24,34 @@
       <table class="text-sm">
         <tr v-for="item in Object.keys(mainVerifyResult)" :key="item">
           <th class="text-left px-3 py-1">{{ item }}</th>
-          <td class="text-left text-blue-400 px-3 py-1">{{ mainVerifyResult[item] }}</td>
+          <td class="text-left text-blue-400 px-3 py-1">
+            {{ mainVerifyResult[item] }}
+          </td>
         </tr>
         <tr v-if="verifyReturnData.policy.attributes.length > 0">
           <th colspan="2" class="text-center px-3 py-1">attributes</th>
         </tr>
-        <tr v-for="item in verifyReturnData.policy.attributes[0].attributeNames" :key="item">
+        <tr
+          v-for="item in verifyReturnData.policy.attributes[0].attributeNames"
+          :key="item"
+        >
           <th class="text-left px-3 py-1">{{ item }}</th>
-          <td
-            class="text-left text-blue-400 px-3 py-1"
-          >{{ verifyReturnData.proof[verifyReturnData.policy.attributes[0].policyName].attributes[item] }}</td>
+          <td class="text-left text-blue-400 px-3 py-1">
+            {{
+              verifyReturnData.proof[
+                verifyReturnData.policy.attributes[0].policyName
+              ].attributes[item]
+            }}
+          </td>
         </tr>
         <tr>
           <td class="text-center px-3 py-1" colspan="2">
             <button
               @click="printVerify"
               class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
-            >Print</button>
+            >
+              Print
+            </button>
           </td>
         </tr>
       </table>
@@ -48,6 +62,7 @@
 <script>
 import genqrcode from "@/components/GenQrcode.vue";
 import Verification from "@/api/Verification.js";
+import navTag from "@/api/global/navTag.js";
 import { reactive, computed } from "vue";
 export default {
   name: "VerifyQrcode",
@@ -76,6 +91,8 @@ export default {
       },
       proof: {},
     });
+
+    navTag.value = "verifyqrcode";
 
     const mainVerifyResult = computed(() => {
       const oDatta = {};
@@ -120,6 +137,7 @@ export default {
       if (verifyReturnData._id && verifyReturnData._id !== "") {
         const cluster = localStorage.getItem("covWebItem");
         const token = localStorage.getItem(cluster);
+        localStorage.setItem("tmptoVer", "print");
         window.location = `raygate://a910/printer?verificationId=${verifyReturnData._id}&token=${token}`;
       }
     };
