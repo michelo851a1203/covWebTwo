@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 
 import Login from "@/api/Login.js";
 import Verification from "@/api/Verification.js";
@@ -238,7 +238,7 @@ export default {
             fileRef.value.value = null;
             btnDisable.value = false;
             if (!apiData.success) {
-              codeReader = new BrowserQRCodeReader()
+              codeReader = new BrowserQRCodeReader();
               verificationModule.normalVerifyAlert({
                 title: apiData.msg,
                 status: "fail",
@@ -247,7 +247,7 @@ export default {
             }
             switch (scanRole) {
               case 1:
-                codeReader = new BrowserQRCodeReader()
+                codeReader = new BrowserQRCodeReader();
                 verificationModule.normalVerifyAlert({
                   title: "send success",
                   status: "ok",
@@ -261,7 +261,7 @@ export default {
             }
           })
           .catch((err) => {
-            codeReader = new BrowserQRCodeReader()
+            codeReader = new BrowserQRCodeReader();
             fileRef.value.value = null;
             btnDisable.value = false;
             console.error(err);
@@ -292,7 +292,7 @@ export default {
           .then((apiData) => {
             btnDisable.value = false;
             if (!apiData.success) {
-              codeReader = new BrowserQRCodeReader()
+              codeReader = new BrowserQRCodeReader();
               verificationModule.normalVerifyAlert({
                 title: apiData.msg,
                 status: "fail",
@@ -301,7 +301,7 @@ export default {
             }
             switch (scanRole) {
               case 1:
-                codeReader = new BrowserQRCodeReader()
+                codeReader = new BrowserQRCodeReader();
                 verificationModule.normalVerifyAlert({
                   title: "send success",
                   status: "ok",
@@ -315,7 +315,7 @@ export default {
             }
           })
           .catch((err) => {
-            codeReader = new BrowserQRCodeReader()
+            codeReader = new BrowserQRCodeReader();
             btnDisable.value = false;
             console.error(err);
           });
@@ -357,6 +357,10 @@ export default {
 
     onMounted(() => {
       decodeCamera(codeReader, selectedDevice.value, video.value);
+    });
+
+    onUnmounted(() => {
+      codeReader.reset();
     });
 
     return {
