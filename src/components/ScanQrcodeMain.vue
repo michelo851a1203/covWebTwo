@@ -97,6 +97,7 @@ export default {
     const noCameraRef = ref(true);
     const isType = ref("video");
     const btnDisable = ref(false);
+    const triggerDisable = ref(false);
 
     // ====================================================================
 
@@ -126,12 +127,10 @@ export default {
                 }
 
                 if (err instanceof ChecksumException) {
-                  codeReader.reset();
                   throw "A code was found, but it's read value was not valid.";
                 }
 
                 if (err instanceof FormatException) {
-                  codeReader.reset();
                   throw "A code was found, but it was in a invalid format.";
                 }
               }
@@ -140,7 +139,11 @@ export default {
                 throw "Qrcode is empty";
               }
 
-              codeReader.reset();
+              if (triggerDisable.value) {
+                return;
+              }
+              triggerDisable.value = true;
+
               verificationModule.verifyCredentialId.value = result.text;
               let apiResult = null;
               if (scanRole === 1) {
@@ -175,7 +178,9 @@ export default {
                 default:
                   break;
               }
+              triggerDisable.value = false;
             } catch (error) {
+              triggerDisable.value = false;
               console.error(error);
             }
           }
