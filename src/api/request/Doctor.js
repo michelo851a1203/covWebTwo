@@ -113,7 +113,7 @@ export default {
         }
     },
     // 檢驗中心: 更新醫生資訊
-    updateDoctorList: async ({ doctorId, clinic, email, address, city, zip }) => {
+    updateDoctorList: async ({ doctorId, name, clinic, email, address, city, zip }) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)
         if (!cluster || !token || cluster === "" || token === "") {

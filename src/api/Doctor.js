@@ -55,8 +55,8 @@ export default function Doctor() {
         }
     }
 
-    const doctorUpdateUser = async ({ doctorId, clinic, email, address, city, zip }) => {
-        const response = await DoctorModule.updateDoctorList({ doctorId, clinic, email, address, city, zip })
+    const doctorUpdateUser = async ({ doctorId, clinic, name, email, address, city, zip }) => {
+        const response = await DoctorModule.updateDoctorList({ doctorId, clinic, name, email, address, city, zip })
         if (!response || !response.success) {
             console.error("doctorUpdateUser error");
             return {

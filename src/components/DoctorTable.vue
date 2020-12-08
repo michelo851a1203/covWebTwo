@@ -127,18 +127,24 @@ export default {
         },
         {
           id: 3,
-          title: "Doctor Email",
+          title: "Name",
           type: "text",
           margin: "small",
         },
         {
           id: 4,
-          title: "Address",
+          title: "Doctor Email",
           type: "text",
           margin: "small",
         },
         {
           id: 5,
+          title: "Address",
+          type: "text",
+          margin: "small",
+        },
+        {
+          id: 6,
           title: "City",
           type: "text",
           margin: "small",
@@ -207,6 +213,7 @@ export default {
       const { success } = await doctorModules.doctorUpdateUser({
         doctorId: iData["doctorId"],
         clinic: iData["Clinic Name"],
+        name: iData["Name"],
         email: iData["Doctor Email"],
         address: iData["Address"],
         city: iData["City"],
