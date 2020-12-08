@@ -70,7 +70,7 @@ export default {
             return { success: false }
         }
     },
-    // TODO:使用者 資訊(個人)
+    // 使用者 資訊(個人)
     changeUserPassword: async (userId, password) => {
         const cluster = localStorage.getItem("covWebItem")
         const token = localStorage.getItem(cluster)

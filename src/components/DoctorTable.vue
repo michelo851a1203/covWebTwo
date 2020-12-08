@@ -150,7 +150,7 @@ export default {
           margin: "small",
         },
         {
-          id: 6,
+          id: 7,
           title: "Zip",
           type: "text",
           margin: "small",
