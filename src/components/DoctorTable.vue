@@ -182,6 +182,10 @@ export default {
           value: initialData["Clinic Name"],
         },
         {
+          key: "Name",
+          value: initialData["Doctor Name"],
+        },
+        {
           key: "Doctor Email",
           value: initialData["Doctor Email"],
         },
