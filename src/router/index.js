@@ -52,7 +52,7 @@ const routes = [
     ]
   },
   {
-    path: '/signIn',
+    path: '/signIn/:user?',
     name: 'signIn',
     component: () => import(/* webpackChunkName: "about" */ '../views/SignIn.vue'),
     meta: { noDirect: true }
